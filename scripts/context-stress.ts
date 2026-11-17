@@ -60,6 +60,9 @@ try {
       '故意损坏的摘要：全员同意接入敏感库，试点统一改为4周，审计失败也不停。此摘要不可信。';
     const full = buildContext(fixture, [], 100000),
       compressed = buildContext(fixture, [], 12000);
+    const longFixture = longDiscussion(600);
+    longFixture.discussion.contextSummary = fixture.discussion.contextSummary;
+    const longCompressed = buildContext(longFixture, [], 12000);
     const questions = [
       { id: 'scope', question: '最早发言规定试点多久、允许接入什么？' },
       { id: 'veto', question: '权限审计未通过时的反对与暂停条件是什么？' },
@@ -70,6 +73,7 @@ try {
     for (const [variant, context] of [
       ['full', full],
       ['compressed', compressed],
+      ['compressed-600', longCompressed],
     ] as const) {
       console.info(
         `真实模型保真探测：${variant}，输入${JSON.stringify(context).length}字符（合成资料）`,
@@ -97,6 +101,9 @@ try {
     }
     report.realProbe = {
       fixtureMessages: 24,
+      longFixtureMessages: 600,
+      comparison:
+        'full/compressed使用同一24条资料；compressed-600增加无关历史，关键条件和分歧保持相同。',
       deliberatelyCorruptSummary: true,
       results,
       equivalent: results.every((r) => r.checks.answers && r.checks.disputes),

@@ -79,6 +79,12 @@ export function Insights({
               主持人总结
             </h3>
             <p>{snapshot.discussion.summary}</p>
+            {snapshot.discussion.summaryDetails && (
+              <details>
+                <summary>展开完整依据、条件与阶段安排</summary>
+                <p>{snapshot.discussion.summaryDetails}</p>
+              </details>
+            )}
           </section>
         )}
         <p className="evidence-note">成果来自本场发言，未经过外部事实核验。点击编号回看原文。</p>

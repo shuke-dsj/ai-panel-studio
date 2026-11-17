@@ -12,6 +12,20 @@ export type Status =
   | 'error';
 export type Phase = 'opening' | 'exploration' | 'exchange' | 'convergence' | 'closing';
 export type Activity = { state: 'idle' | 'preparing' | 'speaking'; focus: string };
+export type EndReason =
+  | 'converged'
+  | 'stable_disagreement'
+  | 'stalled'
+  | 'turn_limit'
+  | 'time_limit'
+  | 'model_budget'
+  | 'user';
+export type DirectionMode = 'focus' | 'replace';
+export interface DiscussionLimits {
+  minTurns: number;
+  maxModelCalls: number;
+  maxActiveMs: number;
+}
 export interface Participant {
   id: string;
   discussionId: string;
@@ -33,6 +47,10 @@ export interface Message {
   addressedTo: string | null;
   phase: Phase;
   createdAt: string;
+  kind?: 'speech' | 'direction';
+  directionVersion?: number;
+  directionMode?: DirectionMode;
+  clientRequestId?: string;
 }
 export interface Insight {
   id: string;
@@ -64,6 +82,31 @@ export interface Discussion {
   summary: string | null;
   contextSummary: string;
   evidenceMemory?: EvidenceMemory;
+  effectiveTopic?: string;
+  focus?: string;
+  directionVersion?: number;
+  boundaryStartSeq?: number;
+  handledDirectionVersion?: number;
+  rosterStale?: boolean;
+  cycle?: number;
+  cycleStartTurns?: number;
+  cycleStartSeq?: number;
+  directionStartTurns?: number;
+  modelCalls?: number;
+  activeMs?: number;
+  runStartedAt?: string | null;
+  lastMeterAt?: string;
+  limits?: DiscussionLimits;
+  endReason?: EndReason | null;
+  summaryDetails?: string | null;
+  summaryHistory?: {
+    cycle: number;
+    topic: string;
+    summary: string;
+    details: string | null;
+    createdAt: string;
+  }[];
+  previousContexts?: { version: number; topic: string; insights: Insight[]; createdAt: string }[];
   error: string | null;
   resumeStatus: 'running' | 'summarizing' | null;
   createdAt: string;
@@ -92,7 +135,18 @@ export interface Intent {
   replyTo: string | null;
   urgency: number;
   publicReason: string;
+  directionVersion?: number;
+  contextSeq?: number;
 }
+export const endReasonLabels: Record<EndReason, string> = {
+  converged: '讨论收敛',
+  stable_disagreement: '保留稳定分歧后收束',
+  stalled: '缺少新信息，待进一步验证',
+  turn_limit: '达到发言安全上限，尚不代表完全收敛',
+  time_limit: '达到本轮时间预算',
+  model_budget: '达到本轮调用预算',
+  user: '用户结束讨论',
+};
 export const statusLabels: Record<Status, string> = {
   draft: '待生成阵容',
   generating: '生成阵容中',

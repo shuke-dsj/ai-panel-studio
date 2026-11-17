@@ -2,6 +2,8 @@
 
 最新内部协议补充：Discussion增加可选evidenceMemory（version=1、带原消息ID/角色/序号/类别的原话anchors），与正式消息同事务保存；旧数据可从消息推导，无需重建SQLite。输入压缩按完整JSON字符预算保护关键条件与未决分歧，超预算返回可恢复错误。正式发言增加内部review步骤；失败候选及审查结果不进入Transcript。summary仍是自然语言字符串，由模型选择真实消息ID、服务端按来源归因装配。Insight ID保持稳定，关闭分歧需要新确认原话，不能凭列表省略删除。对外路由和SSE事件类型保持兼容。
 
+追加字段：`summary`为简短的自然语言总结，`summaryDetails`为完整的证据、条件、分歧及阶段安排；二者均写入discussions.data，completed事件和Snapshot携带同一归档内容。`endReason`区分稳定收束、停滞、发言/时间/调用预算和用户结束；达到预算不能称为已达成一致。
+
 所有路由以 `/api` 为前缀。请求与响应为 JSON，SSE 除外。服务仅监听 127.0.0.1；浏览器写操作拒绝跨站来源。无账户和权限系统。
 
 ## 路由
@@ -20,13 +22,15 @@
 | POST `/discussions/:id/end`           | `{}`                             | 当前发言结束后总结；重复请求不重复总结             |
 | GET `/discussions/:id/events?after=N` | EventSource；支持 Last-Event-ID  | 重放 N 之后的事件，再持续推送；心跳 15 秒          |
 
-topic 去除首尾空白后 1–2000 字符；expertCount 整数 2–6，默认 4；maxTurns 整数 6–20，默认 12。未知创建字段拒绝。非法输入 400，缺失讨论 404，非法状态 409，模型服务或配置错误 503。错误统一 `{error:"可展示的中文说明"}`，不暴露原始上游响应。
+topic 去除首尾空白后 1–2000 字符；expertCount 整数 2–6，默认4。当前API的maxTurns安全上限支持6–120、缺省48；现有首页仍显式提交6–20、默认12，短回归显式提交6，不将安全上限当自然收束条件。可选maxModelCalls为20–1200，可选maxActiveMinutes为1–90。未知创建字段拒绝。非法输入400，缺失讨论404，非法状态409，模型服务或配置错误503。错误统一`{error:"可展示的中文说明"}`，不暴露原始上游响应。
+
+后端新增`POST /discussions/:id/directions`：`{text,mode:"focus"|"replace",clientRequestId:UUID}`。同一请求ID幂等；focus保留硬前提，replace归档旧成果并移动boundaryStartSeq，旧消息仍留库，过期候选按directionVersion拒绝提交。该接口当前不代表首页已具备新的输入交互。
 
 ## 核心类型
 
 完整 TypeScript 类型见 `shared/types.ts`。
 
-Snapshot 包含 `discussion`、`participants`、`messages`、`insights`、`activities` 与 `cursor`。Message 的 `replyTo` 指向本场真实消息，`addressedTo` 指向本场专家。`turns` 仅统计专家正式发言。
+Snapshot 包含 `discussion`、`participants`、`messages`、`insights`、`activities` 与 `cursor`。Message 的 `replyTo` 指向本场真实消息，`addressedTo` 指向本场角色。`turns`仅统计专家正式发言。消息可附kind、directionVersion；用户调整消息为kind=direction，内部调度意向仍不进入Transcript。
 
 来源标记：live 真实运行；curated 人工编写示例；real-example 真实模型生成、仍待人工审阅的示例；test 显式演示模型。来源从创建时确定，不因重启而改变。
 

@@ -2,6 +2,7 @@ import type { Intent, Message, Snapshot } from '../shared/types.js';
 import { phaseLabels } from '../shared/types.js';
 import { extractEvidenceMemory } from './memory.js';
 import { ModelError } from './model.js';
+import { cycleTurns, limitsFor } from './boundaries.js';
 export class ContextBudgetError extends ModelError {
   constructor() {
     super(
@@ -13,14 +14,29 @@ export class ContextBudgetError extends ModelError {
 export type ContextMessage = Message & { excerpted?: boolean; originalLength?: number };
 export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number) {
   const { discussion: d, participants, insights } = snapshot;
+  const messages = snapshot.messages.filter((m) => m.seq >= (d.boundaryStartSeq ?? 0));
   // Always derive from original records; a stale or lossy model summary is not authoritative memory.
-  const evidenceMemory = extractEvidenceMemory(snapshot.messages);
+  const evidenceMemory = extractEvidenceMemory(messages);
   const context = {
-    topic: d.topic,
+    discussionId: d.id,
+    topic: d.effectiveTopic ?? d.topic,
+    activeFocus: d.focus ?? '',
+    directionVersion: d.directionVersion ?? 0,
+    directions: messages
+      .filter((m) => m.kind === 'direction')
+      .map((m) => ({ id: m.id, text: m.text, mode: m.directionMode, version: m.directionVersion })),
     phase: phaseLabels[d.phase],
-    turns: d.turns,
+    turns: cycleTurns(d),
     maxTurns: d.maxTurns,
     participants,
+    participation: participants
+      .filter((p) => p.role === 'expert')
+      .map((p) => ({
+        participantId: p.id,
+        turns: messages.filter((m) => m.participantId === p.id && m.seq >= (d.cycleStartSeq ?? 0))
+          .length,
+      })),
+    termination: { ...limitsFor(d), maxTurns: d.maxTurns },
     messages: [] as ContextMessage[],
     insights,
     evidenceMemory,
@@ -30,16 +46,18 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
     compression: {
       applied: false,
       inputChars: 0,
-      originalMessageChars: JSON.stringify(snapshot.messages).length,
+      originalMessageChars: JSON.stringify(messages).length,
+      archivedMessageCount: snapshot.messages.length - messages.length,
       excerptedMessageIds: [] as string[],
     },
   };
   const cap = budget - 2000; // Reserve for current role, intent, candidate and control fields.
   const size = () => JSON.stringify(context).length;
-  const recent = new Set(snapshot.messages.slice(-2).map((m) => m.id));
+  const recent = new Set(messages.slice(-2).map((m) => m.id));
   const refs = new Set([
     ...insights.flatMap((i) => i.messageIds),
     ...queue.flatMap((i) => (i.replyTo ? [i.replyTo] : [])),
+    ...messages.filter((m) => m.kind === 'direction').map((m) => m.id),
   ]);
   const add = (message: Message, excerpt = false) => {
     if (context.messages.some((m) => m.id === message.id)) return;
@@ -58,18 +76,18 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
     }
     context.messages.push(value);
   };
-  for (const m of snapshot.messages) if (recent.has(m.id) || refs.has(m.id)) add(m, true);
+  for (const m of messages) if (recent.has(m.id) || refs.has(m.id)) add(m, true);
   // A summary is only navigation; original critical evidence and unresolved positions stay protected.
   if (size() > cap) context.contextSummary = '滚动摘要已省略；以原文证据记忆与当前分歧为准。';
   if (size() > cap) throw new ContextBudgetError();
-  for (const message of [...snapshot.messages].reverse()) {
+  for (const message of [...messages].reverse()) {
     if (context.messages.some((m) => m.id === message.id)) continue;
     add(message);
     if (size() > cap) context.messages = context.messages.filter((m) => m.id !== message.id);
   }
   context.messages.sort((a, b) => a.seq - b.seq);
   const statistics = () => {
-    context.omittedMessageCount = snapshot.messages.length - context.messages.length;
+    context.omittedMessageCount = messages.length - context.messages.length;
     context.compression.applied =
       context.omittedMessageCount > 0 || context.messages.some((m) => m.excerpted);
     context.compression.excerptedMessageIds = context.messages

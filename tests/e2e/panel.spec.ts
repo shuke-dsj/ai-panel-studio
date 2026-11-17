@@ -32,6 +32,8 @@ test('complete creation, roster, pause, resume, reconnect, summary and reopen', 
   await context.setOffline(false);
   await page.reload();
   await expect(page.getByTestId('final-summary')).toBeVisible();
+  await page.getByText('展开完整依据、条件与阶段安排', { exact: true }).click();
+  await expect(page.getByTestId('final-summary')).toContainText('关键条件与阶段安排');
   await expect(page.locator('.topic-subtitle .status-label')).toContainText('已结束');
   expect(await page.locator('.message-number').allTextContents()).toEqual(
     Array.from({ length: 9 }, (_, i) => `#${i + 1}`),

@@ -1253,12 +1253,24 @@ progress::-moz-progress-bar {
   margin-bottom: 13px;
   font-weight: 600;
 }
-.summary-group > p {
+.summary-group p {
   font-size: 13px;
   line-height: 1.95;
   white-space: pre-wrap;
   color: #4b5968;
   overflow-wrap: anywhere;
+}
+.summary-group details {
+  margin-top: 16px;
+}
+.summary-group summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.summary-group details p {
+  margin-top: 12px;
 }
 .evidence-note {
   font-size: 10px;

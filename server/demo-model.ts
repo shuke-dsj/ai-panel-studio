@@ -7,7 +7,13 @@ export class DemoModel implements Model {
   mode = 'demo' as const;
   configured = true;
   constructor(private delay = 350) {}
-  async run<T>(task: Task, input: unknown, schema: ZodType<T>): Promise<T> {
+  async run<T>(
+    task: Task,
+    input: unknown,
+    schema: ZodType<T>,
+    options?: { onAttempt?: (attempt: number) => void },
+  ): Promise<T> {
+    options?.onAttempt?.(0);
     if (this.delay) await new Promise((resolve) => setTimeout(resolve, this.delay));
     const c = input as {
       topic: string;
@@ -19,6 +25,7 @@ export class DemoModel implements Model {
       phase: string;
       directive: string;
       purpose?: string;
+      termination?: { minTurns: number };
     };
     const profiles = [
       [
@@ -60,7 +67,17 @@ export class DemoModel implements Model {
       ['陆衡', '组织发展顾问', '协作评审专家', '关注流程与责任边界', '组织协作、培训与责任'],
     ];
     let result: unknown;
-    if (task === 'review') result = { issues: [] };
+    if (task === 'convergence') {
+      const unresolvedIds = (input as { insights: { kind: string; id: string }[] }).insights
+        .filter((i) => i.kind === 'disagreement')
+        .map((i) => i.id);
+      result = {
+        ready: c.turns >= (c.termination?.minTurns ?? 10),
+        reason: unresolvedIds.length ? 'stable_disagreement' : 'covered',
+        unresolvedIds,
+        missingPerspectives: [],
+      };
+    } else if (task === 'review') result = { issues: [] };
     else if (task === 'summary' && c.purpose === 'grounded-summary')
       result = {
         highlightMessageIds: c.messages

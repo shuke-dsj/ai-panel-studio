@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { longDiscussion, criticalQuotes } from './fixtures/long-discussion.js';
 import { buildContext, ContextBudgetError } from '../server/context.js';
 import { extractEvidenceMemory } from '../server/memory.js';
-import { renderGroundedSummary } from '../server/summary.js';
-import { directConsistencyIssues } from '../server/consistency.js';
+import { renderGroundedSummary, renderConciseSummary } from '../server/summary.js';
+import { directConsistencyIssues, hasUniversalAgreement } from '../server/consistency.js';
 import { reconcileInsights } from '../server/scheduler.js';
 describe('loss-aware context compression', () => {
   it.each([40, 180, 600])(
@@ -55,8 +55,66 @@ describe('loss-aware context compression', () => {
     expect(extractEvidenceMemory(other.messages).anchors).toEqual([]);
     expect(a.anchors.length).toBeGreaterThan(3);
   });
+  it('retains both an earlier veto and a later proposed revision with distinct provenance', () => {
+    const s = longDiscussion(600);
+    const revision = '建议将每月维护上限改为6人时，需另行批准；未批准前仍执行低于4人时的退出条件。';
+    s.messages[400] = { ...s.messages[400], participantId: 'c', text: revision };
+    s.discussion.contextSummary = '维护上限已经改为6人时，原分歧已全部关闭。';
+    const c = buildContext(s, [], 12000);
+    const old = c.evidenceMemory.anchors.find((a) => a.quote === criticalQuotes[2]);
+    const proposed = c.evidenceMemory.anchors.find((a) => a.quote === revision);
+    expect(old?.messageId).toBe('m3');
+    expect(proposed?.messageId).toBe('m401');
+    expect(proposed!.seq).toBeGreaterThan(old!.seq);
+    expect(c.insights.some((i) => i.id === 'audit-dispute')).toBe(true);
+    expect(JSON.stringify(c).length).toBeLessThanOrEqual(10000);
+  });
 });
 describe('evidence-grounded closing and boundary checks', () => {
+  it('catches a changed pilot deadline even when an unrelated later-stage clause appears', () => {
+    const c = buildContext(longDiscussion(6), [], 12000);
+    expect(
+      directConsistencyIssues('试点统一持续4周；后续再讨论预算。', c).some(
+        (i) => i.kind === 'timeline',
+      ),
+    ).toBe(true);
+  });
+  it('does not mistake an independently named evaluation stage for a pilot extension', () => {
+    const c = buildContext(longDiscussion(6), [], 12000);
+    expect(directConsistencyIssues('2周试点不变，4周收益评估需批准。', c)).toEqual([]);
+  });
+  it('finds the pilot duration even when the separately approved evaluation is mentioned first', () => {
+    const s = longDiscussion(6);
+    s.discussion.topic = '后续4周收益评估需批准，初始试点为2周。';
+    const c = buildContext(s, [], 12000);
+    expect(directConsistencyIssues('试点持续2周。', c)).toEqual([]);
+    expect(directConsistencyIssues('试点持续4周。', c).some((i) => i.kind === 'timeline')).toBe(
+      true,
+    );
+  });
+  it('does not let a hypothetical in another sentence hide a scope violation', () => {
+    const c = buildContext(longDiscussion(6), [], 12000);
+    expect(
+      directConsistencyIssues('剥离敏感库后继续试点。若误接入则审计。', c).some(
+        (i) => i.kind === 'scope',
+      ),
+    ).toBe(true);
+  });
+  it('recognizes both unanimous claims and their explicit negation', () => {
+    expect(hasUniversalAgreement('全员一致同意扩大范围。')).toBe(true);
+    expect(hasUniversalAgreement('并非全员一致同意扩大范围。')).toBe(false);
+    expect(hasUniversalAgreement('尚未达成全体共识。')).toBe(false);
+  });
+  it('keeps compact summary honest about a budget stop while full details retain every condition', () => {
+    const s = longDiscussion(180);
+    const concise = renderConciseSummary(s, [], 'turn_limit');
+    expect(concise.length).toBeLessThan(900);
+    expect(concise).toContain('上限');
+    expect(concise).not.toContain('已达成一致');
+    const details = renderGroundedSummary(s, []);
+    for (const q of criticalQuotes) expect(details).toContain(q);
+    expect(details).toContain(s.insights[1].text);
+  });
   it('does not lose an unresolved disagreement when a model omits it', () => {
     const s = longDiscussion(6);
     expect(reconcileInsights(s.insights, [], [], s.messages)).toEqual([s.insights[1]]);

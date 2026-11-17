@@ -4,6 +4,14 @@ import { dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { EventEmitter } from 'node:events';
 import { extractEvidenceMemory } from './memory.js';
+import {
+  activeElapsed,
+  BoundaryStop,
+  DirectionChanged,
+  limitsFor,
+  makeLimits,
+  clockStopped,
+} from './boundaries.js';
 import type {
   Activity,
   Discussion,
@@ -13,6 +21,8 @@ import type {
   PanelEvent,
   Participant,
   Snapshot,
+  DirectionMode,
+  DiscussionLimits,
 } from '../shared/types.js';
 
 export interface Checkpoint {
@@ -21,6 +31,9 @@ export interface Checkpoint {
   noProgress: number;
   roundActive?: boolean;
   roundProgress?: boolean;
+  convergenceVotes?: number;
+  lastConvergenceTurns?: number;
+  completedRounds?: number;
 }
 const emptyCheckpoint = (): Checkpoint => ({ queue: [], pendingInsight: null, noProgress: 0 });
 const parse = <T>(row: unknown): T => JSON.parse((row as { data: string }).data) as T;
@@ -60,6 +73,7 @@ export class Store {
     expertCount: number,
     maxTurns: number,
     source: Discussion['source'] = 'live',
+    limits: Partial<DiscussionLimits> = {},
   ): Discussion {
     const now = new Date().toISOString();
     const d: Discussion = {
@@ -78,11 +92,138 @@ export class Store {
       createdAt: now,
       updatedAt: now,
       source,
+      effectiveTopic: topic,
+      focus: '',
+      directionVersion: 0,
+      boundaryStartSeq: 0,
+      handledDirectionVersion: 0,
+      rosterStale: false,
+      cycle: 1,
+      cycleStartTurns: 0,
+      cycleStartSeq: 0,
+      directionStartTurns: 0,
+      modelCalls: 0,
+      activeMs: 0,
+      runStartedAt: null,
+      limits: makeLimits(expertCount, maxTurns, limits),
+      endReason: null,
+      summaryDetails: null,
+      summaryHistory: [],
+      previousContexts: [],
     };
     this.db
       .prepare('INSERT INTO discussions(id,data,checkpoint) VALUES(?,?,?)')
       .run(d.id, JSON.stringify(d), JSON.stringify(emptyCheckpoint()));
     return d;
+  }
+  meterAttempt(id: string, version: number, count = true) {
+    return this.transaction(() => {
+      const d = this.get(id);
+      if ((d.directionVersion ?? 0) !== version) throw new DirectionChanged();
+      const limits = limitsFor(d);
+      if (activeElapsed(d) >= limits.maxActiveMs) throw new BoundaryStop('time_limit');
+      if (count) {
+        if ((d.modelCalls ?? 0) >= limits.maxModelCalls) throw new BoundaryStop('model_budget');
+        d.modelCalls = (d.modelCalls ?? 0) + 1;
+      }
+      d.lastMeterAt = new Date().toISOString();
+      this.write(d);
+      return d;
+    });
+  }
+  steer(id: string, text: string, mode: DirectionMode, clientRequestId: string): Message {
+    const existing = this.messages(id).find((m) => m.clientRequestId === clientRequestId);
+    if (existing) return existing;
+    let message!: Message;
+    const events = this.transaction(() => {
+      const d = this.get(id);
+      const before = this.messages(id);
+      const version = (d.directionVersion ?? 0) + 1;
+      const now = new Date().toISOString();
+      const renew = ['completed', 'ending', 'summarizing'].includes(d.status);
+      if (d.summary) {
+        d.summaryHistory = [
+          ...(d.summaryHistory ?? []),
+          {
+            cycle: d.cycle ?? 1,
+            topic: d.effectiveTopic ?? d.topic,
+            summary: d.summary,
+            details: d.summaryDetails ?? null,
+            createdAt: now,
+          },
+        ];
+      }
+      if (renew) {
+        d.cycle = (d.cycle ?? 1) + 1;
+        d.cycleStartTurns = d.turns;
+        d.cycleStartSeq = before.length + 1;
+        d.modelCalls = 0;
+        d.activeMs = 0;
+        d.runStartedAt = null;
+        d.status = 'paused';
+      }
+      if (mode === 'replace') {
+        d.previousContexts = [
+          ...(d.previousContexts ?? []),
+          {
+            version: d.directionVersion ?? 0,
+            topic: d.effectiveTopic ?? d.topic,
+            insights: this.insights(id),
+            createdAt: now,
+          },
+        ];
+        d.effectiveTopic = text;
+        d.focus = '';
+        d.boundaryStartSeq = before.length + 1;
+        d.contextSummary = '用户已更新前提；旧条件只作历史，不能覆盖当前用户前提。';
+        this.db.prepare('DELETE FROM insights WHERE discussion_id=?').run(id);
+        if (['roster_ready', 'ready'].includes(d.status)) {
+          d.status = 'roster_ready';
+          d.rosterStale = true;
+        }
+      } else d.focus = text;
+      d.directionVersion = version;
+      d.directionStartTurns = d.turns;
+      d.summary = null;
+      d.summaryDetails = null;
+      d.endReason = null;
+      d.error = null;
+      d.resumeStatus = null;
+      message = {
+        id: randomUUID(),
+        discussionId: id,
+        participantId: 'user',
+        seq: before.length + 1,
+        text,
+        replyTo: null,
+        addressedTo: null,
+        phase: d.phase,
+        createdAt: now,
+        kind: 'direction',
+        directionVersion: version,
+        directionMode: mode,
+        clientRequestId,
+      };
+      this.db
+        .prepare('INSERT INTO messages VALUES(?,?,?,?)')
+        .run(message.id, id, message.seq, JSON.stringify(message));
+      d.evidenceMemory = extractEvidenceMemory(
+        [...before, message].filter((m) => m.seq >= (d.boundaryStartSeq ?? 0)),
+      );
+      this.setCheckpoint(id, {
+        ...emptyCheckpoint(),
+        pendingInsight: mode === 'focus' && !renew ? this.checkpoint(id).pendingInsight : null,
+      });
+      this.db.prepare("UPDATE discussions SET activities='{}' WHERE id=?").run(id);
+      this.write(d);
+      return [
+        this.insertEvent(id, 'message', message),
+        this.insertEvent(id, 'insights', this.insights(id)),
+        this.insertEvent(id, 'status', d),
+      ];
+    });
+    for (const event of events) this.bus.emit(id, event);
+    return message;
   }
   list(): Discussion[] {
     return this.db
@@ -174,6 +315,7 @@ export class Store {
       const d = this.get(id);
       d.status = 'roster_ready';
       d.error = null;
+      d.rosterStale = false;
       this.write(d);
       this.db.prepare("UPDATE discussions SET activities='{}' WHERE id=?").run(id);
       return this.insertEvent(id, 'roster', people);
@@ -190,10 +332,13 @@ export class Store {
     id: string,
     fields: Omit<Message, 'id' | 'discussionId' | 'seq' | 'createdAt'>,
     cp?: Checkpoint,
+    expectedVersion?: number,
   ): Message {
     let message!: Message;
     const e = this.transaction(() => {
       const d = this.get(id);
+      if (expectedVersion !== undefined && (d.directionVersion ?? 0) !== expectedVersion)
+        throw new DirectionChanged();
       const rows = this.messages(id);
       const participant = this.participants(id).find((p) => p.id === fields.participantId);
       if (!participant) throw new Error('无效发言人');
@@ -208,7 +353,9 @@ export class Store {
         .prepare('INSERT INTO messages VALUES(?,?,?,?)')
         .run(message.id, id, message.seq, JSON.stringify(message));
       if (participant.role === 'expert') d.turns++;
-      d.evidenceMemory = extractEvidenceMemory([...rows, message]);
+      d.evidenceMemory = extractEvidenceMemory(
+        [...rows, message].filter((m) => m.seq >= (d.boundaryStartSeq ?? 0)),
+      );
       this.write(d);
       if (cp) {
         if (participant.role === 'expert') cp.pendingInsight = message.id;
@@ -280,6 +427,15 @@ export class Store {
               ? 'summarizing'
               : (d.resumeStatus ?? 'running'),
             error: '服务已重启，点击继续恢复讨论。',
+            activeMs:
+              (d.activeMs ?? 0) +
+              (d.runStartedAt
+                ? Math.max(
+                    0,
+                    Date.parse(d.lastMeterAt ?? d.runStartedAt) - Date.parse(d.runStartedAt),
+                  )
+                : 0),
+            runStartedAt: null,
           });
         this.resetActivities(d.id);
       }

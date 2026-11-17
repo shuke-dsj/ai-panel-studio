@@ -1,7 +1,12 @@
 import { ZodError, type ZodType } from 'zod';
 import { prompts, type Task } from './prompts.js';
 export interface Model {
-  run<T>(task: Task, input: unknown, schema: ZodType<T>): Promise<T>;
+  run<T>(
+    task: Task,
+    input: unknown,
+    schema: ZodType<T>,
+    options?: { onAttempt?: (attempt: number) => void },
+  ): Promise<T>;
   mode: 'real' | 'demo';
   configured: boolean;
 }
@@ -43,7 +48,12 @@ export class RealModel implements Model {
     if (next) next();
     else this.active--;
   }
-  async run<T>(task: Task, input: unknown, schema: ZodType<T>): Promise<T> {
+  async run<T>(
+    task: Task,
+    input: unknown,
+    schema: ZodType<T>,
+    options?: { onAttempt?: (attempt: number) => void },
+  ): Promise<T> {
     if (!this.configured)
       throw new ModelError(
         'NOT_CONFIGURED',
@@ -53,6 +63,7 @@ export class RealModel implements Model {
     try {
       let retryHint = '';
       for (let attempt = 0; attempt < 2; attempt++) {
+        options?.onAttempt?.(attempt);
         const started = Date.now();
         let metadata: Record<string, unknown> = {};
         try {
@@ -158,7 +169,7 @@ export class RealModel implements Model {
               ' 上次专家发言超过句数限制，请严格只写1–2句，不使用编号或列表；同句多个条件可用分号连接。';
           if (code === 'REFERENCE')
             retryHint +=
-              ' replyTo必须是本场messages[].id或evidenceMemory.anchors[].messageId，不能使用角色ID、片段ID或序号；没有回应对象时为JSON null。';
+              ' replyTo必须是本场messages[].id或evidenceMemory.anchors[].messageId，不能使用角色ID、片段ID或序号；addressedTo必须为participants[].id，不能是姓名、消息ID或序号。不确定对象时两个字段均用JSON null。';
           if (attempt === 1)
             throw error instanceof ModelError
               ? error

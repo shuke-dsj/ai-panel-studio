@@ -4,9 +4,24 @@ export const createSchema = z
   .object({
     topic: text(2000),
     expertCount: z.number().int().min(2).max(6).default(4),
-    maxTurns: z.number().int().min(6).max(20).default(12),
+    maxTurns: z.number().int().min(6).max(120).default(48),
+    maxModelCalls: z.number().int().min(20).max(1200).optional(),
+    maxActiveMinutes: z.number().int().min(1).max(90).optional(),
   })
   .strict();
+export const directionSchema = z
+  .object({
+    text: text(2000),
+    mode: z.enum(['focus', 'replace']).default('focus'),
+    clientRequestId: z.string().uuid(),
+  })
+  .strict();
+export const convergenceSchema = z.object({
+  ready: z.boolean(),
+  reason: z.enum(['covered', 'stable_disagreement', 'needs_more']),
+  unresolvedIds: z.array(text(100)).max(50),
+  missingPerspectives: z.array(text(100)).max(6),
+});
 export const personSchema = z.object({
   role: z.enum(['moderator', 'expert']),
   name: text(30),

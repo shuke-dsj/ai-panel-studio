@@ -3,7 +3,7 @@ import staticPlugin from '@fastify/static';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { ZodError } from 'zod';
-import { createSchema } from './schemas.js';
+import { createSchema, directionSchema } from './schemas.js';
 import { ModelError, type Model } from './model.js';
 import { Store } from './db.js';
 import { Engine } from './engine.js';
@@ -26,8 +26,8 @@ export async function createApp(
         request.headers['sec-fetch-site'] === 'cross-site' ||
         (origin &&
           ![
-            'http://127.0.0.1:5173',
-            'http://localhost:5173',
+            `http://127.0.0.1:${process.env.WEB_PORT ?? 5173}`,
+            `http://localhost:${process.env.WEB_PORT ?? 5173}`,
             `http://${request.headers.host}`,
           ].includes(origin))
       )
@@ -43,7 +43,7 @@ export async function createApp(
           : ((error as { statusCode?: number }).statusCode ?? 500);
     const message =
       error instanceof ZodError
-        ? '输入不符合要求：话题 1–2000 字，专家 2–6 人，发言 6–20 次。'
+        ? '输入不符合要求：话题/调整为1–2000字，专家2–6人，发言安全上限6–120次；请检查参数。'
         : (status < 500 || error instanceof ModelError) && error instanceof Error
           ? error.message
           : '服务器步骤未完成，请重试。';
@@ -57,11 +57,16 @@ export async function createApp(
   app.get('/api/discussions', async () => store.list());
   app.post('/api/discussions', async (request, reply) => {
     const v = createSchema.parse(request.body);
-    return reply
-      .code(201)
-      .send(
-        store.create(v.topic, v.expertCount, v.maxTurns, model.mode === 'demo' ? 'test' : 'live'),
-      );
+    return reply.code(201).send(
+      store.create(v.topic, v.expertCount, v.maxTurns, model.mode === 'demo' ? 'test' : 'live', {
+        ...(v.maxModelCalls ? { maxModelCalls: v.maxModelCalls } : {}),
+        ...(v.maxActiveMinutes ? { maxActiveMs: v.maxActiveMinutes * 60000 } : {}),
+      }),
+    );
+  });
+  app.post<{ Params: { id: string } }>('/api/discussions/:id/directions', async (request) => {
+    const v = directionSchema.parse(request.body);
+    return engine.steer(request.params.id, v.text, v.mode, v.clientRequestId);
   });
   app.get<{ Params: { id: string } }>('/api/discussions/:id', async (request) =>
     store.snapshot(request.params.id),

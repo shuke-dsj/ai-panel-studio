@@ -36,6 +36,10 @@ export function selectSpeakers(
   ];
   const rank = (i: Intent) => [
     Number(i.participantId === addressed),
+    Number(
+      expertMessages.length >= experts.length &&
+        !expertMessages.some((m) => m.participantId === i.participantId),
+    ),
     Number(!!i.replyTo && disputeIds.has(i.replyTo)),
     Number(i.kind === 'rebuttal' || i.kind === 'supplement'),
     age(i.participantId),

@@ -107,6 +107,7 @@ try {
     db.close();
   }
   const completed = events.find((e) => e.type === 'completed');
+  const fullSummary = [persisted.summary, persisted.summaryDetails].filter(Boolean).join('\n');
   const checks = {
     realSource: snapshot.discussion.source === 'live',
     participantCount: snapshot.participants.length === 5,
@@ -148,9 +149,9 @@ try {
       JSON.stringify(extractEvidenceMemory(snapshot.messages)),
     allDisputesInSummary: snapshot.insights
       .filter((i) => i.kind === 'disagreement')
-      .every((i) => persisted.summary?.includes(i.text)),
+      .every((i) => fullSummary.includes(i.text)),
     allConditionsInSummary: extractEvidenceMemory(snapshot.messages).anchors.every((a) =>
-      persisted.summary?.includes(a.quote),
+      fullSummary.includes(a.quote),
     ),
   };
   const report = {
@@ -172,6 +173,8 @@ try {
     messages: snapshot.messages,
     insights: snapshot.insights,
     summary: persisted.summary,
+    summaryDetails: persisted.summaryDetails,
+    endReason: persisted.endReason,
     contextSummary: persisted.contextSummary,
   };
   save(report);

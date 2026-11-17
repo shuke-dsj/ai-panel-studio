@@ -1,5 +1,15 @@
 import { randomUUID } from 'node:crypto';
-import type { Intent, Participant } from '../shared/types.js';
+import type { Intent, Participant, DirectionMode, EndReason } from '../shared/types.js';
+import type { ZodType } from 'zod';
+import type { Task } from './prompts.js';
+import {
+  BoundaryStop,
+  DirectionChanged,
+  activeElapsed,
+  clockStopped,
+  cycleTurns,
+  limitsFor,
+} from './boundaries.js';
 import { phaseLabels } from '../shared/types.js';
 import { Store } from './db.js';
 import type { Model } from './model.js';
@@ -11,12 +21,13 @@ import {
   speechSchema,
   closingSchema,
   reviewSchema,
+  convergenceSchema,
 } from './schemas.js';
 import { phaseFor, selectSpeakers, validateInsights, reconcileInsights } from './scheduler.js';
 import { expertSpeechSchema } from './utterance.js';
 import { buildContext, contextInput, type DiscussionContext } from './context.js';
 import { directConsistencyIssues, type ConsistencyIssue } from './consistency.js';
-import { renderGroundedSummary } from './summary.js';
+import { renderGroundedSummary, renderConciseSummary } from './summary.js';
 const colors = ['#15745b', '#227a64', '#427abf', '#8c58ac', '#b78626', '#ba5e68', '#59818c'];
 export class Engine {
   jobs = new Map<string, Promise<void>>();
@@ -48,6 +59,30 @@ export class Engine {
   private input<T extends Record<string, unknown>>(context: DiscussionContext, extra: T) {
     return contextInput(context, extra, this.contextBudget);
   }
+  private async call<T>(task: Task, input: unknown, schema: ZodType<T>): Promise<T> {
+    const data = input as { discussionId: string; directionVersion?: number };
+    const version = data.directionVersion ?? 0;
+    this.store.meterAttempt(data.discussionId, version, true);
+    return this.model.run(task, input, schema, {
+      onAttempt: (attempt) => {
+        this.store.meterAttempt(data.discussionId, version, attempt > 0);
+      },
+    });
+  }
+  private assertDirection(id: string, version: number) {
+    if ((this.store.get(id).directionVersion ?? 0) !== version) throw new DirectionChanged();
+  }
+  steer(id: string, text: string, mode: DirectionMode, clientRequestId: string) {
+    const before = this.store.get(id);
+    if (before.source === 'curated')
+      throw Object.assign(new Error('人工示例仅供浏览，请以此话题新建讨论组。'), {
+        statusCode: 409,
+      });
+    this.ensureMode(before);
+    this.store.steer(id, text, mode, clientRequestId);
+    if (['completed', 'ending', 'summarizing'].includes(before.status)) this.start(id);
+    return this.store.snapshot(id);
+  }
   async generate(id: string) {
     const d = this.store.get(id);
     this.ensureMode(d);
@@ -66,11 +101,18 @@ export class Engine {
           new Set(v.participants.map((p) => p.name)).size === v.participants.length,
         '阵容数量、主持人或姓名不符合要求',
       );
-      const output = await this.model.run(
+      const output = await this.call(
         'roster',
-        { topic: d.topic, expertCount: d.expertCount },
+        {
+          discussionId: id,
+          directionVersion: d.directionVersion ?? 0,
+          topic: d.effectiveTopic ?? d.topic,
+          activeFocus: d.focus ?? '',
+          expertCount: d.expertCount,
+        },
         schema,
       );
+      this.assertDirection(id, d.directionVersion ?? 0);
       const people: Participant[] = output.participants.map((p, i) => ({
         ...p,
         id: randomUUID(),
@@ -83,17 +125,22 @@ export class Engine {
         id,
         {
           status: this.store.participants(id).length ? 'roster_ready' : 'draft',
-          error: this.errorText(error),
+          error:
+            error instanceof DirectionChanged
+              ? '方向已更新，请按新方向重新生成阵容。'
+              : this.errorText(error),
         },
         'error',
       );
-      throw error;
+      if (!(error instanceof DirectionChanged)) throw error;
     } finally {
       this.rosterJobs.delete(id);
     }
   }
   confirm(id: string) {
     const d = this.store.get(id);
+    if (d.rosterStale)
+      throw Object.assign(new Error('讨论前提已更新，请重新生成并确认阵容。'), { statusCode: 409 });
     if (d.status === 'ready') return;
     if (d.status !== 'roster_ready')
       throw Object.assign(new Error('请先生成并确认阵容。'), { statusCode: 409 });
@@ -105,10 +152,17 @@ export class Engine {
     if (!['ready', 'paused', 'error'].includes(d.status))
       throw Object.assign(new Error('当前状态不能开始讨论。'), { statusCode: 409 });
     this.ensureMode(d);
+    if (d.rosterStale)
+      throw Object.assign(new Error('阵容需要按新前提重新生成。'), { statusCode: 409 });
     if (this.store.participants(id).length !== d.expertCount + 1)
       throw Object.assign(new Error('嘉宾阵容不完整。'), { statusCode: 409 });
     const next = d.resumeStatus ?? 'running';
-    this.store.update(id, { status: next, error: null, resumeStatus: null });
+    this.store.update(id, {
+      status: next,
+      error: null,
+      resumeStatus: null,
+      runStartedAt: new Date().toISOString(),
+    });
     this.launch(id);
   }
   pause(id: string) {
@@ -127,6 +181,7 @@ export class Engine {
       status: this.jobs.has(id) ? 'ending' : 'summarizing',
       resumeStatus: 'summarizing',
       error: null,
+      endReason: 'user',
     });
     this.launch(id);
   }
@@ -143,6 +198,7 @@ export class Engine {
           id,
           {
             status: 'error',
+            ...clockStopped(d),
             error: this.errorText(error),
             resumeStatus: ['ending', 'summarizing'].includes(d.status) ? 'summarizing' : 'running',
           },
@@ -173,29 +229,30 @@ export class Engine {
       ...context.messages.map((m) => m.id),
       ...context.evidenceMemory.anchors.map((a) => a.messageId),
     ]);
-    const people = new Set(
-      context.participants.filter((p) => p.role === 'expert').map((p) => p.id),
-    );
+    const people = new Set(context.participants.map((p) => p.id));
     const schema = (person.role === 'expert' ? expertSpeechSchema : speechSchema)
       .transform((value) => ({
         ...value,
         replyTo: value.replyTo ? (aliases.get(value.replyTo) ?? value.replyTo) : null,
       }))
-      .refine(
-        (v) =>
-          (v.replyTo === null || ids.has(v.replyTo)) &&
-          (v.addressedTo === null || people.has(v.addressedTo)),
-        '引用或追问对象必须属于当前讨论',
-      );
+      .refine((v) => v.replyTo === null || ids.has(v.replyTo), {
+        message: '引用或追问：replyTo必须为本场消息ID',
+        path: ['replyTo'],
+      })
+      .refine((v) => v.addressedTo === null || people.has(v.addressedTo), {
+        message: '引用或追问：addressedTo必须为本场角色ID',
+        path: ['addressedTo'],
+      });
     let corrections: ConsistencyIssue[] = [];
     let result!: import('zod').infer<typeof speechSchema>;
     let approved = false;
     for (let attempt = 0; attempt < 2; attempt++) {
-      result = await this.model.run(
+      result = await this.call(
         'speech',
         this.input(context, { current: person, directive, intent, corrections }),
         schema,
       );
+      this.assertDirection(id, context.directionVersion);
       corrections = directConsistencyIssues(result.text, context);
       if (!corrections.length) {
         const refs = new Set([
@@ -203,7 +260,7 @@ export class Engine {
           ...context.messages.map((m) => m.id),
           ...context.evidenceMemory.anchors.map((a) => a.messageId),
         ]);
-        const review = await this.model.run(
+        const review = await this.call(
           'review',
           this.input(context, { candidate: result.text, speakerId: person.id }),
           reviewSchema
@@ -222,6 +279,7 @@ export class Engine {
               '审查必须引用候选原话和有效来源',
             ),
         );
+        this.assertDirection(id, context.directionVersion);
         corrections = review.issues;
       }
       if (!corrections.length) {
@@ -245,16 +303,20 @@ export class Engine {
         replyTo: result.replyTo,
         addressedTo: result.addressedTo,
         phase: this.store.get(id).phase,
+        kind: 'speech',
+        directionVersion: context.directionVersion,
       },
       cp,
+      context.directionVersion,
     );
     this.store.activity(id, person.id, { state: 'idle', focus: person.focus });
   }
   private async updateInsights(id: string) {
     const old = this.store.insights(id);
-    const result = await this.model.run(
+    const context = this.context(id);
+    const result = await this.call(
       'insights',
-      this.context(id),
+      context,
       insightSchema.refine((v) => {
         const ids = v.items.flatMap((i) => (i.id ? [i.id] : []));
         return (
@@ -266,6 +328,7 @@ export class Engine {
         );
       }, '沿用已有同类成果ID，关闭分歧必须引用已有分歧ID'),
     );
+    this.assertDirection(id, context.directionVersion);
     const s = this.store.snapshot(id);
     const cp = this.store.checkpoint(id);
     cp.pendingInsight = null;
@@ -273,14 +336,20 @@ export class Engine {
     if (!cp.queue.length && cp.roundActive) {
       cp.noProgress = cp.roundProgress ? 0 : cp.noProgress + 1;
       cp.roundActive = false;
+      cp.completedRounds = (cp.completedRounds ?? 0) + 1;
     }
     this.store.replaceInsights(
       id,
       reconcileInsights(
         old,
-        validateInsights(result, s.messages, s.participants, old),
+        validateInsights(
+          result,
+          s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
+          s.participants,
+          old,
+        ),
         result.resolvedDisputes ?? [],
-        s.messages,
+        s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
       ),
       result.contextSummary,
       cp,
@@ -288,7 +357,11 @@ export class Engine {
   }
   private settlePause(id: string) {
     if (this.store.get(id).status === 'pausing') {
-      this.store.update(id, { status: 'paused', resumeStatus: 'running' });
+      this.store.update(id, {
+        status: 'paused',
+        resumeStatus: 'running',
+        ...clockStopped(this.store.get(id)),
+      });
       this.store.resetActivities(id);
       return true;
     }
@@ -297,152 +370,286 @@ export class Engine {
   private async work(id: string) {
     const moderator = this.store.participants(id).find((p) => p.role === 'moderator')!;
     while (true) {
-      let d = this.store.get(id);
-      let cp = this.store.checkpoint(id);
-      if (cp.pendingInsight) {
-        await this.updateInsights(id);
-        continue;
-      }
-      if (this.settlePause(id)) return;
-      d = this.store.get(id);
-      if (
-        ['ending', 'summarizing'].includes(d.status) ||
-        d.turns >= d.maxTurns ||
-        cp.noProgress >= 2
-      ) {
-        await this.finish(id, moderator);
-        return;
-      }
-      if (d.status !== 'running') return;
-      const phase = phaseFor(d.turns, d.maxTurns);
-      if (d.phase !== phase) this.store.update(id, { phase });
-      const hostAlreadySpoke = this.store
-        .messages(id)
-        .some((m) => m.participantId === moderator.id && m.phase === phase);
-      if (!hostAlreadySpoke) {
-        await this.speak(
-          id,
-          moderator,
-          phase === 'exploration'
-            ? '开场：界定议题、约束和评审标准，邀请不同观点。'
-            : `阶段推进至${phaseLabels[phase]}，针对当前分歧提出一个具体问题。`,
-        );
-        continue;
-      }
-      cp = this.store.checkpoint(id);
-      if (cp.queue.length) {
-        const next = cp.queue[0];
-        const person = this.store.participants(id).find((p) => p.id === next.participantId)!;
-        await this.speak(id, person, '回应最新上下文，贡献一个有实质进展的观点。', next);
-        continue;
-      }
-      const experts = this.store.participants(id).filter((p) => p.role === 'expert');
-      const context = this.context(id);
-      const outcomes = await Promise.allSettled(
-        experts.map(async (person) => {
-          this.store.activity(id, person.id, {
-            state: 'preparing',
-            focus: `关注${person.focus}，评估是否参与。`,
-          });
-          const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
-          const messageIds = new Set([
-            ...context.messages.map((m) => m.id),
-            ...context.evidenceMemory.anchors.map((a) => a.messageId),
-          ]);
-          const result = await this.model.run(
-            'intent',
-            this.input(context, { current: person }),
-            intentSchema
-              .transform((value) => ({
-                ...value,
-                replyTo: value.replyTo ? (aliases.get(value.replyTo) ?? value.replyTo) : null,
-              }))
-              .refine(
-                (v) => v.replyTo === null || messageIds.has(v.replyTo),
-                '回应对象不属于当前上下文',
-              ),
+      try {
+        let d = this.store.get(id);
+        let cp = this.store.checkpoint(id);
+        if (cp.pendingInsight) {
+          await this.updateInsights(id);
+          continue;
+        }
+        if (this.settlePause(id)) return;
+        d = this.store.get(id);
+        const turns = cycleTurns(d);
+        const limits = limitsFor(d);
+        const stalled =
+          cp.noProgress >= (d.maxTurns <= 6 ? 2 : 3) &&
+          (d.maxTurns <= 6 || turns >= limits.minTurns || turns === 0 || cp.noProgress >= 5);
+        if (['ending', 'summarizing'].includes(d.status) || turns >= d.maxTurns || stalled) {
+          await this.finish(
+            id,
+            moderator,
+            d.endReason ?? (turns >= d.maxTurns ? 'turn_limit' : 'stalled'),
           );
-          this.store.activity(id, person.id, {
-            state: result.apply ? 'preparing' : 'idle',
-            focus: result.publicReason,
-          });
-          return { ...result, participantId: person.id };
-        }),
-      );
-      const rejected = outcomes.find((o) => o.status === 'rejected');
-      if (rejected?.status === 'rejected') throw rejected.reason;
-      const intents = outcomes.flatMap((o) => (o.status === 'fulfilled' ? [o.value] : []));
-      cp = this.store.checkpoint(id);
-      d = this.store.get(id);
-      cp.queue = selectSpeakers(
-        intents,
-        this.store.messages(id),
-        this.store.insights(id),
-        experts,
-        Math.min(2, d.maxTurns - d.turns),
-      );
-      if (!cp.queue.length) cp.noProgress++;
-      else {
-        cp.roundActive = true;
-        cp.roundProgress = false;
-      }
-      this.store.setCheckpoint(id, cp);
-      this.log({
-        discussionId: id,
-        turns: d.turns,
-        selected: cp.queue.map((i) => ({ participantId: i.participantId, kind: i.kind })),
-      });
-      for (const p of experts)
-        if (!cp.queue.some((i) => i.participantId === p.id))
-          this.store.activity(id, p.id, { state: 'idle', focus: p.focus });
-      if (this.settlePause(id)) return;
-      if (!cp.queue.length && cp.noProgress < 2 && this.store.get(id).status === 'running')
-        await this.speak(
-          id,
-          moderator,
-          '讨论暂时缺少新观点，请围绕未解决分歧追问一位专家，使用 addressedTo 指定对象。',
+          return;
+        }
+        if (d.status !== 'running') return;
+        if ((d.handledDirectionVersion ?? 0) < (d.directionVersion ?? 0)) {
+          const version = d.directionVersion ?? 0;
+          await this.speak(
+            id,
+            moderator,
+            `用户刚提交了新方向。请先确认当前焦点与有效前提，明确哪些边界保留、哪些由用户更新，然后围绕新方向提出一个具体问题。当前焦点：${d.focus ?? d.effectiveTopic ?? d.topic}`,
+          );
+          this.assertDirection(id, version);
+          this.store.update(id, { handledDirectionVersion: version, phase: 'exchange' });
+          continue;
+        }
+        const phase =
+          d.maxTurns <= 6
+            ? phaseFor(turns, d.maxTurns)
+            : turns < d.expertCount
+              ? 'exploration'
+              : turns < limits.minTurns
+                ? 'exchange'
+                : 'convergence';
+        if (d.phase !== phase) this.store.update(id, { phase });
+        const hostAlreadySpoke = this.store
+          .messages(id)
+          .some(
+            (m) =>
+              m.participantId === moderator.id &&
+              m.phase === phase &&
+              m.seq >= (d.cycleStartSeq ?? 0),
+          );
+        if (!hostAlreadySpoke) {
+          await this.speak(
+            id,
+            moderator,
+            phase === 'exploration'
+              ? '开场：界定议题、约束和评审标准，邀请不同观点。'
+              : `阶段推进至${phaseLabels[phase]}，针对当前分歧提出一个具体问题。`,
+          );
+          continue;
+        }
+        cp = this.store.checkpoint(id);
+        if (cp.queue.length) {
+          const next = cp.queue[0];
+          const person = this.store.participants(id).find((p) => p.id === next.participantId)!;
+          await this.speak(id, person, '回应最新上下文，贡献一个有实质进展的观点。', next);
+          continue;
+        }
+        const end = await this.assessConvergence(id);
+        if (end) {
+          await this.finish(id, moderator, end);
+          return;
+        }
+        const experts = this.store.participants(id).filter((p) => p.role === 'expert');
+        const context = this.context(id);
+        const outcomes = await Promise.allSettled(
+          experts.map(async (person) => {
+            this.store.activity(id, person.id, {
+              state: 'preparing',
+              focus: `关注${person.focus}，评估是否参与。`,
+            });
+            const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+            const messageIds = new Set([
+              ...context.messages.map((m) => m.id),
+              ...context.evidenceMemory.anchors.map((a) => a.messageId),
+            ]);
+            const result = await this.call(
+              'intent',
+              this.input(context, { current: person }),
+              intentSchema
+                .transform((value) => ({
+                  ...value,
+                  replyTo: value.replyTo ? (aliases.get(value.replyTo) ?? value.replyTo) : null,
+                }))
+                .refine(
+                  (v) => v.replyTo === null || messageIds.has(v.replyTo),
+                  '回应对象不属于当前上下文',
+                ),
+            );
+            this.assertDirection(id, context.directionVersion);
+            this.store.activity(id, person.id, {
+              state: result.apply ? 'preparing' : 'idle',
+              focus: result.publicReason,
+            });
+            return {
+              ...result,
+              participantId: person.id,
+              directionVersion: context.directionVersion,
+              contextSeq: Math.max(0, ...context.messages.map((m) => m.seq)),
+            };
+          }),
         );
+        this.assertDirection(id, context.directionVersion);
+        const rejected = outcomes.find((o) => o.status === 'rejected');
+        if (rejected?.status === 'rejected') throw rejected.reason;
+        const intents = outcomes.flatMap((o) => (o.status === 'fulfilled' ? [o.value] : []));
+        cp = this.store.checkpoint(id);
+        d = this.store.get(id);
+        cp.queue = selectSpeakers(
+          intents,
+          this.store.messages(id),
+          this.store.insights(id),
+          experts,
+          Math.min(2, d.maxTurns - cycleTurns(d)),
+        );
+        if (!cp.queue.length) cp.noProgress++;
+        else {
+          cp.roundActive = true;
+          cp.roundProgress = false;
+        }
+        this.store.setCheckpoint(id, cp);
+        this.log({
+          discussionId: id,
+          turns: d.turns,
+          selected: cp.queue.map((i) => ({ participantId: i.participantId, kind: i.kind })),
+        });
+        for (const p of experts)
+          if (!cp.queue.some((i) => i.participantId === p.id))
+            this.store.activity(id, p.id, { state: 'idle', focus: p.focus });
+        if (this.settlePause(id)) return;
+        if (
+          !cp.queue.length &&
+          cp.noProgress < (d.maxTurns <= 6 ? 2 : 3) &&
+          this.store.get(id).status === 'running'
+        )
+          await this.speak(
+            id,
+            moderator,
+            '讨论暂时缺少新观点，请围绕未解决分歧追问一位专家，使用 addressedTo 指定对象。',
+          );
+      } catch (error) {
+        if (error instanceof DirectionChanged) continue;
+        if (error instanceof BoundaryStop) {
+          await this.finish(id, moderator, error.reason, false);
+          return;
+        }
+        throw error;
+      }
     }
   }
-  private async finish(id: string, moderator: Participant) {
-    this.store.update(id, { status: 'summarizing', phase: 'closing', resumeStatus: 'summarizing' });
+  private async assessConvergence(id: string): Promise<EndReason | null> {
+    const d = this.store.get(id);
+    const cp = this.store.checkpoint(id);
+    const turns = cycleTurns(d);
+    const limits = limitsFor(d);
+    if (
+      turns < limits.minTurns ||
+      turns - (cp.lastConvergenceTurns ?? 0) < 2 ||
+      (d.directionVersion && d.turns - (d.directionStartTurns ?? 0) < Math.min(4, d.expertCount))
+    )
+      return null;
+    const experts = this.store.participants(id).filter((p) => p.role === 'expert');
+    const spoken = new Set(
+      this.store
+        .messages(id)
+        .filter((m) => m.seq >= (d.cycleStartSeq ?? 0))
+        .map((m) => m.participantId),
+    );
+    if (experts.some((p) => !spoken.has(p.id))) return null;
+    const context = this.context(id);
+    const disputes = context.insights.filter((i) => i.kind === 'disagreement').map((i) => i.id);
+    const result = await this.call(
+      'convergence',
+      context,
+      convergenceSchema.refine(
+        (v) =>
+          !v.ready ||
+          (v.reason !== 'needs_more' &&
+            !v.missingPerspectives.length &&
+            disputes.every((id) => v.unresolvedIds.includes(id)) &&
+            (!disputes.length || v.reason === 'stable_disagreement')),
+        '收束必须保留全部未决分歧并覆盖所有视角',
+      ),
+    );
+    this.assertDirection(id, context.directionVersion);
+    const current = this.store.checkpoint(id);
+    current.lastConvergenceTurns = turns;
+    current.convergenceVotes = result.ready ? (current.convergenceVotes ?? 0) + 1 : 0;
+    this.store.setCheckpoint(id, current);
+    if (current.convergenceVotes >= 2 && this.store.get(id).status === 'running')
+      return disputes.length ? 'stable_disagreement' : 'converged';
+    return null;
+  }
+  private async finish(
+    id: string,
+    moderator: Participant,
+    reason: EndReason = 'user',
+    useModel = true,
+  ) {
+    const before = this.store.get(id);
+    const version = before.directionVersion ?? 0;
+    this.store.update(id, {
+      status: 'summarizing',
+      phase: 'closing',
+      resumeStatus: 'summarizing',
+      endReason: reason,
+    });
     this.store.activity(id, moderator.id, {
       state: 'speaking',
       focus: '整理共识、保留分歧，并提出下一步建议。',
     });
-    const context = this.context(id);
-    const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
-    const expertIds = new Set(
-      this.store
-        .participants(id)
-        .filter((p) => p.role === 'expert')
-        .map((p) => p.id),
-    );
-    const messageIds = new Set(
-      this.store
-        .messages(id)
-        .filter((m) => expertIds.has(m.participantId))
-        .map((m) => m.id),
-    );
-    const result = await this.model.run(
-      'summary',
-      this.input(context, { purpose: 'grounded-summary' }),
-      closingSchema
-        .transform((value) => ({
-          highlightMessageIds: [
-            ...new Set(value.highlightMessageIds.map((id) => aliases.get(id) ?? id)),
-          ],
-        }))
-        .refine(
-          (v) => v.highlightMessageIds.every((id) => messageIds.has(id)),
-          '只能选择本场实际专家发言',
-        ),
-    );
+    let highlights = this.store
+      .messages(id)
+      .filter((m) => m.seq >= (before.boundaryStartSeq ?? 0))
+      .filter((m) =>
+        this.store.participants(id).some((p) => p.id === m.participantId && p.role === 'expert'),
+      )
+      .slice(-2)
+      .map((m) => m.id);
+    if (
+      useModel &&
+      (before.modelCalls ?? 0) < limitsFor(before).maxModelCalls &&
+      activeElapsed(before) < limitsFor(before).maxActiveMs
+    ) {
+      try {
+        const context = this.context(id);
+        const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+        const expertIds = new Set(
+          this.store
+            .participants(id)
+            .filter((p) => p.role === 'expert')
+            .map((p) => p.id),
+        );
+        const messageIds = new Set(
+          this.store
+            .messages(id)
+            .filter(
+              (m) => expertIds.has(m.participantId) && m.seq >= (before.boundaryStartSeq ?? 0),
+            )
+            .map((m) => m.id),
+        );
+        const result = await this.call(
+          'summary',
+          this.input(context, { purpose: 'grounded-summary' }),
+          closingSchema
+            .transform((value) => ({
+              highlightMessageIds: [
+                ...new Set(value.highlightMessageIds.map((id) => aliases.get(id) ?? id)),
+              ],
+            }))
+            .refine(
+              (v) => v.highlightMessageIds.every((id) => messageIds.has(id)),
+              '只能选择本场实际专家发言',
+            ),
+        );
+        this.assertDirection(id, version);
+        highlights = result.highlightMessageIds;
+      } catch (error) {
+        if (!(error instanceof BoundaryStop)) throw error;
+      }
+    }
+    this.assertDirection(id, version);
+    const snapshot = this.store.snapshot(id);
     this.store.update(
       id,
       {
         status: 'completed',
-        summary: renderGroundedSummary(this.store.snapshot(id), result.highlightMessageIds),
+        summary: renderConciseSummary(snapshot, highlights, reason),
+        summaryDetails: renderGroundedSummary(snapshot, highlights),
+        ...clockStopped(this.store.get(id)),
         error: null,
         resumeStatus: null,
       },
