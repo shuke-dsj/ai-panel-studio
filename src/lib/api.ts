@@ -25,5 +25,6 @@ export const api = {
   snapshot: (id: string) => request<Snapshot>(`/discussions/${id}`),
   create: (body: { topic: string; expertCount: number; maxTurns: number }) =>
     request<Discussion>('/discussions', body),
-  command: (id: string, action: string) => request<Snapshot>(`/discussions/${id}/${action}`, {}),
+  command: (id: string, action: string, body: unknown = {}) =>
+    request<Snapshot>(`/discussions/${id}/${action}`, body),
 };

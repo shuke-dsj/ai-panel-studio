@@ -20,7 +20,7 @@ export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]):
             )
             .join('\n')
         : '本场没有满足证据要求的共识。'),
-    '仍未解决的分歧：\n' +
+    '未关闭的分歧记录（包括待复核的历史项，不能据此认定各方仍然反对）：\n' +
       (disputes.length
         ? disputes
             .map(
@@ -60,11 +60,11 @@ export function renderConciseSummary(
   const common = snapshot.insights.filter((i) => i.kind === 'consensus'),
     disputes = snapshot.insights.filter((i) => i.kind === 'disagreement');
   const lines = [
-    `${endReasonLabels[reason]}。本轮${count}次专家发言，${common.length}项共同判断、${disputes.length}项未决分歧。`,
+    `${endReasonLabels[reason]}。本轮${count}次专家发言，${common.length}项共同判断、${disputes.length}条未关闭分歧记录。`,
   ];
   for (const [label, items] of [
     ['共同判断（按明确支持者归因）', common],
-    ['待解决', disputes],
+    ['待复核', disputes],
   ] as const) {
     let used = 0;
     const entries = [];
@@ -77,7 +77,7 @@ export function renderConciseSummary(
         ),
       ].join('、');
       const entry = `${item.text}${item.kind === 'consensus' ? `（${names}支持）` : ''}`;
-      if (used + entry.length > 300) continue;
+      if (used + entry.length > 160 || entries.length >= 2) continue;
       entries.push(entry);
       used += entry.length;
     }

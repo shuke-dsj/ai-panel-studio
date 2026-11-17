@@ -1,65 +1,49 @@
 import { useEffect, useState } from 'react';
-import { LoaderCircle } from 'lucide-react';
 import { api, type Health } from './lib/api';
-import { usePanel } from './lib/usePanel';
-import { BrandHeader, ErrorBanner, Footer } from './components/Primitives';
-import { Home } from './pages/Home';
-import { Roster } from './pages/Roster';
-import { Studio } from './pages/Studio';
-function DiscussionPage({ id }: { id: string }) {
-  const panel = usePanel(id);
-  if (!panel.snapshot)
-    return (
-      <main className="loading-page">
-        {panel.error ? (
-          <ErrorBanner>{panel.error}</ErrorBanner>
-        ) : (
-          <>
-            <LoaderCircle className="spin" />
-            正在进入演播厅…
-          </>
-        )}
-        <a href="#/">返回所有讨论</a>
-      </main>
-    );
-  return ['draft', 'generating', 'roster_ready'].includes(panel.snapshot.discussion.status) ? (
-    <Roster {...panel} snapshot={panel.snapshot} />
-  ) : (
-    <Studio {...panel} snapshot={panel.snapshot} />
-  );
-}
+import { ConversationSidebar } from './components/ConversationSidebar';
+import { Workspace } from './pages/Workspace';
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
   const [health, setHealth] = useState<Health | null>(null);
-  const [create, setCreate] = useState(false);
-  const match = /^#\/discussion\/([a-f0-9-]+)$/.exec(hash);
-  const id = match?.[1];
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [draftVersion, setDraftVersion] = useState(0);
+  const id = /^#\/discussion\/([a-f0-9-]+)$/.exec(hash)?.[1];
   useEffect(() => {
-    api
+    void api
       .health()
       .then(setHealth)
       .catch(() => {});
     const change = () => {
       setHash(window.location.hash);
-      setCreate(false);
+      setSidebarOpen(false);
     };
-    const open = () => setCreate(true);
     window.addEventListener('hashchange', change);
-    window.addEventListener('panel:create', open);
-    return () => {
-      window.removeEventListener('hashchange', change);
-      window.removeEventListener('panel:create', open);
-    };
+    return () => window.removeEventListener('hashchange', change);
   }, []);
   return (
-    <div className="app-shell">
-      <BrandHeader health={health} back={!!id} onCreate={id ? undefined : () => setCreate(true)} />
-      {id ? (
-        <DiscussionPage key={id} id={id} />
-      ) : (
-        <Home openCreate={create} onCloseCreate={() => setCreate(false)} />
+    <div className={`workspace-shell ${sidebarOpen ? 'sidebar-open' : ''}`}>
+      {sidebarOpen && (
+        <button
+          className="sidebar-shade"
+          aria-label="关闭讨论组列表"
+          onClick={() => setSidebarOpen(false)}
+        />
       )}
-      <Footer />
+      <ConversationSidebar
+        id={id}
+        health={health}
+        onNavigate={() => setSidebarOpen(false)}
+        onNew={() => {
+          setDraftVersion((n) => n + 1);
+          setSidebarOpen(false);
+        }}
+      />
+      <Workspace
+        key={id ?? `new-${draftVersion}`}
+        id={id}
+        health={health}
+        onMenu={() => setSidebarOpen(!sidebarOpen)}
+      />
     </div>
   );
 }

@@ -28,7 +28,7 @@ import { expertSpeechSchema } from './utterance.js';
 import { buildContext, contextInput, type DiscussionContext } from './context.js';
 import { directConsistencyIssues, type ConsistencyIssue } from './consistency.js';
 import { renderGroundedSummary, renderConciseSummary } from './summary.js';
-const colors = ['#15745b', '#227a64', '#427abf', '#8c58ac', '#b78626', '#ba5e68', '#59818c'];
+const colors = ['#b78626', '#227a64', '#427abf', '#8c58ac', '#ba5e68', '#59818c', '#806347'];
 export class Engine {
   jobs = new Map<string, Promise<void>>();
   rosterJobs = new Set<string>();
@@ -80,7 +80,7 @@ export class Engine {
       });
     this.ensureMode(before);
     this.store.steer(id, text, mode, clientRequestId);
-    if (['completed', 'ending', 'summarizing'].includes(before.status)) this.start(id);
+    if ((this.store.get(id).cycle ?? 1) !== (before.cycle ?? 1)) this.start(id);
     return this.store.snapshot(id);
   }
   async generate(id: string) {
@@ -291,7 +291,7 @@ export class Engine {
     if (!approved)
       throw new ModelError(
         'CONSISTENCY',
-        '发言仍存在范围、时间线或共识归因冲突，已暂停且未提交该发言，请澄清后重试。',
+        `发言仍存在范围、时间线或共识归因冲突，已暂停且未提交该发言。最近校验指出：${corrections[0]?.reason ?? '请澄清当前前提后重试。'}`,
       );
     const cp = this.store.checkpoint(id);
     if (person.role === 'expert') cp.queue = cp.queue.filter((i) => i.participantId !== person.id);
@@ -329,6 +329,48 @@ export class Engine {
       }, '沿用已有同类成果ID，关闭分歧必须引用已有分歧ID'),
     );
     this.assertDirection(id, context.directionVersion);
+    // Quote matching proves provenance, not agreement on the same condition.
+    const candidates = result.items.filter((item) => item.kind === 'consensus');
+    let vetted = result;
+    if (candidates.length) {
+      const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+      const refs = new Set([
+        'topic',
+        ...context.messages.map((m) => m.id),
+        ...context.evidenceMemory.anchors.map((a) => a.messageId),
+      ]);
+      const review = await this.call(
+        'review',
+        this.input(context, {
+          purpose: 'consensus-grounding',
+          candidate: candidates.map((item) => item.text).join('\n'),
+          consensusCandidates: candidates,
+        }),
+        reviewSchema
+          .transform((v) => ({
+            issues: v.issues.map((issue) => ({
+              ...issue,
+              conflictsWith: issue.conflictsWith.map((ref) => aliases.get(ref) ?? ref),
+            })),
+          }))
+          .refine(
+            (v) =>
+              v.issues.every(
+                (issue) =>
+                  candidates.some((item) => item.text === issue.quote) &&
+                  issue.conflictsWith.every((ref) => refs.has(ref)),
+              ),
+            '共同判断审查须引用完整候选判断及有效来源',
+          ),
+      );
+      this.assertDirection(id, context.directionVersion);
+      const rejected = new Set(review.issues.map((issue) => issue.quote));
+      vetted = {
+        ...result,
+        items: result.items.filter((item) => item.kind !== 'consensus' || !rejected.has(item.text)),
+      };
+      if (rejected.size) this.log({ discussionId: id, rejectedConsensusCount: rejected.size });
+    }
     const s = this.store.snapshot(id);
     const cp = this.store.checkpoint(id);
     cp.pendingInsight = null;
@@ -343,13 +385,14 @@ export class Engine {
       reconcileInsights(
         old,
         validateInsights(
-          result,
+          vetted,
           s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
           s.participants,
           old,
         ),
         result.resolvedDisputes ?? [],
         s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
+        s.participants,
       ),
       result.contextSummary,
       cp,
@@ -549,29 +592,74 @@ export class Engine {
         .map((m) => m.participantId),
     );
     if (experts.some((p) => !spoken.has(p.id))) return null;
+    // Reconcile stale labels before requiring the convergence verdict to carry
+    // every still-open ID; otherwise a resolved issue can prevent closing.
+    await this.closeConfirmedDisputes(id);
+    this.assertDirection(id, d.directionVersion ?? 0);
     const context = this.context(id);
     const disputes = context.insights.filter((i) => i.kind === 'disagreement').map((i) => i.id);
     const result = await this.call(
       'convergence',
       context,
       convergenceSchema.refine(
-        (v) =>
-          !v.ready ||
-          (v.reason !== 'needs_more' &&
-            !v.missingPerspectives.length &&
-            disputes.every((id) => v.unresolvedIds.includes(id)) &&
-            (!disputes.length || v.reason === 'stable_disagreement')),
-        '收束必须保留全部未决分歧并覆盖所有视角',
+        (v) => v.unresolvedIds.every((ref) => disputes.includes(ref)),
+        '收束必须引用已有分歧ID',
       ),
     );
     this.assertDirection(id, context.directionVersion);
     const current = this.store.checkpoint(id);
     current.lastConvergenceTurns = turns;
-    current.convergenceVotes = result.ready ? (current.convergenceVotes ?? 0) + 1 : 0;
+    const ready =
+      result.ready && result.reason !== 'needs_more' && !result.missingPerspectives.length;
+    current.convergenceVotes = ready ? (current.convergenceVotes ?? 0) + 1 : 0;
     this.store.setCheckpoint(id, current);
     if (current.convergenceVotes >= 2 && this.store.get(id).status === 'running')
       return disputes.length ? 'stable_disagreement' : 'converged';
     return null;
+  }
+  private async closeConfirmedDisputes(id: string) {
+    const snapshot = this.store.snapshot(id),
+      old = snapshot.insights;
+    if (!old.some((item) => item.kind === 'disagreement')) return;
+    const context = this.context(id);
+    const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+    const result = await this.call(
+      'resolution',
+      context,
+      insightSchema
+        .pick({ resolvedDisputes: true })
+        .transform((value) => ({
+          resolvedDisputes: value.resolvedDisputes.map((item) => ({
+            ...item,
+            evidence: item.evidence.map((e) => ({
+              ...e,
+              messageId: aliases.get(e.messageId) ?? e.messageId,
+            })),
+          })),
+        }))
+        .refine(
+          (v) =>
+            v.resolvedDisputes.every((r) =>
+              old.some((item) => item.id === r.id && item.kind === 'disagreement'),
+            ),
+          '只能关闭当前已有分歧',
+        ),
+    );
+    this.assertDirection(id, context.directionVersion);
+    const next = reconcileInsights(
+      old,
+      old.filter((item) => item.kind === 'consensus'),
+      result.resolvedDisputes ?? [],
+      snapshot.messages.filter((m) => m.seq >= (snapshot.discussion.boundaryStartSeq ?? 0)),
+      snapshot.participants,
+    );
+    if (next.length !== old.length)
+      this.store.replaceInsights(
+        id,
+        next,
+        snapshot.discussion.contextSummary,
+        this.store.checkpoint(id),
+      );
   }
   private async finish(
     id: string,
@@ -605,6 +693,12 @@ export class Engine {
       activeElapsed(before) < limitsFor(before).maxActiveMs
     ) {
       try {
+        await this.closeConfirmedDisputes(id);
+        if (
+          reason === 'stable_disagreement' &&
+          !this.store.insights(id).some((item) => item.kind === 'disagreement')
+        )
+          reason = 'converged';
         const context = this.context(id);
         const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
         const expertIds = new Set(
@@ -649,6 +743,7 @@ export class Engine {
         status: 'completed',
         summary: renderConciseSummary(snapshot, highlights, reason),
         summaryDetails: renderGroundedSummary(snapshot, highlights),
+        endReason: reason,
         ...clockStopped(this.store.get(id)),
         error: null,
         resumeStatus: null,

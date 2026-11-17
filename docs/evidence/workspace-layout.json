@@ -1,0 +1,123 @@
+{
+  "testedAt": "2026-11-17T13:38:29.547Z",
+  "id": "a655c830-7962-40f6-8530-95485abadfed",
+  "desktop": {
+    "viewport": [
+      1568,
+      1003
+    ],
+    "body": [
+      1568,
+      1003
+    ],
+    "states": [
+      {
+        "state": "idle",
+        "color": "#b78626",
+        "avatarOpacity": "0.43",
+        "glow": "none"
+      },
+      {
+        "state": "idle",
+        "color": "#227a64",
+        "avatarOpacity": "0.43",
+        "glow": "none"
+      },
+      {
+        "state": "speaking",
+        "color": "#427abf",
+        "avatarOpacity": "1",
+        "glow": "color(srgb 0.258824 0.478431 0.74902 / 0.17) 0px 0px 0px 5px, color(srgb 0.258824 0.478431 0.74902 / 0.08) 0px 0px 0px 11px"
+      },
+      {
+        "state": "preparing",
+        "color": "#8c58ac",
+        "avatarOpacity": "1",
+        "glow": "none"
+      },
+      {
+        "state": "idle",
+        "color": "#ba5e68",
+        "avatarOpacity": "0.43",
+        "glow": "none"
+      },
+      {
+        "state": "idle",
+        "color": "#59818c",
+        "avatarOpacity": "0.43",
+        "glow": "none"
+      },
+      {
+        "state": "idle",
+        "color": "#806347",
+        "avatarOpacity": "0.43",
+        "glow": "none"
+      }
+    ],
+    "inspectors": 2,
+    "areas": [
+      {
+        "selector": ".conversation-list",
+        "overflow": "auto",
+        "width": 250,
+        "height": 725
+      },
+      {
+        "selector": ".workspace-content",
+        "overflow": "auto",
+        "width": 903,
+        "height": 642
+      },
+      {
+        "selector": ".outcomes-list",
+        "overflow": "auto",
+        "width": 317,
+        "height": 755
+      },
+      {
+        "selector": ".closing-summary",
+        "overflow": "auto",
+        "width": 315,
+        "height": 113
+      }
+    ],
+    "fonts": [
+      {
+        "selector": ".workspace-heading h1",
+        "size": "23px"
+      },
+      {
+        "selector": ".guest-inspector h2",
+        "size": "17px"
+      },
+      {
+        "selector": ".inspector-scroll",
+        "size": "13px"
+      },
+      {
+        "selector": ".guest-label>strong",
+        "size": "14px"
+      },
+      {
+        "selector": ".result-body article",
+        "size": "14px"
+      },
+      {
+        "selector": ".workspace-composer textarea",
+        "size": "15px"
+      }
+    ]
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "body": [
+      390,
+      844
+    ],
+    "composerVisible": true
+  },
+  "errors": []
+}

@@ -12,8 +12,11 @@ import { api } from './api';
 export function applyEvent(s: Snapshot, event: PanelEvent): Snapshot {
   if (event.discussionId !== s.discussion.id || event.seq <= s.cursor) return s;
   const next = { ...s, cursor: event.seq };
-  if (['status', 'completed', 'error'].includes(event.type))
+  if (['status', 'completed', 'error'].includes(event.type)) {
     next.discussion = event.data as Discussion;
+    if ((next.discussion.directionVersion ?? 0) !== (s.discussion.directionVersion ?? 0))
+      next.activities = {};
+  }
   if (event.type === 'activity') {
     const value = event.data as Activity & { participantId: string };
     next.activities = {
@@ -24,7 +27,7 @@ export function applyEvent(s: Snapshot, event: PanelEvent): Snapshot {
   if (event.type === 'roster') {
     next.participants = event.data as Participant[];
     next.activities = {};
-    next.discussion = { ...s.discussion, status: 'roster_ready', error: null };
+    next.discussion = { ...s.discussion, status: 'roster_ready', error: null, rosterStale: false };
   }
   if (event.type === 'insights') next.insights = event.data as Insight[];
   if (event.type === 'message') {
@@ -42,7 +45,7 @@ export function applyEvent(s: Snapshot, event: PanelEvent): Snapshot {
   }
   return next;
 }
-export function usePanel(id: string) {
+export function usePanel(id?: string) {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [error, setError] = useState('');
   const [pending, setPending] = useState('');
@@ -65,6 +68,7 @@ export function usePanel(id: string) {
     setSnapshot(null);
     setError('');
     setConnection('connecting');
+    if (!id) return;
     api
       .snapshot(id)
       .then((s) => {
@@ -92,13 +96,15 @@ export function usePanel(id: string) {
     };
   }, [id, accept]);
   const command = useCallback(
-    async (action: string) => {
+    async (action: string, body?: unknown): Promise<Snapshot | null> => {
+      if (!id) return null;
       const run = generation.current;
       setPending(action);
       setError('');
       try {
-        const s = await api.command(id, action);
+        const s = await api.command(id, action, body);
         if (run === generation.current) accept(s);
+        return run === generation.current ? s : null;
       } catch (e) {
         if (run === generation.current) {
           setError(e instanceof Error ? e.message : '操作失败');
@@ -109,6 +115,7 @@ export function usePanel(id: string) {
             /* retain existing state */
           }
         }
+        return null;
       } finally {
         if (run === generation.current) setPending('');
       }

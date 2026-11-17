@@ -4,6 +4,8 @@
 
 追加字段：`summary`为简短的自然语言总结，`summaryDetails`为完整的证据、条件、分歧及阶段安排；二者均写入discussions.data，completed事件和Snapshot携带同一归档内容。`endReason`区分稳定收束、停滞、发言/时间/调用预算和用户结束；达到预算不能称为已达成一致。
 
+共同判断增加逐来源语义review，验证同一原子条件和阶段归因。收束判断前/归档前的resolution步骤仅提出逐ID关闭凭证，后端按实际专家、逐字引用、各方自身最近证据和后续反对复核；旧状态仍在事件中。模型的unresolvedIds只可引用已有ID，完整未关闭列表始终从数据库保留，不依赖模型逐一复述；矛盾的ready/needs_more不计收束票数。所有额外调用及重试均受本轮调用/时间预算约束。
+
 所有路由以 `/api` 为前缀。请求与响应为 JSON，SSE 除外。服务仅监听 127.0.0.1；浏览器写操作拒绝跨站来源。无账户和权限系统。
 
 ## 路由
@@ -22,9 +24,9 @@
 | POST `/discussions/:id/end`           | `{}`                             | 当前发言结束后总结；重复请求不重复总结             |
 | GET `/discussions/:id/events?after=N` | EventSource；支持 Last-Event-ID  | 重放 N 之后的事件，再持续推送；心跳 15 秒          |
 
-topic 去除首尾空白后 1–2000 字符；expertCount 整数 2–6，默认4。当前API的maxTurns安全上限支持6–120、缺省48；现有首页仍显式提交6–20、默认12，短回归显式提交6，不将安全上限当自然收束条件。可选maxModelCalls为20–1200，可选maxActiveMinutes为1–90。未知创建字段拒绝。非法输入400，缺失讨论404，非法状态409，模型服务或配置错误503。错误统一`{error:"可展示的中文说明"}`，不暴露原始上游响应。
+topic去除首尾空白后1–2000字符；expertCount整数2–6，默认4。maxTurns安全上限支持6–120、缺省48；新工作区提供48/96两个档位，短回归显式提交6，不将安全上限当自然收束条件。可选maxModelCalls为20–1200，可选maxActiveMinutes为1–90。未知创建字段拒绝。非法输入400，缺失讨论404，非法状态409，模型服务或配置错误503。错误统一`{error:"可展示的中文说明"}`，不暴露原始上游响应。
 
-后端新增`POST /discussions/:id/directions`：`{text,mode:"focus"|"replace",clientRequestId:UUID}`。同一请求ID幂等；focus保留硬前提，replace归档旧成果并移动boundaryStartSeq，旧消息仍留库，过期候选按directionVersion拒绝提交。该接口当前不代表首页已具备新的输入交互。
+`POST /discussions/:id/directions`：`{text,mode:"focus"|"replace",clientRequestId:UUID}`。已接入中央底部输入区。同一请求ID幂等；focus保留硬前提，replace归档旧成果并移动boundaryStartSeq，旧消息仍留库，过期候选按directionVersion拒绝提交。结束后或已触及本轮上限时重开周期，保存summaryHistory；确认前修改前提会标记rosterStale，旧阵容不能确认。
 
 ## 核心类型
 

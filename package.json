@@ -18,8 +18,10 @@
     "test:real": "tsx scripts/real-smoke.ts",
     "test:context": "tsx scripts/context-stress.ts",
     "test:context:real": "tsx scripts/context-stress.ts --real",
+    "test:workspace:real": "tsx scripts/workspace-real.ts",
+    "qa:workspace": "tsx scripts/workspace-qa.ts",
     "package:source": "tsx scripts/package.ts",
-    "qa:visual": "tsx scripts/visual-qa.ts",
+    "qa:visual": "tsx scripts/workspace-qa.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

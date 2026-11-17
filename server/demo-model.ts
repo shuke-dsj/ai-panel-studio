@@ -67,7 +67,8 @@ export class DemoModel implements Model {
       ['陆衡', '组织发展顾问', '协作评审专家', '关注流程与责任边界', '组织协作、培训与责任'],
     ];
     let result: unknown;
-    if (task === 'convergence') {
+    if (task === 'resolution') result = { resolvedDisputes: [] };
+    else if (task === 'convergence') {
       const unresolvedIds = (input as { insights: { kind: string; id: string }[] }).insights
         .filter((i) => i.kind === 'disagreement')
         .map((i) => i.id);

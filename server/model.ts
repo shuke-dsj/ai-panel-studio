@@ -32,6 +32,7 @@ export class RealModel implements Model {
       timeout?: number;
       maxTokens?: number;
       concurrency?: number;
+      thinking?: 'enabled' | 'disabled';
       fetcher?: typeof fetch;
       logger?: (entry: unknown) => void;
     },
@@ -78,6 +79,7 @@ export class RealModel implements Model {
               signal: AbortSignal.timeout(this.config.timeout ?? 60000),
               body: JSON.stringify({
                 model: this.config.model,
+                ...(this.config.thinking ? { thinking: { type: this.config.thinking } } : {}),
                 messages: [
                   { role: 'system', content: prompts[task] + retryHint },
                   { role: 'user', content: JSON.stringify(input) },
@@ -141,9 +143,11 @@ export class RealModel implements Model {
             ? 'SENTENCE_LIMIT'
             : custom?.includes('引用或追问')
               ? 'REFERENCE'
-              : custom?.includes('成果ID')
-                ? 'INSIGHT_ID_PROTOCOL'
-                : undefined;
+              : custom?.includes('收束必须')
+                ? 'CONVERGENCE_PROTOCOL'
+                : custom?.includes('成果ID')
+                  ? 'INSIGHT_ID_PROTOCOL'
+                  : undefined;
           const code =
             error instanceof ModelError
               ? error.code
@@ -170,6 +174,9 @@ export class RealModel implements Model {
           if (code === 'REFERENCE')
             retryHint +=
               ' replyTo必须是本场messages[].id或evidenceMemory.anchors[].messageId，不能使用角色ID、片段ID或序号；addressedTo必须为participants[].id，不能是姓名、消息ID或序号。不确定对象时两个字段均用JSON null。';
+          if (code === 'CONVERGENCE_PROTOCOL')
+            retryHint +=
+              ' unresolvedIds只能引用当前insights中的disagreement.id，不使用序号或新造ID。后端会完整保留未关闭记录，不依赖你复述它们来存档；不能证明充分覆盖则ready=false、reason=needs_more。';
           if (attempt === 1)
             throw error instanceof ModelError
               ? error

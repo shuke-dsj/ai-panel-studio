@@ -6,6 +6,7 @@ import { EventEmitter } from 'node:events';
 import { extractEvidenceMemory } from './memory.js';
 import {
   activeElapsed,
+  cycleTurns,
   BoundaryStop,
   DirectionChanged,
   limitsFor,
@@ -140,7 +141,10 @@ export class Store {
       const before = this.messages(id);
       const version = (d.directionVersion ?? 0) + 1;
       const now = new Date().toISOString();
-      const renew = ['completed', 'ending', 'summarizing'].includes(d.status);
+      const renew =
+        ['completed', 'ending', 'summarizing'].includes(d.status) ||
+        cycleTurns(d) >= d.maxTurns ||
+        (d.status === 'error' && d.resumeStatus === 'summarizing');
       if (d.summary) {
         d.summaryHistory = [
           ...(d.summaryHistory ?? []),
@@ -177,8 +181,8 @@ export class Store {
         d.boundaryStartSeq = before.length + 1;
         d.contextSummary = '用户已更新前提；旧条件只作历史，不能覆盖当前用户前提。';
         this.db.prepare('DELETE FROM insights WHERE discussion_id=?').run(id);
-        if (['roster_ready', 'ready'].includes(d.status)) {
-          d.status = 'roster_ready';
+        if (['draft', 'generating', 'roster_ready', 'ready'].includes(d.status)) {
+          if (d.status !== 'generating' && this.participants(id).length) d.status = 'roster_ready';
           d.rosterStale = true;
         }
       } else d.focus = text;

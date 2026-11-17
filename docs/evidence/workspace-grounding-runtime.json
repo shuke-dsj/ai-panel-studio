@@ -1,0 +1,21 @@
+{
+  "capturedAt": "2026-11-17T13:14:21.744Z",
+  "discussionId": "8e64513b-567e-4ed8-b05d-d48182261a74",
+  "reviewCalls": 29,
+  "modelCallsLogged": 76,
+  "rejectedConsensus": [
+    {
+      "discussionId": "8e64513b-567e-4ed8-b05d-d48182261a74",
+      "count": 1
+    },
+    {
+      "discussionId": "8e64513b-567e-4ed8-b05d-d48182261a74",
+      "count": 1
+    },
+    {
+      "discussionId": "8e64513b-567e-4ed8-b05d-d48182261a74",
+      "count": 3
+    }
+  ],
+  "logScope": "当前真实服务进程的白名单日志元数据；不记录模型正文、密钥或隐藏推理。"
+}

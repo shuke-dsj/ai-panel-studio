@@ -4,7 +4,7 @@ import { buildContext, ContextBudgetError } from '../server/context.js';
 import { extractEvidenceMemory } from '../server/memory.js';
 import { renderGroundedSummary, renderConciseSummary } from '../server/summary.js';
 import { directConsistencyIssues, hasUniversalAgreement } from '../server/consistency.js';
-import { reconcileInsights } from '../server/scheduler.js';
+import { reconcileInsights, validateInsights } from '../server/scheduler.js';
 describe('loss-aware context compression', () => {
   it.each([40, 180, 600])(
     'keeps early negative conditions, timelines and unresolved disputes over %i messages',
@@ -71,6 +71,28 @@ describe('loss-aware context compression', () => {
   });
 });
 describe('evidence-grounded closing and boundary checks', () => {
+  it('does not publish an open item labeled closed or erase the existing dispute without closure evidence', () => {
+    const s = longDiscussion(6);
+    const next = validateInsights(
+      {
+        contextSummary: '复核',
+        items: [
+          {
+            kind: 'disagreement',
+            text: '已关闭：审计条件争议',
+            evidence: [
+              { messageId: 'm2', quote: criticalQuotes[1], stance: 'oppose', view: '权限失败暂停' },
+            ],
+          },
+        ],
+      },
+      s.messages,
+      s.participants,
+      s.insights,
+    );
+    expect(next).toEqual([]);
+    expect(reconcileInsights(s.insights, next, [], s.messages)).toEqual([s.insights[1]]);
+  });
   it('catches a changed pilot deadline even when an unrelated later-stage clause appears', () => {
     const c = buildContext(longDiscussion(6), [], 12000);
     expect(
@@ -108,7 +130,7 @@ describe('evidence-grounded closing and boundary checks', () => {
   it('keeps compact summary honest about a budget stop while full details retain every condition', () => {
     const s = longDiscussion(180);
     const concise = renderConciseSummary(s, [], 'turn_limit');
-    expect(concise.length).toBeLessThan(900);
+    expect(concise.length).toBeLessThan(500);
     expect(concise).toContain('上限');
     expect(concise).not.toContain('已达成一致');
     const details = renderGroundedSummary(s, []);
@@ -119,7 +141,7 @@ describe('evidence-grounded closing and boundary checks', () => {
     const s = longDiscussion(6);
     expect(reconcileInsights(s.insights, [], [], s.messages)).toEqual([s.insights[1]]);
   });
-  it('only resolves a dispute with fresh literal confirmation from all original parties', () => {
+  it('only resolves a dispute with current literal confirmation from all original parties', () => {
     const s = longDiscussion(6);
     const a = {
       ...s.messages.at(-1)!,
@@ -171,6 +193,40 @@ describe('evidence-grounded closing and boundary checks', () => {
     expect(text).toContain('a、d');
     expect(text).toContain(s.insights[1].text);
     for (const q of criticalQuotes) expect(text).toContain(q);
+  });
+  it('can close a stale record already citing each party confirmation, but cannot use it over later opposition or a moderator vote', () => {
+    const s = longDiscussion(6);
+    const a = {
+      ...s.messages[0],
+      id: 'agree-b',
+      participantId: 'b',
+      seq: 7,
+      text: '我接受修订后的条件。',
+    };
+    const b = { ...a, id: 'agree-c', participantId: 'c', seq: 8, text: '我同意修订后的条件。' };
+    const old = { ...s.insights[1], messageIds: [...s.insights[1].messageIds, a.id, b.id] };
+    const evidence = [
+      { messageId: a.id, quote: a.text },
+      { messageId: b.id, quote: b.text },
+    ];
+    const resolution = [{ id: old.id, evidence }];
+    expect(reconcileInsights([old], [], resolution, [...s.messages, a, b], s.participants)).toEqual(
+      [],
+    );
+    const later = {
+      ...a,
+      id: 'new-opposition',
+      seq: 9,
+      text: '我仍然反对上述条件，不能把先前接受当最终同意。',
+    };
+    expect(
+      reconcileInsights([old], [], resolution, [...s.messages, a, b, later], s.participants),
+    ).toHaveLength(1);
+    const host = { ...b, participantId: 'host' };
+    const oneParty = { ...old, positions: [old.positions[0]] };
+    expect(
+      reconcileInsights([oneParty], [], resolution, [...s.messages, a, host], s.participants),
+    ).toHaveLength(1);
   });
   it('blocks removing nonexistent sensitive data under an established non-sensitive-only scope', () => {
     const c = buildContext(longDiscussion(6), [], 12000);

@@ -7,29 +7,43 @@ const response = (content: string) =>
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
 describe('real model contract', () => {
+  it('only forwards the provider thinking toggle when explicitly configured', async () => {
+    for (const thinking of [undefined, 'disabled'] as const) {
+      const fetcher = vi.fn().mockImplementation(async () => response('{"text":"不虚构结论。"}'));
+      const model = new RealModel({
+        key: 'test-key',
+        baseUrl: 'https://model.test',
+        model: 'test',
+        thinking,
+        fetcher,
+      });
+      await model.run('summary', {}, summarySchema);
+      const body = JSON.parse(fetcher.mock.calls[0][1].body);
+      if (thinking) expect(body.thinking).toEqual({ type: 'disabled' });
+      else expect(body).not.toHaveProperty('thinking');
+    }
+  });
   it('reports output truncation metadata without logging content or reasoning', async () => {
     const logger = vi.fn();
-    const fetcher = vi
-      .fn()
-      .mockImplementation(
-        async () =>
-          new Response(
-            JSON.stringify({
-              choices: [
-                {
-                  finish_reason: 'length',
-                  message: { content: '', reasoning_content: 'private hidden reasoning' },
-                },
-              ],
-              usage: {
-                prompt_tokens: 10,
-                completion_tokens: 4000,
-                total_tokens: 4010,
-                untrusted: 'sensitive',
+    const fetcher = vi.fn().mockImplementation(
+      async () =>
+        new Response(
+          JSON.stringify({
+            choices: [
+              {
+                finish_reason: 'length',
+                message: { content: '', reasoning_content: 'private hidden reasoning' },
               },
-            }),
-          ),
-      );
+            ],
+            usage: {
+              prompt_tokens: 10,
+              completion_tokens: 4000,
+              total_tokens: 4010,
+              untrusted: 'sensitive',
+            },
+          }),
+        ),
+    );
     const model = new RealModel({
       key: 'secret-key',
       baseUrl: 'https://model.test',

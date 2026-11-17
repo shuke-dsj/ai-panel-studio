@@ -60,7 +60,21 @@ export function Transcript({
           </div>
         ) : (
           snapshot.messages.map((m) => {
-            const p = snapshot.participants.find((p) => p.id === m.participantId);
+            const p =
+              snapshot.participants.find((p) => p.id === m.participantId) ??
+              (m.kind === 'direction'
+                ? {
+                    id: 'user',
+                    discussionId: m.discussionId,
+                    role: 'expert' as const,
+                    name: '你',
+                    occupation: '讨论方向',
+                    title: m.directionMode === 'replace' ? '更新前提' : '调整焦点',
+                    stance: '',
+                    focus: '',
+                    color: '#536477',
+                  }
+                : undefined);
             if (!p) return null;
             const reply = snapshot.messages.find((r) => r.id === m.replyTo);
             const target = snapshot.participants.find((p) => p.id === reply?.participantId);
@@ -93,7 +107,8 @@ export function Transcript({
                       }}
                     >
                       <CornerUpLeft size={12} />
-                      回应 {target?.name} · #{reply.seq}
+                      回应 {target?.name ?? (reply.kind === 'direction' ? '你' : '历史发言')} · #
+                      {reply.seq}
                     </button>
                   )}
                   <p className="message-text">{m.text}</p>

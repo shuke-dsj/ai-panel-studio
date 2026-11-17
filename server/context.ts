@@ -4,10 +4,10 @@ import { extractEvidenceMemory } from './memory.js';
 import { ModelError } from './model.js';
 import { cycleTurns, limitsFor } from './boundaries.js';
 export class ContextBudgetError extends ModelError {
-  constructor() {
+  constructor(budget?: number) {
     super(
       'CONTEXT_BUDGET',
-      '关键条件、分歧与当前发言已超出上下文预算，已暂停；请提高预算，不能静默丢弃关键证据。',
+      `关键条件、分歧与当前发言已超出${budget ? `${budget}字符的` : ''}上下文预算，已暂停；请提高预算，不能静默丢弃关键证据。`,
     );
   }
 }
@@ -79,7 +79,7 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
   for (const m of messages) if (recent.has(m.id) || refs.has(m.id)) add(m, true);
   // A summary is only navigation; original critical evidence and unresolved positions stay protected.
   if (size() > cap) context.contextSummary = '滚动摘要已省略；以原文证据记忆与当前分歧为准。';
-  if (size() > cap) throw new ContextBudgetError();
+  if (size() > cap) throw new ContextBudgetError(budget);
   for (const message of [...messages].reverse()) {
     if (context.messages.some((m) => m.id === message.id)) continue;
     add(message);
@@ -102,7 +102,7 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
     context.messages.splice(optional, 1);
     statistics();
   }
-  if (size() > cap) throw new ContextBudgetError();
+  if (size() > cap) throw new ContextBudgetError(budget);
   return context;
 }
 export type DiscussionContext = ReturnType<typeof buildContext>;
@@ -112,6 +112,6 @@ export function contextInput<T extends Record<string, unknown>>(
   budget: number,
 ) {
   const input = { ...context, ...extra };
-  if (JSON.stringify(input).length > budget) throw new ContextBudgetError();
+  if (JSON.stringify(input).length > budget) throw new ContextBudgetError(budget);
   return input;
 }
