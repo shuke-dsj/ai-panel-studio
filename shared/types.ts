@@ -41,6 +41,18 @@ export interface Insight {
   messageIds: string[];
   positions: { participantId: string; view: string }[];
 }
+export interface EvidenceAnchor {
+  id: string;
+  messageId: string;
+  participantId: string;
+  seq: number;
+  quote: string;
+  kinds: ('scope' | 'timeline' | 'condition')[];
+}
+export interface EvidenceMemory {
+  version: 1;
+  anchors: EvidenceAnchor[];
+}
 export interface Discussion {
   id: string;
   topic: string;
@@ -51,6 +63,7 @@ export interface Discussion {
   phase: Phase;
   summary: string | null;
   contextSummary: string;
+  evidenceMemory?: EvidenceMemory;
   error: string | null;
   resumeStatus: 'running' | 'summarizing' | null;
   createdAt: string;

@@ -1,5 +1,7 @@
 import type { Insight, Intent, Message, Participant, Phase } from '../shared/types.js';
 import type { InsightOutput } from './schemas.js';
+import { hasUniversalAgreement } from './consistency.js';
+import { createHash } from 'node:crypto';
 export function phaseFor(turns: number, max: number): Phase {
   return turns < Math.ceil(max / 3)
     ? 'exploration'
@@ -63,9 +65,11 @@ export function validateInsights(
   output: InsightOutput,
   messages: Message[],
   participants: Participant[],
+  previous: Insight[] = [],
 ): Insight[] {
   const experts = new Set(participants.filter((p) => p.role === 'expert').map((p) => p.id));
   return output.items.flatMap((item, index) => {
+    if (hasUniversalAgreement(item.text)) return [];
     const evidence = item.evidence.flatMap((e) => {
       const m = messages.find((m) => m.id === e.messageId);
       return m && experts.has(m.participantId) && e.quote.length >= 4 && m.text.includes(e.quote)
@@ -84,7 +88,10 @@ export function validateInsights(
       item.kind === 'consensus' && support.size >= 2 && !opposition ? 'consensus' : 'disagreement';
     return [
       {
-        id: `${kind}-${index}`,
+        id:
+          item.id && previous.some((i) => i.id === item.id && i.kind === kind)
+            ? item.id
+            : `${kind}-${createHash('sha256').update(item.text).digest('hex').slice(0, 12)}`,
         kind,
         text: item.text,
         messageIds: [...new Set(evidence.map((e) => e.messageId))],
@@ -92,4 +99,43 @@ export function validateInsights(
       } satisfies Insight,
     ];
   });
+}
+export function reconcileInsights(
+  previous: Insight[],
+  next: Insight[],
+  resolutions: { id: string; evidence: { messageId: string; quote: string }[] }[],
+  messages: Message[],
+): Insight[] {
+  const result = new Map(next.map((i) => [i.id, i]));
+  for (const old of previous.filter((i) => i.kind === 'disagreement')) {
+    if (result.has(old.id)) continue;
+    const resolution = resolutions.find((r) => r.id === old.id);
+    const required = new Set(old.positions.map((p) => p.participantId));
+    const lastSeq = Math.max(
+      0,
+      ...old.messageIds.map((id) => messages.find((m) => m.id === id)?.seq ?? 0),
+    );
+    const confirmations = new Set(
+      resolution?.evidence.flatMap((e) => {
+        const m = messages.find((m) => m.id === e.messageId);
+        return m &&
+          m.seq > lastSeq &&
+          e.quote.length >= 4 &&
+          m.text.includes(e.quote) &&
+          /同意|接受|撤回|不再反对|赞同|支持|认可|确认|\bagree\b|\bwithdraw\b/i.test(e.quote) &&
+          !/不同意|不接受|不能接受|仍反对|不撤回|尚未同意|不支持|不认可|未确认|\bdisagree\b/i.test(
+            e.quote,
+          )
+          ? [m.participantId]
+          : [];
+      }) ?? [],
+    );
+    if (
+      !resolution ||
+      confirmations.size < 2 ||
+      ![...required].every((id) => confirmations.has(id))
+    )
+      result.set(old.id, old);
+  }
+  return [...result.values()];
 }

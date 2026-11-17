@@ -1,0 +1,6 @@
+{
+  "testedAt": "2026-11-17T07:10:46.347Z",
+  "discussionId": "640c6cc1-9a7a-4b5b-931e-40ac1389244b",
+  "status": "incomplete",
+  "reason": "模型返回格式无效，已重试一次。请重试或更换支持 JSON 输出的模型。"
+}

@@ -122,12 +122,23 @@ export class RealModel implements Model {
           });
           return output;
         } catch (error) {
+          const custom =
+            error instanceof ZodError
+              ? error.issues.find((i) => i.code === 'custom')?.message
+              : undefined;
+          const contractRule = custom?.includes('1–2')
+            ? 'SENTENCE_LIMIT'
+            : custom?.includes('引用或追问')
+              ? 'REFERENCE'
+              : custom?.includes('成果ID')
+                ? 'INSIGHT_ID_PROTOCOL'
+                : undefined;
           const code =
             error instanceof ModelError
               ? error.code
               : error instanceof Error && ['TimeoutError', 'AbortError'].includes(error.name)
                 ? 'TIMEOUT'
-                : 'INVALID_OUTPUT';
+                : (contractRule ?? 'INVALID_OUTPUT');
           const validationIssues =
             error instanceof ZodError
               ? error.issues.map((issue) => ({ path: issue.path.join('.'), code: issue.code }))
@@ -142,6 +153,12 @@ export class RealModel implements Model {
           });
           retryHint =
             '\n上次响应未通过输出契约，请重新生成完整有效的 JSON；严格遵守字段、引用 ID 与发言句数要求，保持内容简洁，不增加解释或围栏。';
+          if (code === 'SENTENCE_LIMIT')
+            retryHint +=
+              ' 上次专家发言超过句数限制，请严格只写1–2句，不使用编号或列表；同句多个条件可用分号连接。';
+          if (code === 'REFERENCE')
+            retryHint +=
+              ' replyTo必须是本场messages[].id或evidenceMemory.anchors[].messageId，不能使用角色ID、片段ID或序号；没有回应对象时为JSON null。';
           if (attempt === 1)
             throw error instanceof ModelError
               ? error
@@ -149,7 +166,11 @@ export class RealModel implements Model {
                   code,
                   code === 'TIMEOUT'
                     ? '模型请求超时，已重试一次。请稍后重试。'
-                    : '模型返回格式无效，已重试一次。请重试或更换支持 JSON 输出的模型。',
+                    : code === 'SENTENCE_LIMIT'
+                      ? '模型未遵守专家1–2句发言约束，已重试一次，请重试。'
+                      : code === 'REFERENCE'
+                        ? '模型引用未匹配本场消息，已重试一次，请重试。'
+                        : '模型返回格式无效，已重试一次。请重试或更换支持 JSON 输出的模型。',
                 );
         }
       }

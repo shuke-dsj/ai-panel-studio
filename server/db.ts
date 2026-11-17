@@ -3,6 +3,7 @@ import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { EventEmitter } from 'node:events';
+import { extractEvidenceMemory } from './memory.js';
 import type {
   Activity,
   Discussion,
@@ -71,6 +72,7 @@ export class Store {
       phase: 'opening',
       summary: null,
       contextSummary: '',
+      evidenceMemory: { version: 1, anchors: [] },
       error: null,
       resumeStatus: null,
       createdAt: now,
@@ -206,6 +208,7 @@ export class Store {
         .prepare('INSERT INTO messages VALUES(?,?,?,?)')
         .run(message.id, id, message.seq, JSON.stringify(message));
       if (participant.role === 'expert') d.turns++;
+      d.evidenceMemory = extractEvidenceMemory([...rows, message]);
       this.write(d);
       if (cp) {
         if (participant.role === 'expert') cp.pendingInsight = message.id;

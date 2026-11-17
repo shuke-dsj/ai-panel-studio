@@ -4,9 +4,11 @@ import { DatabaseSync } from 'node:sqlite';
 import { configuredModel, settings } from '../server/config.js';
 import { countSentences } from '../server/utterance.js';
 import type { Discussion, PanelEvent, Snapshot } from '../shared/types.js';
+import { hasUniversalAgreement } from '../server/consistency.js';
+import { extractEvidenceMemory } from '../server/memory.js';
 
 const base = `http://127.0.0.1:${settings.port}`;
-const output = 'docs/evidence/real-smoke-latest.json';
+const output = process.env.REAL_REPORT_PATH ?? 'docs/evidence/real-smoke-latest.json';
 let discussionId: string | null = null;
 async function api<T>(path: string, body?: unknown): Promise<T> {
   const response = await fetch(`${base}/api${path}`, {
@@ -49,7 +51,7 @@ try {
   } else {
     d = await api<Discussion>('/discussions', {
       topic:
-        '一家只有 6 位工程师、没有专职运维的小团队，是否应将内部知识库改造成 RAG？请比较受控试点的业务收益、权限风险和维护成本，并明确什么证据会改变各自的判断。',
+        '6位工程师、无专职运维的小团队是否应试点内部知识库RAG？固定前提：只读、仅非敏感文档，不接入敏感库；初始试点为2周。第3至第6周的4周收益评估是需另行批准的后续阶段，不代表试点已延长。请讨论业务价值、权限风险、维护成本，保留否决条件与未决分歧。',
       expertCount: 4,
       maxTurns: 6,
     });
@@ -140,6 +142,16 @@ try {
       persisted.summary === snapshot.discussion.summary &&
       JSON.stringify(persistedMessageIds) === JSON.stringify(snapshot.messages.map((m) => m.id)),
     oneCompletion: events.filter((e) => e.type === 'completed').length === 1,
+    noUnattributedUniversalAgreement: !hasUniversalAgreement(persisted.summary ?? ''),
+    evidenceMemorySaved:
+      JSON.stringify(persisted.evidenceMemory) ===
+      JSON.stringify(extractEvidenceMemory(snapshot.messages)),
+    allDisputesInSummary: snapshot.insights
+      .filter((i) => i.kind === 'disagreement')
+      .every((i) => persisted.summary?.includes(i.text)),
+    allConditionsInSummary: extractEvidenceMemory(snapshot.messages).anchors.every((a) =>
+      persisted.summary?.includes(a.quote),
+    ),
   };
   const report = {
     testedAt: new Date().toISOString(),

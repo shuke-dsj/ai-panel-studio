@@ -9,10 +9,14 @@ import {
   intentSchema,
   rosterSchema,
   speechSchema,
-  summarySchema,
+  closingSchema,
+  reviewSchema,
 } from './schemas.js';
-import { phaseFor, selectSpeakers, validateInsights } from './scheduler.js';
+import { phaseFor, selectSpeakers, validateInsights, reconcileInsights } from './scheduler.js';
 import { expertSpeechSchema } from './utterance.js';
+import { buildContext, contextInput, type DiscussionContext } from './context.js';
+import { directConsistencyIssues, type ConsistencyIssue } from './consistency.js';
+import { renderGroundedSummary } from './summary.js';
 const colors = ['#15745b', '#227a64', '#427abf', '#8c58ac', '#b78626', '#ba5e68', '#59818c'];
 export class Engine {
   jobs = new Map<string, Promise<void>>();
@@ -35,33 +39,14 @@ export class Engine {
     if (process.env.NODE_ENV !== 'test') console.info(JSON.stringify({ panel: entry }));
   }
   context(id: string) {
-    const s = this.store.snapshot(id);
-    const required = new Set([
-      ...s.insights.flatMap((i) => i.messageIds),
-      ...this.store.checkpoint(id).queue.flatMap((i) => (i.replyTo ? [i.replyTo] : [])),
-    ]);
-    let messages = s.messages;
-    if (JSON.stringify(messages).length > this.contextBudget) {
-      messages = messages.filter(
-        (m, index) => index >= s.messages.length - 6 || required.has(m.id),
-      );
-      while (JSON.stringify(messages).length > this.contextBudget && messages.length > 4) {
-        const index = messages.findIndex((m) => !required.has(m.id));
-        // Retain recent originals first; evidence too large for the budget remains in SQLite.
-        messages.splice(index < 0 ? 0 : index, 1);
-      }
-    }
-    return {
-      topic: s.discussion.topic,
-      phase: phaseLabels[s.discussion.phase],
-      turns: s.discussion.turns,
-      maxTurns: s.discussion.maxTurns,
-      participants: s.participants,
-      messages,
-      insights: s.insights,
-      contextSummary: s.discussion.contextSummary,
-      omittedMessageCount: s.messages.length - messages.length,
-    };
+    return buildContext(
+      this.store.snapshot(id),
+      this.store.checkpoint(id).queue,
+      this.contextBudget,
+    );
+  }
+  private input<T extends Record<string, unknown>>(context: DiscussionContext, extra: T) {
+    return contextInput(context, extra, this.contextBudget);
   }
   async generate(id: string) {
     const d = this.store.get(id);
@@ -183,21 +168,73 @@ export class Engine {
       focus: intent?.publicReason ?? directive,
     });
     const context = this.context(id);
-    const ids = new Set(context.messages.map((m) => m.id));
+    const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+    const ids = new Set([
+      ...context.messages.map((m) => m.id),
+      ...context.evidenceMemory.anchors.map((a) => a.messageId),
+    ]);
     const people = new Set(
       context.participants.filter((p) => p.role === 'expert').map((p) => p.id),
     );
-    const schema = (person.role === 'expert' ? expertSpeechSchema : speechSchema).refine(
-      (v) =>
-        (v.replyTo === null || ids.has(v.replyTo)) &&
-        (v.addressedTo === null || people.has(v.addressedTo)),
-      '引用或追问对象必须属于当前讨论',
-    );
-    const result = await this.model.run(
-      'speech',
-      { ...context, current: person, directive, intent },
-      schema,
-    );
+    const schema = (person.role === 'expert' ? expertSpeechSchema : speechSchema)
+      .transform((value) => ({
+        ...value,
+        replyTo: value.replyTo ? (aliases.get(value.replyTo) ?? value.replyTo) : null,
+      }))
+      .refine(
+        (v) =>
+          (v.replyTo === null || ids.has(v.replyTo)) &&
+          (v.addressedTo === null || people.has(v.addressedTo)),
+        '引用或追问对象必须属于当前讨论',
+      );
+    let corrections: ConsistencyIssue[] = [];
+    let result!: import('zod').infer<typeof speechSchema>;
+    let approved = false;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      result = await this.model.run(
+        'speech',
+        this.input(context, { current: person, directive, intent, corrections }),
+        schema,
+      );
+      corrections = directConsistencyIssues(result.text, context);
+      if (!corrections.length) {
+        const refs = new Set([
+          'topic',
+          ...context.messages.map((m) => m.id),
+          ...context.evidenceMemory.anchors.map((a) => a.messageId),
+        ]);
+        const review = await this.model.run(
+          'review',
+          this.input(context, { candidate: result.text, speakerId: person.id }),
+          reviewSchema
+            .transform((value) => ({
+              issues: value.issues.map((issue) => ({
+                ...issue,
+                conflictsWith: issue.conflictsWith.map((id) => aliases.get(id) ?? id),
+              })),
+            }))
+            .refine(
+              (v) =>
+                v.issues.every(
+                  (i) =>
+                    result.text.includes(i.quote) && i.conflictsWith.every((id) => refs.has(id)),
+                ),
+              '审查必须引用候选原话和有效来源',
+            ),
+        );
+        corrections = review.issues;
+      }
+      if (!corrections.length) {
+        approved = true;
+        break;
+      }
+      this.log({ discussionId: id, consistencyRejected: corrections.map((i) => i.kind), attempt });
+    }
+    if (!approved)
+      throw new ModelError(
+        'CONSISTENCY',
+        '发言仍存在范围、时间线或共识归因冲突，已暂停且未提交该发言，请澄清后重试。',
+      );
     const cp = this.store.checkpoint(id);
     if (person.role === 'expert') cp.queue = cp.queue.filter((i) => i.participantId !== person.id);
     this.store.message(
@@ -214,7 +251,21 @@ export class Engine {
     this.store.activity(id, person.id, { state: 'idle', focus: person.focus });
   }
   private async updateInsights(id: string) {
-    const result = await this.model.run('insights', this.context(id), insightSchema);
+    const old = this.store.insights(id);
+    const result = await this.model.run(
+      'insights',
+      this.context(id),
+      insightSchema.refine((v) => {
+        const ids = v.items.flatMap((i) => (i.id ? [i.id] : []));
+        return (
+          new Set(ids).size === ids.length &&
+          v.items.every((i) => !i.id || old.some((p) => p.id === i.id && p.kind === i.kind)) &&
+          v.resolvedDisputes.every((r) =>
+            old.some((p) => p.id === r.id && p.kind === 'disagreement'),
+          )
+        );
+      }, '沿用已有同类成果ID，关闭分歧必须引用已有分歧ID'),
+    );
     const s = this.store.snapshot(id);
     const cp = this.store.checkpoint(id);
     cp.pendingInsight = null;
@@ -225,7 +276,12 @@ export class Engine {
     }
     this.store.replaceInsights(
       id,
-      validateInsights(result, s.messages, s.participants),
+      reconcileInsights(
+        old,
+        validateInsights(result, s.messages, s.participants, old),
+        result.resolvedDisputes ?? [],
+        s.messages,
+      ),
       result.contextSummary,
       cp,
     );
@@ -288,14 +344,23 @@ export class Engine {
             state: 'preparing',
             focus: `关注${person.focus}，评估是否参与。`,
           });
-          const messageIds = new Set(context.messages.map((m) => m.id));
+          const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+          const messageIds = new Set([
+            ...context.messages.map((m) => m.id),
+            ...context.evidenceMemory.anchors.map((a) => a.messageId),
+          ]);
           const result = await this.model.run(
             'intent',
-            { ...context, current: person },
-            intentSchema.refine(
-              (v) => v.replyTo === null || messageIds.has(v.replyTo),
-              '回应对象不属于当前上下文',
-            ),
+            this.input(context, { current: person }),
+            intentSchema
+              .transform((value) => ({
+                ...value,
+                replyTo: value.replyTo ? (aliases.get(value.replyTo) ?? value.replyTo) : null,
+              }))
+              .refine(
+                (v) => v.replyTo === null || messageIds.has(v.replyTo),
+                '回应对象不属于当前上下文',
+              ),
           );
           this.store.activity(id, person.id, {
             state: result.apply ? 'preparing' : 'idle',
@@ -345,14 +410,42 @@ export class Engine {
       state: 'speaking',
       focus: '整理共识、保留分歧，并提出下一步建议。',
     });
+    const context = this.context(id);
+    const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
+    const expertIds = new Set(
+      this.store
+        .participants(id)
+        .filter((p) => p.role === 'expert')
+        .map((p) => p.id),
+    );
+    const messageIds = new Set(
+      this.store
+        .messages(id)
+        .filter((m) => expertIds.has(m.participantId))
+        .map((m) => m.id),
+    );
     const result = await this.model.run(
       'summary',
-      this.context(id),
-      summarySchema.refine((v) => !/^\s*[\[{]/.test(v.text), '总结必须是自然语言'),
+      this.input(context, { purpose: 'grounded-summary' }),
+      closingSchema
+        .transform((value) => ({
+          highlightMessageIds: [
+            ...new Set(value.highlightMessageIds.map((id) => aliases.get(id) ?? id)),
+          ],
+        }))
+        .refine(
+          (v) => v.highlightMessageIds.every((id) => messageIds.has(id)),
+          '只能选择本场实际专家发言',
+        ),
     );
     this.store.update(
       id,
-      { status: 'completed', summary: result.text, error: null, resumeStatus: null },
+      {
+        status: 'completed',
+        summary: renderGroundedSummary(this.store.snapshot(id), result.highlightMessageIds),
+        error: null,
+        resumeStatus: null,
+      },
       'completed',
     );
     this.store.resetActivities(id);

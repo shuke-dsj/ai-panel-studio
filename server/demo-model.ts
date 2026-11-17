@@ -18,6 +18,7 @@ export class DemoModel implements Model {
       turns: number;
       phase: string;
       directive: string;
+      purpose?: string;
     };
     const profiles = [
       [
@@ -59,7 +60,17 @@ export class DemoModel implements Model {
       ['陆衡', '组织发展顾问', '协作评审专家', '关注流程与责任边界', '组织协作、培训与责任'],
     ];
     let result: unknown;
-    if (task === 'roster')
+    if (task === 'review') result = { issues: [] };
+    else if (task === 'summary' && c.purpose === 'grounded-summary')
+      result = {
+        highlightMessageIds: c.messages
+          .filter((m) =>
+            c.participants.some((p) => p.id === m.participantId && p.role === 'expert'),
+          )
+          .slice(-2)
+          .map((m) => m.id),
+      };
+    else if (task === 'roster')
       result = {
         participants: profiles.slice(0, c.expertCount + 1).map((p, i) => ({
           role: i ? 'expert' : 'moderator',

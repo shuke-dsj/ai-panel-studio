@@ -1,0 +1,139 @@
+import { describe, it, expect } from 'vitest';
+import { longDiscussion, criticalQuotes } from './fixtures/long-discussion.js';
+import { buildContext, ContextBudgetError } from '../server/context.js';
+import { extractEvidenceMemory } from '../server/memory.js';
+import { renderGroundedSummary } from '../server/summary.js';
+import { directConsistencyIssues } from '../server/consistency.js';
+import { reconcileInsights } from '../server/scheduler.js';
+describe('loss-aware context compression', () => {
+  it.each([40, 180, 600])(
+    'keeps early negative conditions, timelines and unresolved disputes over %i messages',
+    (count) => {
+      const s = longDiscussion(count);
+      const original = JSON.stringify(s);
+      const result = buildContext(s, [], 12000);
+      const encoded = JSON.stringify(result);
+      expect(result.compression.inputChars).toBe(encoded.length);
+      expect(encoded.length).toBeLessThanOrEqual(10000);
+      expect(result.omittedMessageCount).toBeGreaterThan(0);
+      for (const quote of criticalQuotes)
+        expect(result.evidenceMemory.anchors.some((a) => a.quote === quote)).toBe(true);
+      expect(result.insights.find((i) => i.id === 'audit-dispute')).toEqual(s.insights[1]);
+      expect(
+        result.messages.some(
+          (m) => m.id === s.messages.at(-1)!.id && m.text === s.messages.at(-1)!.text,
+        ),
+      ).toBe(true);
+      expect(result.messages.some((m) => m.id === 'm2')).toBe(true);
+      expect(JSON.stringify(s)).toBe(original);
+    },
+  );
+  it('uses original evidence when a rolling summary omits or reverses a condition', () => {
+    const s = longDiscussion();
+    s.discussion.contextSummary = '全员同意接入敏感库，试点统一改为4周。';
+    const c = buildContext(s, [], 12000);
+    expect(c.evidenceMemory.anchors.some((a) => a.quote === criticalQuotes[0])).toBe(true);
+    expect(c.summaryAuthority).toBe('navigation_only');
+  });
+  it('fails closed when protected material cannot fit instead of dropping a veto', () => {
+    const s = longDiscussion();
+    s.discussion.topic = '禁止丢弃此条件。'.repeat(2500);
+    expect(() => buildContext(s, [], 12000)).toThrow(ContextBudgetError);
+  });
+  it('also fails closed when the evidence ledger itself exceeds budget', () => {
+    const s = longDiscussion(180);
+    s.messages = s.messages.map((m, i) => ({
+      ...m,
+      text: `必须保留条件${i}，未经批准不得推进第${i}项行动。`,
+    }));
+    expect(() => buildContext(s, [], 12000)).toThrow(ContextBudgetError);
+  });
+  it('does not share memory between discussions', () => {
+    const a = extractEvidenceMemory(longDiscussion().messages);
+    const other = longDiscussion(6);
+    other.messages = [];
+    expect(extractEvidenceMemory(other.messages).anchors).toEqual([]);
+    expect(a.anchors.length).toBeGreaterThan(3);
+  });
+});
+describe('evidence-grounded closing and boundary checks', () => {
+  it('does not lose an unresolved disagreement when a model omits it', () => {
+    const s = longDiscussion(6);
+    expect(reconcileInsights(s.insights, [], [], s.messages)).toEqual([s.insights[1]]);
+  });
+  it('only resolves a dispute with fresh literal confirmation from all original parties', () => {
+    const s = longDiscussion(6);
+    const a = {
+      ...s.messages.at(-1)!,
+      id: 'fresh-b',
+      seq: 7,
+      participantId: 'b',
+      text: '我接受上述修订后的条件。',
+    };
+    const b = { ...a, id: 'fresh-c', seq: 8, participantId: 'c', text: '我同意上述修订后的条件。' };
+    const messages = [...s.messages, a, b];
+    const resolution = {
+      id: s.insights[1].id,
+      evidence: [
+        { messageId: a.id, quote: a.text },
+        { messageId: b.id, quote: b.text },
+      ],
+    };
+    expect(reconcileInsights(s.insights, [], [resolution], messages)).toEqual([]);
+    expect(
+      reconcileInsights(
+        s.insights,
+        [],
+        [{ ...resolution, evidence: [resolution.evidence[0], resolution.evidence[0]] }],
+        messages,
+      ),
+    ).toHaveLength(1);
+    expect(
+      reconcileInsights(
+        s.insights,
+        [],
+        [
+          {
+            ...resolution,
+            evidence: [
+              resolution.evidence[0],
+              { messageId: 'fresh-c', quote: '我不同意上述修订后的条件。' },
+            ],
+          },
+        ],
+        [...s.messages, a, { ...b, text: '我不同意上述修订后的条件。' }],
+      ),
+    ).toHaveLength(1);
+  });
+  it('attributes partial support instead of promoting it to unanimous agreement, retains the actual disagreement', () => {
+    const s = longDiscussion(6);
+    const text = renderGroundedSummary(s, ['m3']);
+    expect(text).not.toContain('各方都同意');
+    expect(text).not.toContain('全体一致');
+    expect(text).toContain('a、d');
+    expect(text).toContain(s.insights[1].text);
+    for (const q of criticalQuotes) expect(text).toContain(q);
+  });
+  it('blocks removing nonexistent sensitive data under an established non-sensitive-only scope', () => {
+    const c = buildContext(longDiscussion(6), [], 12000);
+    expect(
+      directConsistencyIssues('剥离敏感库后继续试点。', c).some((i) => i.kind === 'scope'),
+    ).toBe(true);
+    expect(
+      directConsistencyIssues('若误接入敏感库，应先停止并移除误接入数据。', c).filter(
+        (i) => i.kind === 'scope',
+      ),
+    ).toEqual([]);
+  });
+  it('requires an explicit later phase or extension instead of silently changing a two-week pilot to four weeks', () => {
+    const c = buildContext(longDiscussion(6), [], 12000);
+    expect(
+      directConsistencyIssues('试点在4周内完成收益验证。', c).some((i) => i.kind === 'timeline'),
+    ).toBe(true);
+    expect(
+      directConsistencyIssues('2周试点完成后另设4周收益评估，后续阶段需批准。', c).filter(
+        (i) => i.kind === 'timeline',
+      ),
+    ).toEqual([]);
+  });
+});

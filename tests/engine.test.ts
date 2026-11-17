@@ -46,6 +46,122 @@ async function setup() {
 }
 
 describe('durable discussion engine', () => {
+  it('maps a known evidence-fragment reference back to its original message ID', async () => {
+    const { store, model, engine, id } = await setup();
+    const delegate = model.run.bind(model);
+    let expected: string | undefined;
+    model.run = async (task, input, schema) => {
+      const value = input as any;
+      if (!expected && task === 'speech' && value.current.role === 'expert') {
+        const anchor = value.evidenceMemory.anchors[0];
+        expected = anchor.messageId;
+        return schema.parse({
+          text: '我支持先明确验收标准，再验证失败时的回退条件。',
+          replyTo: anchor.id,
+          addressedTo: null,
+        });
+      }
+      return delegate(task, input, schema);
+    };
+    engine.start(id);
+    await engine.wait(id);
+    expect(store.get(id).status).toBe('completed');
+    const first = store
+      .messages(id)
+      .find((m) => store.participants(id).find((p) => p.id === m.participantId)?.role === 'expert');
+    expect(first?.replyTo).toBe(expected);
+    expect(first?.replyTo).not.toContain(':');
+    store.close();
+  });
+  it('allows an intent to respond to a retained evidence source using its canonical message', async () => {
+    const { store, model, engine, id } = await setup();
+    const delegate = model.run.bind(model);
+    let injected = false;
+    model.run = async (task, input, schema) => {
+      const value = input as any;
+      if (!injected && task === 'intent') {
+        injected = true;
+        const anchor = value.evidenceMemory.anchors[0];
+        const result = schema.parse({
+          apply: true,
+          kind: 'supplement',
+          replyTo: anchor.id,
+          urgency: 1,
+          publicReason: '补充早期条件',
+        });
+        expect((result as { replyTo: string | null }).replyTo).toBe(anchor.messageId);
+        return result;
+      }
+      return delegate(task, input, schema);
+    };
+    engine.start(id);
+    await engine.wait(id);
+    expect(injected).toBe(true);
+    expect(store.get(id).status).toBe('completed');
+    store.close();
+  });
+  it('regenerates a scope-violating candidate before committing it', async () => {
+    const store = new Store(':memory:');
+    const model = new ControlledModel();
+    const engine = new Engine(store, model);
+    const d = store.create('只做非敏感库的2周试点；后续4周评估需另行批准。', 4, 6, 'test');
+    await engine.generate(d.id);
+    engine.confirm(d.id);
+    let injected = false;
+    const delegate = model.run.bind(model);
+    model.run = async (task, input, schema) => {
+      const value = input as any;
+      if (!injected && task === 'speech' && value.current.role === 'expert') {
+        injected = true;
+        model.inputs.push({ task, input });
+        return schema.parse({ text: '剥离敏感库后继续试点。', replyTo: null, addressedTo: null });
+      }
+      return delegate(task, input, schema);
+    };
+    engine.start(d.id);
+    await engine.wait(d.id);
+    expect(store.get(d.id).status).toBe('completed');
+    expect(store.messages(d.id).some((m) => m.text.includes('剥离敏感库'))).toBe(false);
+    expect(model.inputs.some((c) => c.task === 'speech' && c.input.corrections?.length)).toBe(true);
+    expect(store.get(d.id).evidenceMemory?.anchors.length).toBeGreaterThan(0);
+    store.close();
+  });
+  it('pauses without committing a candidate when semantic review still finds a conflict after regeneration', async () => {
+    const { store, model, engine, id } = await setup();
+    const delegate = model.run.bind(model);
+    let reject = true;
+    model.run = async (task, input, schema) => {
+      const value = input as any;
+      if (
+        reject &&
+        task === 'review' &&
+        store.participants(id).find((p) => p.id === value.speakerId)?.role === 'expert'
+      )
+        return schema.parse({
+          issues: [
+            {
+              kind: 'timeline',
+              quote: value.candidate,
+              reason: '阶段关系尚未澄清',
+              conflictsWith: ['topic'],
+            },
+          ],
+        });
+      return delegate(task, input, schema);
+    };
+    engine.start(id);
+    await engine.wait(id);
+    expect(store.get(id).status).toBe('error');
+    expect(store.get(id).turns).toBe(0);
+    expect(store.messages(id)).toHaveLength(1);
+    expect(store.checkpoint(id).queue.length).toBeGreaterThan(0);
+    reject = false;
+    engine.start(id);
+    await engine.wait(id);
+    expect(store.get(id).status).toBe('completed');
+    expect(store.get(id).turns).toBe(6);
+    store.close();
+  });
   it('prevents a service mode switch from relabeling demo output as real', async () => {
     const { store, model, id } = await setup();
     const real: Model = { mode: 'real', configured: true, run: model.run.bind(model) };
