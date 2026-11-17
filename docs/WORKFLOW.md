@@ -1,5 +1,7 @@
 # 开发过程与工作流说明
 
+后续真实验收补充（2026-11-17）：用户填写本机.env后，已切换真实模型，完成一场4位专家、6次发言的讨论。遇到4,000输出Token截断，保留失败记录后调整至8,000并从同一检查点恢复；原消息ID/正文未改变。最新结论见REAL-SMOKE-REVIEW.md，以下未配置说明属于首次交付时的历史状态。
+
 ## 实际工具与开发方式
 
 本次在 Windows 本地空目录中，由 Codex 执行开发。使用 Node.js 24、TypeScript、React、Fastify、SQLite、Vitest 和 Playwright。通过 frontend-app-builder 与 imagegen 技能先建立演播厅概念与视觉 token，再按规格实现原生组件。没有使用浏览器与 AI 对话来生成项目，也没有用单个 Prompt 一次生成整个工程。

@@ -12,7 +12,7 @@ export const settings = {
   database: process.env.DATABASE_PATH ?? './data/panel.sqlite',
   contextBudget: number('MODEL_CONTEXT_CHARS', 28000, 12000, 100000),
   timeout: number('MODEL_TIMEOUT_MS', 60000, 1000, 180000),
-  maxTokens: number('MODEL_MAX_OUTPUT_TOKENS', 4000, 500, 16000),
+  maxTokens: number('MODEL_MAX_OUTPUT_TOKENS', 8000, 500, 16000),
   concurrency: number('MODEL_CONCURRENCY', 3, 1, 12),
   demoDelay: number('DEMO_DELAY_MS', 350, 0, 5000),
 };

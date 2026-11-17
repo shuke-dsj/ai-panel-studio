@@ -12,6 +12,7 @@ import {
   summarySchema,
 } from './schemas.js';
 import { phaseFor, selectSpeakers, validateInsights } from './scheduler.js';
+import { expertSpeechSchema } from './utterance.js';
 const colors = ['#15745b', '#227a64', '#427abf', '#8c58ac', '#b78626', '#ba5e68', '#59818c'];
 export class Engine {
   jobs = new Map<string, Promise<void>>();
@@ -186,7 +187,7 @@ export class Engine {
     const people = new Set(
       context.participants.filter((p) => p.role === 'expert').map((p) => p.id),
     );
-    const schema = speechSchema.refine(
+    const schema = (person.role === 'expert' ? expertSpeechSchema : speechSchema).refine(
       (v) =>
         (v.replyTo === null || ids.has(v.replyTo)) &&
         (v.addressedTo === null || people.has(v.addressedTo)),

@@ -7,6 +7,45 @@ const response = (content: string) =>
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
 describe('real model contract', () => {
+  it('reports output truncation metadata without logging content or reasoning', async () => {
+    const logger = vi.fn();
+    const fetcher = vi
+      .fn()
+      .mockImplementation(
+        async () =>
+          new Response(
+            JSON.stringify({
+              choices: [
+                {
+                  finish_reason: 'length',
+                  message: { content: '', reasoning_content: 'private hidden reasoning' },
+                },
+              ],
+              usage: {
+                prompt_tokens: 10,
+                completion_tokens: 4000,
+                total_tokens: 4010,
+                untrusted: 'sensitive',
+              },
+            }),
+          ),
+      );
+    const model = new RealModel({
+      key: 'secret-key',
+      baseUrl: 'https://model.test',
+      model: 'test',
+      fetcher,
+      logger,
+    });
+    await expect(model.run('insights', {}, summarySchema)).rejects.toThrow('长度上限');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    const logs = JSON.stringify(logger.mock.calls);
+    expect(logs).toContain('OUTPUT_LIMIT');
+    expect(logs).toContain('length');
+    expect(logs).not.toContain('private hidden reasoning');
+    expect(logs).not.toContain('sensitive');
+    expect(logs).not.toContain('secret-key');
+  });
   it('retries malformed JSON once and only logs metadata', async () => {
     const fetcher = vi
       .fn()

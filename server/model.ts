@@ -1,4 +1,4 @@
-import type { ZodType } from 'zod';
+import { ZodError, type ZodType } from 'zod';
 import { prompts, type Task } from './prompts.js';
 export interface Model {
   run<T>(task: Task, input: unknown, schema: ZodType<T>): Promise<T>;
@@ -51,8 +51,10 @@ export class RealModel implements Model {
       );
     await this.acquire();
     try {
+      let retryHint = '';
       for (let attempt = 0; attempt < 2; attempt++) {
         const started = Date.now();
+        let metadata: Record<string, unknown> = {};
         try {
           const response = await (this.config.fetcher ?? fetch)(
             `${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`,
@@ -66,11 +68,11 @@ export class RealModel implements Model {
               body: JSON.stringify({
                 model: this.config.model,
                 messages: [
-                  { role: 'system', content: prompts[task] },
+                  { role: 'system', content: prompts[task] + retryHint },
                   { role: 'user', content: JSON.stringify(input) },
                 ],
                 response_format: { type: 'json_object' },
-                max_tokens: this.config.maxTokens ?? 4000,
+                max_tokens: this.config.maxTokens ?? 8000,
                 stream: false,
               }),
             },
@@ -81,16 +83,15 @@ export class RealModel implements Model {
               `模型服务返回 HTTP ${response.status}。请检查账户、模型权限或服务状态。`,
             );
           const body = (await response.json()) as {
-            choices?: { message?: { content?: string } }[];
+            choices?: { finish_reason?: string; message?: { content?: string } }[];
             usage?: unknown;
           };
-          const content = body.choices?.[0]?.message?.content;
-          if (!content?.trim()) throw new ModelError('EMPTY', '模型没有返回有效正文。');
-          const output = schema.parse(JSON.parse(content));
-          this.config.logger?.({
-            task,
-            attempt,
-            durationMs: Date.now() - started,
+          const reason = body.choices?.[0]?.finish_reason;
+          metadata = {
+            finishReason:
+              reason && ['stop', 'length', 'tool_calls', 'content_filter'].includes(reason)
+                ? reason
+                : 'unknown',
             usage: Object.fromEntries(
               Object.entries(
                 (body.usage && typeof body.usage === 'object' ? body.usage : {}) as Record<
@@ -103,6 +104,21 @@ export class RealModel implements Model {
                   typeof value === 'number',
               ),
             ),
+          };
+          const content = body.choices?.[0]?.message?.content;
+          if (reason === 'length')
+            throw new ModelError(
+              'OUTPUT_LIMIT',
+              '模型输出达到长度上限，未完成有效响应。请缩短输出或调整后端输出预算后重试。',
+            );
+          if (typeof content !== 'string' || !content.trim())
+            throw new ModelError('EMPTY', '模型没有返回有效正文。');
+          const output = schema.parse(JSON.parse(content));
+          this.config.logger?.({
+            task,
+            attempt,
+            durationMs: Date.now() - started,
+            ...metadata,
           });
           return output;
         } catch (error) {
@@ -112,7 +128,20 @@ export class RealModel implements Model {
               : error instanceof Error && ['TimeoutError', 'AbortError'].includes(error.name)
                 ? 'TIMEOUT'
                 : 'INVALID_OUTPUT';
-          this.config.logger?.({ task, attempt, durationMs: Date.now() - started, error: code });
+          const validationIssues =
+            error instanceof ZodError
+              ? error.issues.map((issue) => ({ path: issue.path.join('.'), code: issue.code }))
+              : undefined;
+          this.config.logger?.({
+            task,
+            attempt,
+            durationMs: Date.now() - started,
+            error: code,
+            ...metadata,
+            validationIssues,
+          });
+          retryHint =
+            '\n上次响应未通过输出契约，请重新生成完整有效的 JSON；严格遵守字段、引用 ID 与发言句数要求，保持内容简洁，不增加解释或围栏。';
           if (attempt === 1)
             throw error instanceof ModelError
               ? error

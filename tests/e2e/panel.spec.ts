@@ -88,6 +88,7 @@ test('curated examples, evidence navigation, search and mobile layout', async ({
   await expect(page.locator('.participants-panel')).toBeVisible();
   await page.getByRole('button', { name: '现场讨论', exact: true }).click();
   await expect(page.locator('.transcript-panel')).toBeVisible();
+  await expect(page.locator('.transcript-message .message-title').first()).toBeVisible();
   expect(
     await page
       .locator('body')

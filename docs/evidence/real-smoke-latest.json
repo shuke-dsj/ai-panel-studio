@@ -1,0 +1,287 @@
+{
+  "testedAt": "2026-11-17T04:56:55.634Z",
+  "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+  "url": "http://127.0.0.1:5173/#/discussion/ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+  "mode": "real",
+  "checks": {
+    "realSource": true,
+    "participantCount": true,
+    "turnLimit": true,
+    "oneOrTwoSentences": true,
+    "validReplyReferences": true,
+    "hasCrossSpeakerReply": true,
+    "insightReferences": true,
+    "consensusHasTwoExperts": true,
+    "insightsUpdatedBeforeCompletion": true,
+    "contextSummarySaved": true,
+    "naturalLanguageSummary": true,
+    "databaseMatchesSnapshot": true,
+    "oneCompletion": true,
+    "recoveryPreservedOriginalMessages": true
+  },
+  "counts": {
+    "expertTurns": 6,
+    "distinctSpeakers": 4,
+    "consensus": 2,
+    "disagreements": 2,
+    "insightUpdates": 6
+  },
+  "semanticReview": "已逐条审阅，详见 docs/REAL-SMOKE-REVIEW.md；确认实际承接与条件变化，但总结扩大一致性、边界和时间安排仍存在风险。",
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林知远",
+      "occupation": "技术运营顾问",
+      "title": "圆桌主持人",
+      "stance": "中立：以受控试点、可退出机制和明确反证条件为讨论框架，要求各方说明何种证据会改变判断",
+      "focus": "议程控制、证据标准与决策边界",
+      "id": "e1ae831b-cf13-4c20-9d4c-59d79def417c",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "color": "#15745b"
+    },
+    {
+      "role": "expert",
+      "name": "周启明",
+      "occupation": "平台工程师",
+      "title": "基础设施与检索架构师",
+      "stance": "有条件支持：先做两周受控试点，只接入非敏感文档和只读权限；若检索命中率低于70%，或权限配置无法在现有工具内审计，则停止",
+      "focus": "RAG架构、检索质量、工程实现成本",
+      "id": "b5060201-54e0-43e8-8a48-f35326407891",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "沈岚",
+      "occupation": "信息安全合规经理",
+      "title": "数据权限与审计负责人",
+      "stance": "反对直接改造：RAG会放大越权检索和泄露面；只支持经权限继承、文档级ACL和审计日志验证的最小试点，若发现不可继承权限或审计缺失则否决",
+      "focus": "权限模型、最小权限、审计与泄露风险",
+      "id": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "color": "#427abf"
+    },
+    {
+      "role": "expert",
+      "name": "韩立",
+      "occupation": "SRE与运维负责人",
+      "title": "小团队运维成本评估专家",
+      "stance": "倾向暂缓：6人无专职运维，RAG的索引更新、模型与依赖升级、故障排查会侵蚀工程时间；只有试点证明每月维护低于4人时且可自动回退才支持扩展",
+      "focus": "维护成本、可靠性、回退与值班负担",
+      "id": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "color": "#8c58ac"
+    },
+    {
+      "role": "expert",
+      "name": "许沐",
+      "occupation": "产品运营负责人",
+      "title": "内部知识产品经理",
+      "stance": "支持小范围试点：优先验证新人上手、重复问答和跨文档检索的业务收益；若试点无法在4周内显示可量化节省或用户留存低于基线，则不支持继续投入",
+      "focus": "业务收益、用户体验、采用率与ROI",
+      "id": "b876b8bb-c1b9-4b1b-9a71-6e54db7881f3",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "color": "#b78626"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "e1ae831b-cf13-4c20-9d4c-59d79def417c",
+      "text": "本次只评估6人且无专职运维的团队把内部知识库改造成RAG，比较受控试点的业务收益、权限风险与维护成本，并要求各方说明可退出机制及何种证据会改变判断。请周启明先界定最小试点边界，沈岚、韩立、许沐分别用可审计、可回退、可量化的标准回应。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "id": "9eaab415-953d-4d3e-83d6-a65a3dae9fb5",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 1,
+      "createdAt": "2026-11-17T04:47:50.471Z"
+    },
+    {
+      "participantId": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+      "text": "我倾向暂缓，但可以接受周启明的两周受控试点，前提是索引更新和模型依赖升级全部自动化，并保留一键回退到原知识库的路径。若试点记录显示每月人工维护超过4人时，或一次故障排查占掉半天以上工程时间，我就明确反对继续扩展。",
+      "replyTo": "9eaab415-953d-4d3e-83d6-a65a3dae9fb5",
+      "addressedTo": null,
+      "phase": "exploration",
+      "id": "670be89d-3392-4019-a759-7f599068d1c1",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 2,
+      "createdAt": "2026-11-17T04:47:55.073Z"
+    },
+    {
+      "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+      "text": "我同意两周试点，但边界必须先收紧：只接入已有文档级ACL、可完整继承权限的非敏感库，并记录每次检索的请求人、命中文档与拒绝事件。若发现权限不可继承、审计日志无法覆盖检索链路，或出现一次越权命中，我就否决扩展而非仅暂停。",
+      "replyTo": "670be89d-3392-4019-a759-7f599068d1c1",
+      "addressedTo": null,
+      "phase": "exploration",
+      "id": "ee6e9d51-9019-4d2f-a969-d77615ace006",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 3,
+      "createdAt": "2026-11-17T04:48:04.481Z"
+    },
+    {
+      "participantId": "e1ae831b-cf13-4c20-9d4c-59d79def417c",
+      "text": "请韩立回答：如果沈岚的权限继承审计在第一周就失败，而维护成本数据尚未跑满两周，你主张立即整体停止，还是允许剥离敏感库后继续验证成本并延后业务收益判断？请说明这个选择如何避免把权限否决和运维否决混成同一个退出条件。",
+      "replyTo": "ee6e9d51-9019-4d2f-a969-d77615ace006",
+      "addressedTo": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+      "phase": "exchange",
+      "id": "197eab3f-dce8-4a2d-9504-0b2b6d38dde8",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 4,
+      "createdAt": "2026-11-17T04:48:18.364Z"
+    },
+    {
+      "participantId": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+      "text": "若第一周权限审计失败，我主张剥离敏感库后继续观察，因为权限否决应由沈岚单独触发，不应让它连带终止我的成本验证。这样，运维上限和权限红线就各有独立的证据链；6人团队才能分清是RAG不可用，还是这套权限接入方式不可用。",
+      "replyTo": "197eab3f-dce8-4a2d-9504-0b2b6d38dde8",
+      "addressedTo": null,
+      "phase": "exchange",
+      "id": "b0093bdb-0ac1-47d4-8087-294cac376c63",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 5,
+      "createdAt": "2026-11-17T04:48:25.194Z"
+    },
+    {
+      "participantId": "b5060201-54e0-43e8-8a48-f35326407891",
+      "text": "我支持韩立把否决拆开：检索质量红线以试点前固定的50条真实查询为口径，命中率低于70%才触发技术否决，并且必须等敏感库剥离后重测，以免把权限失败误判成检索不可用。最小边界定为只读接入带文档级ACL的非敏感库，每周自动重建索引并保留一键回退。",
+      "replyTo": "b0093bdb-0ac1-47d4-8087-294cac376c63",
+      "addressedTo": null,
+      "phase": "exchange",
+      "id": "b42f2c78-d084-4c6c-9e25-bf20a3ab400f",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 6,
+      "createdAt": "2026-11-17T04:49:07.891Z"
+    },
+    {
+      "participantId": "e1ae831b-cf13-4c20-9d4c-59d79def417c",
+      "text": "沈岚，请给一个具体裁定：若第一周剥离敏感库后重跑的审计显示权限可完整继承、日志覆盖检索链路且无越权命中，你是否愿意把“否决扩展”降为“有条件继续”，并说明需要哪两项可核验证据？同时请指出，业务侧在四周内达到什么量化节省，才足以让你接受在6人团队里常驻这套RAG。",
+      "replyTo": "b42f2c78-d084-4c6c-9e25-bf20a3ab400f",
+      "addressedTo": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+      "phase": "convergence",
+      "id": "5f6dbafc-a282-4d69-b8f8-bd1e734109eb",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 7,
+      "createdAt": "2026-11-17T04:49:28.485Z"
+    },
+    {
+      "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+      "text": "若剥离后重跑通过，我愿意把“否决扩展”降为“有条件继续”，但只认两项可核验证据：检索链路全量审计日志按请求人可回放，以及文档级ACL测试样本连续两周零越权命中。业务侧若要说服我常驻，需四周内证明高频重复问答的人工响应时间月降至少30%，且不靠扩大可读文档范围换取。",
+      "replyTo": "5f6dbafc-a282-4d69-b8f8-bd1e734109eb",
+      "addressedTo": null,
+      "phase": "convergence",
+      "id": "2818e419-83eb-4a50-89c5-406b0ba10714",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 8,
+      "createdAt": "2026-11-17T04:49:38.079Z"
+    },
+    {
+      "participantId": "b876b8bb-c1b9-4b1b-9a71-6e54db7881f3",
+      "text": "我接受沈岚的30%门槛，但建议换成可核验口径：试点前先测新人首次独立解决问题耗时和重复问答工单量作为基线，四周内两者分别下降30%、25%，才算业务收益成立。若采用率低于基线团队半数，或收益要靠扩大可读文档范围换取，我就撤回支持并同意不常驻。",
+      "replyTo": "5f6dbafc-a282-4d69-b8f8-bd1e734109eb",
+      "addressedTo": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+      "phase": "convergence",
+      "id": "aa79ecfd-ea34-4b7c-9623-81cd0fd22b72",
+      "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+      "seq": 9,
+      "createdAt": "2026-11-17T04:56:29.642Z"
+    }
+  ],
+  "insights": [
+    {
+      "id": "consensus-0",
+      "kind": "consensus",
+      "text": "先做两周受控试点，仅接入只读、非敏感且具备文档级ACL的库，并实现自动索引更新与一键回退。",
+      "messageIds": [
+        "670be89d-3392-4019-a759-7f599068d1c1",
+        "ee6e9d51-9019-4d2f-a969-d77615ace006",
+        "b42f2c78-d084-4c6c-9e25-bf20a3ab400f"
+      ],
+      "positions": [
+        {
+          "participantId": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+          "view": "有条件接受两周试点"
+        },
+        {
+          "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+          "view": "同意试点但须收紧权限边界"
+        },
+        {
+          "participantId": "b5060201-54e0-43e8-8a48-f35326407891",
+          "view": "限定只读非敏感库并自动回退"
+        }
+      ]
+    },
+    {
+      "id": "consensus-1",
+      "kind": "consensus",
+      "text": "权限审计失败后可剥离敏感库重跑；重跑通过则转为有条件继续，而非整体否决RAG。",
+      "messageIds": [
+        "b0093bdb-0ac1-47d4-8087-294cac376c63",
+        "b42f2c78-d084-4c6c-9e25-bf20a3ab400f",
+        "2818e419-83eb-4a50-89c5-406b0ba10714"
+      ],
+      "positions": [
+        {
+          "participantId": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+          "view": "剥离后继续验证成本"
+        },
+        {
+          "participantId": "b5060201-54e0-43e8-8a48-f35326407891",
+          "view": "支持剥离后重测检索"
+        },
+        {
+          "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+          "view": "重跑通过可转为有条件继续"
+        }
+      ]
+    },
+    {
+      "id": "disagreement-2",
+      "kind": "disagreement",
+      "text": "权限审计失败后、重跑通过前，成本验证能否独立继续？韩立、周启明主张拆开否决；沈岚只承诺重跑通过后继续。",
+      "messageIds": [
+        "b0093bdb-0ac1-47d4-8087-294cac376c63",
+        "b42f2c78-d084-4c6c-9e25-bf20a3ab400f",
+        "2818e419-83eb-4a50-89c5-406b0ba10714"
+      ],
+      "positions": [
+        {
+          "participantId": "de5cf044-c0ad-45da-a851-bcee34ad6a51",
+          "view": "权限否决不应终止成本验证"
+        },
+        {
+          "participantId": "b5060201-54e0-43e8-8a48-f35326407891",
+          "view": "支持拆分权限与成本否决"
+        },
+        {
+          "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+          "view": "重跑通过前不承诺继续"
+        }
+      ]
+    },
+    {
+      "id": "disagreement-3",
+      "kind": "disagreement",
+      "text": "业务收益常驻门槛的指标口径尚未统一：沈岚主张响应时间月降≥30%且不扩范围；许沐改为新人上手耗时降30%、重复工单降25%、采用率过半。",
+      "messageIds": [
+        "2818e419-83eb-4a50-89c5-406b0ba10714",
+        "aa79ecfd-ea34-4b7c-9623-81cd0fd22b72"
+      ],
+      "positions": [
+        {
+          "participantId": "f61b3b9e-0f5e-44ac-99b4-2e65bf85227c",
+          "view": "响应时间降30%且不扩范围"
+        },
+        {
+          "participantId": "b876b8bb-c1b9-4b1b-9a71-6e54db7881f3",
+          "view": "新人耗时降30%、工单降25%"
+        },
+        {
+          "participantId": "b876b8bb-c1b9-4b1b-9a71-6e54db7881f3",
+          "view": "采用率低于半数即撤回支持"
+        }
+      ]
+    }
+  ],
+  "summary": "截至本次讨论结束，圆桌没有就“6人且无专职运维的团队应直接改造知识库为RAG”达成一致，但已把问题收敛为一个可退出、可分段验证的受控试点方案。\n\n已形成的共识有三点。第一，先做两周受控试点，只接入只读、非敏感且具备文档级ACL的知识库，索引更新自动化，并保留一键回退到原知识库的路径。第二，权限审计若在第一周失败，不应直接把RAG整体判死，可以剥离敏感库后重跑；若重跑显示权限可完整继承、日志覆盖检索链路且无越权命中，沈岚愿意将“否决扩展”降为“有条件继续”。第三，各方都同意把权限、检索质量、维护成本和业务收益作为不同证据链处理，避免一个失败条件吞掉其他验证。\n\n仍存分歧主要有三处。其一，权限审计失败后、重跑通过前，成本验证能否独立继续。韩立和周启明主张把权限否决与成本、检索否决拆开，剥离敏感库后继续观察；沈岚只承诺重跑通过后继续，未同意在此前独立推进。其二，技术否决线尚未形成多人共识。周启明提出以试点前固定的50条真实查询为口径、命中率低于70%才触发技术否决，并强调敏感库剥离后重测，但这一红线尚未获得第二人明确附议。其三，业务收益的常驻门槛口径不统一。沈岚提出高频重复问答人工响应时间月降至少30%，且不得靠扩大可读文档范围换取；许沐接受30%方向，但改为新人首次独立解决问题耗时降30%、重复问答工单量降25%，并要求采用率不低于基线团队半数，否则撤回支持。两组指标尚未合并。\n\n运维侧的条件仍属假设：韩立提出只有试点证明每月人工维护低于4人时、且单次故障排查不超过半天，才支持扩展；否则倾向暂缓。该门槛尚未用试点数据验证。\n\n下一步可执行的行动是：在试点前固定50条真实查询、新人上手耗时、重复问答工单量和采用率基线；试点中记录检索请求人、命中文档与拒绝事件，做文档级ACL样本的连续两周越权测试和日志回放；同时记录索引更新、模型依赖升级、故障排查的实际人工工时。待验证信息包括权限能否完整继承、审计日志能否覆盖检索链路、检索命中率是否达到70%、维护工时是否低于设定上限，以及业务指标能否在四周内达到统一口径。上述均为专家意见与条件假设，并非已核实事实；主持人未追加虚构发言。",
+  "contextSummary": "本场讨论6人、无专职运维团队是否将内部知识库改造成RAG。已形成的共识是：先做两周受控试点，只接入只读、非敏感且具备文档级ACL的库，索引更新自动化并保留一键回退；若权限审计失败，可剥离敏感库后重跑，重跑通过则转为有条件继续，不直接整体否决。尚未解决的是：权限审计失败后、重跑通过前，成本验证能否独立继续；韩立、周启明主张权限红线与成本/检索否决拆开，沈岚只承诺重跑通过后继续。技术否决线方面，周启明提出以50条真实查询为口径、命中率低于70%才触发，但尚未获第二人明确支持。运维侧，韩立提出每月人工维护低于4人时、单次故障排查不超过半天，否则反对扩展，这仍是条件假设。业务侧，沈岚提出常驻需高频重复问答人工响应时间月降至少30%且不得靠扩大可读范围；许沐接受30%方向但改为新人首次独立解决耗时降30%、重复问答工单降25%，并要求采用率不低于基线团队半数，否则撤回支持。两项业务口径尚未统一。许沐最新发言带来可核验基线、采用率撤回条件，属实质进展。以上均为专家意见与条件假设，非已核实事实。"
+}

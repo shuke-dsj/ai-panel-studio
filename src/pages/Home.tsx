@@ -22,19 +22,30 @@ export function Home({
   const [turns, setTurns] = useState(12);
   useEffect(() => {
     let active = true;
-    api
-      .list()
-      .then((v) => {
-        if (active) setItems(v);
-      })
-      .catch((e) => {
-        if (active) setError(e.message);
-      })
-      .finally(() => {
+    let inFlight = false;
+    const refresh = async () => {
+      if (inFlight) return;
+      inFlight = true;
+      try {
+        const value = await api.list();
+        if (active) {
+          setItems(value);
+          setError('');
+        }
+      } catch (error) {
+        if (active) setError(error instanceof Error ? error.message : '讨论列表读取失败。');
+      } finally {
+        inFlight = false;
         if (active) setLoading(false);
-      });
+      }
+    };
+    void refresh();
+    const timer = window.setInterval(() => void refresh(), 5000);
+    window.addEventListener('focus', refresh);
     return () => {
       active = false;
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refresh);
     };
   }, []);
   useEffect(() => {

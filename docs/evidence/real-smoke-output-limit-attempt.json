@@ -1,0 +1,6 @@
+{
+  "testedAt": "2026-11-17T04:53:40.793Z",
+  "discussionId": "ea11d98e-cff9-4d59-b189-c4217b16d9e1",
+  "status": "incomplete",
+  "reason": "模型输出达到长度上限，未完成有效响应。请缩短输出或调整后端输出预算后重试。"
+}

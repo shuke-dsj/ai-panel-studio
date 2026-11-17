@@ -15,6 +15,7 @@
     "db:init": "tsx scripts/init.ts",
     "seed:real": "tsx scripts/seed-real.ts",
     "model:probe": "tsx scripts/probe.ts",
+    "test:real": "tsx scripts/real-smoke.ts",
     "package:source": "tsx scripts/package.ts",
     "qa:visual": "tsx scripts/visual-qa.ts",
     "format": "prettier --write ."

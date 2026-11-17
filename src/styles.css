@@ -1319,7 +1319,7 @@ progress::-moz-progress-bar {
     padding: 0 20px;
   }
   .message-title {
-    display: none;
+    display: inline;
   }
   .insights-scroll {
     padding: 11px;
@@ -1653,7 +1653,8 @@ progress::-moz-progress-bar {
     font-size: 12px;
   }
   .message-title {
-    display: none;
+    display: inline;
+    font-size: 10px;
   }
   .message-text {
     font-size: 13px;
