@@ -1,3 +1,41 @@
 import type { Snapshot } from '../../shared/types';
 import { Avatar } from './Primitives';
-export function Participants({snapshot}:{snapshot:Snapshot}){return <section className="panel participants-panel"><div className="panel-heading"><h2>讨论嘉宾</h2><span>{snapshot.discussion.expertCount+1} 人</span></div><div className="panel-scroll">{snapshot.participants.map(p=>{const a=snapshot.activities[p.id];const state=a?.state??'idle';return <article className={`participant-row ${state}`} key={p.id}><div className="participant-identity"><Avatar person={p}/><div><h3>{p.name}{p.role==='moderator'&&<span>（主持人）</span>}</h3><p>{p.occupation}</p></div></div><div className="participant-title">{p.title}</div><p className="stance" style={{borderColor:p.color}}>{p.stance}</p><div className="activity-line"><span className={`activity-dot ${state}`}/>{state==='speaking'?'发言中':state==='preparing'?'准备发言':'待机'}</div><p className="public-focus">关注：{a?.focus??p.focus}</p></article>;})}</div></section>;}
+export function Participants({ snapshot }: { snapshot: Snapshot }) {
+  return (
+    <section className="panel participants-panel">
+      <div className="panel-heading">
+        <h2>讨论嘉宾</h2>
+        <span>{snapshot.discussion.expertCount + 1} 人</span>
+      </div>
+      <div className="panel-scroll">
+        {snapshot.participants.map((p) => {
+          const a = snapshot.activities[p.id];
+          const state = a?.state ?? 'idle';
+          return (
+            <article className={`participant-row ${state}`} key={p.id}>
+              <div className="participant-identity">
+                <Avatar person={p} />
+                <div>
+                  <h3>
+                    {p.name}
+                    {p.role === 'moderator' && <span>（主持人）</span>}
+                  </h3>
+                  <p>{p.occupation}</p>
+                </div>
+              </div>
+              <div className="participant-title">{p.title}</div>
+              <p className="stance" style={{ borderColor: p.color }}>
+                {p.stance}
+              </p>
+              <div className="activity-line">
+                <span className={`activity-dot ${state}`} />
+                {state === 'speaking' ? '发言中' : state === 'preparing' ? '准备发言' : '待机'}
+              </div>
+              <p className="public-focus">关注：{a?.focus ?? p.focus}</p>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

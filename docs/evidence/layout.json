@@ -1,0 +1,73 @@
+{
+  "method": "Playwright + installed Microsoft Edge. IAB sandbox failure and Edge connector timeout required fallback.",
+  "referenceViewport": {
+    "width": 1487,
+    "height": 1058
+  },
+  "desktop": {
+    "viewport": [
+      1487,
+      1058
+    ],
+    "body": [
+      1487,
+      1058
+    ],
+    "headerTop": 0,
+    "panels": [
+      {
+        "client": 770,
+        "scroll": 928,
+        "overflow": "auto"
+      },
+      {
+        "client": 770,
+        "scroll": 1571,
+        "overflow": "auto"
+      },
+      {
+        "client": 770,
+        "scroll": 840,
+        "overflow": "auto"
+      }
+    ],
+    "fonts": [
+      {
+        "selector": ".brand",
+        "fontSize": "22px"
+      },
+      {
+        "selector": ".topic-identity h1",
+        "fontSize": "23px"
+      },
+      {
+        "selector": ".panel-heading h2",
+        "fontSize": "19px"
+      },
+      {
+        "selector": ".message-text",
+        "fontSize": "15px"
+      },
+      {
+        "selector": ".button",
+        "fontSize": null
+      },
+      {
+        "selector": ".public-focus",
+        "fontSize": "12px"
+      }
+    ]
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "body": [
+      390,
+      844
+    ],
+    "activePanel": "panel insights-panel"
+  },
+  "pageErrors": []
+}
