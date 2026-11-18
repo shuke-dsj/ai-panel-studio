@@ -109,6 +109,17 @@ export interface EvidenceMemory {
   version: 1;
   anchors: EvidenceAnchor[];
 }
+export interface DiscussionUsage {
+  attempts: number;
+  inputTokens?: number;
+  outputTokens?: number;
+  cacheHitTokens?: number;
+  cacheMissTokens?: number;
+  inputReports: number;
+  outputReports: number;
+  cacheReports: number;
+}
+
 export interface Discussion {
   id: string;
   topic: string;
@@ -132,6 +143,7 @@ export interface Discussion {
   cycleStartSeq?: number;
   directionStartTurns?: number;
   modelCalls?: number;
+  tokenUsage?: DiscussionUsage;
   activeMs?: number;
   runStartedAt?: string | null;
   lastMeterAt?: string;
@@ -171,7 +183,7 @@ export interface Snapshot {
 export interface PanelEvent {
   discussionId: string;
   seq: number;
-  type: 'status' | 'activity' | 'message' | 'insights' | 'completed' | 'error' | 'roster';
+  type: 'status' | 'activity' | 'message' | 'insights' | 'completed' | 'error' | 'roster' | 'usage';
   data: unknown;
   createdAt: string;
 }

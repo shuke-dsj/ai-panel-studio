@@ -16,6 +16,7 @@ import {
 import type {
   Activity,
   Discussion,
+  DiscussionUsage,
   Insight,
   InsightLedger,
   Intent,
@@ -26,6 +27,7 @@ import type {
   DirectionMode,
   DiscussionLimits,
 } from '../shared/types.js';
+import type { usageMetadata } from './usage.js';
 
 export interface Checkpoint {
   queue: Intent[];
@@ -283,6 +285,39 @@ export class Store {
     });
     this.bus.emit(id, e);
     return this.get(id);
+  }
+  recordUsage(id: string, { usage, cache }: ReturnType<typeof usageMetadata>) {
+    const event = this.transaction(() => {
+      const d = this.get(id);
+      const totals: DiscussionUsage = d.tokenUsage ?? {
+        attempts: 0,
+        inputReports: 0,
+        outputReports: 0,
+        cacheReports: 0,
+      };
+      totals.attempts++;
+      if (typeof usage.prompt_tokens === 'number') {
+        totals.inputTokens = (totals.inputTokens ?? 0) + usage.prompt_tokens;
+        totals.inputReports++;
+      }
+      if (typeof usage.completion_tokens === 'number') {
+        totals.outputTokens = (totals.outputTokens ?? 0) + usage.completion_tokens;
+        totals.outputReports++;
+      }
+      if (
+        cache.status === 'reported' &&
+        cache.hitTokens !== undefined &&
+        cache.missTokens !== undefined
+      ) {
+        totals.cacheHitTokens = (totals.cacheHitTokens ?? 0) + cache.hitTokens;
+        totals.cacheMissTokens = (totals.cacheMissTokens ?? 0) + cache.missTokens;
+        totals.cacheReports++;
+      }
+      d.tokenUsage = totals;
+      this.write(d);
+      return this.insertEvent(id, 'usage', totals);
+    });
+    this.bus.emit(id, event);
   }
   activity(id: string, participantId: string, activity: Activity) {
     const e = this.transaction(() => {

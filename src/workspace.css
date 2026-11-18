@@ -333,6 +333,73 @@ p {
 .connection {
   color: #688d7f;
 }
+.workspace-info-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  white-space: nowrap;
+}
+.discussion-usage > button {
+  anchor-name: --discussion-usage;
+  border: 0;
+  background: transparent;
+  padding: 0 2px;
+  color: #347e65;
+  font: inherit;
+  cursor: pointer;
+}
+.usage-rate {
+  font-variant-numeric: tabular-nums;
+}
+.usage-popover {
+  position: fixed;
+  inset: 108px 12px auto auto;
+  margin: 0;
+  width: min(270px, calc(100% - 24px));
+  padding: 12px 14px;
+  background: white;
+  color: #21312b;
+  border: 1px solid #d1ded7;
+  border-radius: 9px;
+  box-shadow: 0 8px 22px #15283222;
+  font-size: 12px;
+}
+@supports (position-area: bottom span-left) {
+  .usage-popover {
+    inset: auto;
+    position-anchor: --discussion-usage;
+    position-area: bottom span-left;
+    position-try-fallbacks: flip-block;
+    margin-top: 6px;
+  }
+}
+.usage-heading,
+.usage-popover dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.usage-heading button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 17px;
+}
+.usage-popover dl {
+  margin: 8px 0;
+  line-height: 1.8;
+}
+.usage-popover dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.usage-popover p {
+  color: #617080;
+  line-height: 1.5;
+}
 .connection.reconnecting {
   color: #a87a21;
 }

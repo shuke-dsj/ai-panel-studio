@@ -11,6 +11,47 @@ async function create(request: APIRequestContext, topic: string, experts = 4, ma
   return d.id as string;
 }
 
+test('shows live token telemetry in a compact overlay on desktop and mobile', async ({
+  page,
+  request,
+}) => {
+  const id = await create(request, 'Token 展示测试', 2, 6);
+  const s: Snapshot = await (await request.get(`/api/discussions/${id}`)).json();
+  const usage = {
+    attempts: 2,
+    inputTokens: 2500,
+    outputTokens: 320,
+    cacheHitTokens: 1500,
+    cacheMissTokens: 500,
+    inputReports: 2,
+    outputReports: 2,
+    cacheReports: 1,
+  };
+  await page.route(`**/api/discussions/${id}`, (route) => route.fulfill({ json: s }));
+  await page.route(`**/api/discussions/${id}/events?*`, (route) =>
+    route.fulfill({
+      contentType: 'text/event-stream',
+      body: `event: update\ndata: ${JSON.stringify({ discussionId: id, seq: s.cursor + 1, type: 'usage', data: usage })}\n\n`,
+    }),
+  );
+  await page.goto(`/#/discussion/${id}`);
+  const trigger = page.getByRole('button', { name: '查看 Token 用量' });
+  await expect(trigger).toContainText('75%');
+  await trigger.click();
+  const details = page.locator('.usage-popover');
+  for (const value of ['2,500', '320', '1,500（部分）', '500（部分）', '75%'])
+    await expect(details.getByText(value, { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '关闭 Token 用量' }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await trigger.click();
+  await expect(details).toBeInViewport({ ratio: 1 });
+  expect(
+    await page
+      .locator('body')
+      .evaluate((e) => e.scrollWidth <= innerWidth && e.scrollHeight <= innerHeight),
+  ).toBe(true);
+});
+
 test('closed issues and pending questions stay separate and show exact supporting quotes', async ({
   page,
   request,

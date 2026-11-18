@@ -76,4 +76,6 @@ SQLite schema version 1 在 Store 初始化时创建。discussions 保存领域�
 
 ## API缓存实现补充（2026-11-18）
 
+`Snapshot.discussion.tokenUsage` 保存同一讨论自启用用量统计以来的累计输入、输出、命中、未命中 Token，以及请求尝试数和各指标覆盖的请求数。模型请求结束时在同一 SQLite 事务写入累计量和 `usage` 事件。该 SSE 事件携带累计值，断线重放时按现有事件序号去重。由服务返回用量的失败尝试同样计入，未返回的指标保留为空。命中率按完整缓存数据的累计命中数除以累计命中与未命中之和。历史记录没有追补，演示不生成用量。
+
 默认prefix布局只调整真实模型请求组织，不改公共HTTP路由或数据库实体。共享快照材料在任务system前，当前角色/阶段/候选/审核参数在后。日志保留API实际prompt_cache_hit_tokens/miss_tokens及兼容cached_tokens，并标记缺失或不一致，不将输出答案做本地长期缓存。配置回退、真实用量对照与质量范围见CACHE-OPTIMIZATION.md。

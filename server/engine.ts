@@ -70,6 +70,7 @@ export class Engine {
       onAttempt: (attempt) => {
         this.store.meterAttempt(data.discussionId, version, attempt > 0);
       },
+      onUsage: (report) => this.store.recordUsage(data.discussionId, report),
     });
   }
   private assertDirection(id: string, version: number) {

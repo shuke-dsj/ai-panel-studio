@@ -20,6 +20,7 @@ import { RoundTable } from '../components/RoundTable';
 import { GuestInspectors } from '../components/GuestInspectors';
 import { Transcript } from '../components/Transcript';
 import { DiscussionResults } from '../components/DiscussionResults';
+import { DiscussionUsage } from '../components/DiscussionUsage';
 export function Workspace({
   id,
   health,
@@ -193,13 +194,16 @@ export function Workspace({
                   ? '确定性演示 · 非真实模型结论'
                   : '真实模型 · 虚构专家'}
             </span>
-            <span className={`connection ${panel.connection}`}>
-              {panel.connection === 'connected'
-                ? '实时连接'
-                : panel.connection === 'reconnecting'
-                  ? '正在重连'
-                  : '连接中'}
-            </span>
+            <div className="workspace-info-meta">
+              <DiscussionUsage usage={d.tokenUsage} />
+              <span className={`connection ${panel.connection}`}>
+                {panel.connection === 'connected'
+                  ? '实时连接'
+                  : panel.connection === 'reconnecting'
+                    ? '正在重连'
+                    : '连接中'}
+              </span>
+            </div>
           </div>
         )}
         <div className="workspace-content">

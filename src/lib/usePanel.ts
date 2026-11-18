@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   Activity,
   Discussion,
+  DiscussionUsage,
   Insight,
   Message,
   PanelEvent,
@@ -30,6 +31,8 @@ export function applyEvent(s: Snapshot, event: PanelEvent): Snapshot {
     next.discussion = { ...s.discussion, status: 'roster_ready', error: null, rosterStale: false };
   }
   if (event.type === 'insights') next.insights = event.data as Insight[];
+  if (event.type === 'usage')
+    next.discussion = { ...s.discussion, tokenUsage: event.data as DiscussionUsage };
   if (event.type === 'message') {
     const m = event.data as Message;
     if (!s.messages.some((old) => old.id === m.id)) {

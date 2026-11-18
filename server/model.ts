@@ -2,13 +2,12 @@ import { ZodError, type ZodType } from 'zod';
 import type { Task } from './prompts.js';
 import { buildModelMessages, type RequestLayout } from './request-layout.js';
 import { usageMetadata } from './usage.js';
+export interface ModelOptions {
+  onAttempt?: (attempt: number) => void;
+  onUsage?: (report: ReturnType<typeof usageMetadata>) => void;
+}
 export interface Model {
-  run<T>(
-    task: Task,
-    input: unknown,
-    schema: ZodType<T>,
-    options?: { onAttempt?: (attempt: number) => void },
-  ): Promise<T>;
+  run<T>(task: Task, input: unknown, schema: ZodType<T>, options?: ModelOptions): Promise<T>;
   mode: 'real' | 'demo';
   configured: boolean;
 }
@@ -52,12 +51,7 @@ export class RealModel implements Model {
     if (next) next();
     else this.active--;
   }
-  async run<T>(
-    task: Task,
-    input: unknown,
-    schema: ZodType<T>,
-    options?: { onAttempt?: (attempt: number) => void },
-  ): Promise<T> {
+  async run<T>(task: Task, input: unknown, schema: ZodType<T>, options?: ModelOptions): Promise<T> {
     if (!this.configured)
       throw new ModelError(
         'NOT_CONFIGURED',
@@ -69,6 +63,7 @@ export class RealModel implements Model {
       for (let attempt = 0; attempt < 2; attempt++) {
         options?.onAttempt?.(attempt);
         const started = Date.now();
+        let report = usageMetadata(undefined);
         const data = input as { discussionId?: unknown } | null;
         let metadata: Record<string, unknown> = {
           requestLayout: this.config.requestLayout ?? 'prefix',
@@ -106,13 +101,14 @@ export class RealModel implements Model {
             usage?: unknown;
           };
           const reason = body.choices?.[0]?.finish_reason;
+          report = usageMetadata(body.usage);
           metadata = {
             ...metadata,
             finishReason:
               reason && ['stop', 'length', 'tool_calls', 'content_filter'].includes(reason)
                 ? reason
                 : 'unknown',
-            ...usageMetadata(body.usage),
+            ...report,
           };
           const content = body.choices?.[0]?.message?.content;
           if (reason === 'length')
@@ -197,6 +193,8 @@ export class RealModel implements Model {
                         ? '模型引用未匹配本场消息，已重试一次，请重试。'
                         : '模型返回格式无效，已重试一次。请重试或更换支持 JSON 输出的模型。',
                 );
+        } finally {
+          options?.onUsage?.(report);
         }
       }
       throw new ModelError('UNKNOWN', '模型调用未完成。');
