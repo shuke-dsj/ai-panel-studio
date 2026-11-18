@@ -16,11 +16,13 @@ export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]):
         ? consensus
             .map(
               (i, n) =>
-                `${n + 1}. ${i.text}\n明确支持记录：${[...new Set(i.positions.map((p) => p.participantId))].map(name).join('、')}；依据${i.messageIds.map((id) => `#${snapshot.messages.find((m) => m.id === id)?.seq}`).join('、')}。`,
+                `${n + 1}. ${i.text}\n明确支持记录：${[...new Set(i.positions.map((p) => p.participantId))].map(name).join('、')}；依据${i.messageIds.map((id) => `#${snapshot.messages.find((m) => m.id === id)?.seq}`).join('、')}。${i.evidence?.map((e) => `\n${name(e.participantId)}（#${e.seq}）：${e.quote}`).join('') ?? ''}`,
             )
             .join('\n')
         : '本场没有满足证据要求的共识。'),
-    '未关闭的分歧记录（包括待复核的历史项，不能据此认定各方仍然反对）：\n' +
+    (snapshot.discussion.insightLedger
+      ? '当前实质分歧：\n'
+      : '未关闭的分歧记录（包括待复核的历史项）：\n') +
       (disputes.length
         ? disputes
             .map(
@@ -30,6 +32,27 @@ export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]):
             .join('\n')
         : '本场未记录有证据的未决分歧，不据此推定全员赞同。'),
   ];
+  for (const status of ['resolved', 'question'] as const) {
+    const records =
+      snapshot.discussion.insightLedger?.records.filter(
+        (r) =>
+          !r.mergedInto &&
+          (status === 'question'
+            ? r.status === 'question'
+            : r.verified &&
+              (r.status === 'resolved' ||
+                (r.status === 'consensus' && r.closedAtSeq !== undefined))),
+      ) ?? [];
+    sections.push(
+      `${status === 'question' ? '待外部确认事项（不等于专家彼此反对）' : '已关闭分歧及确认原文'}：\n` +
+        (records
+          .map(
+            (r) =>
+              `${r.question}：${r.text}\n${r.evidence.map((e) => `${name(e.participantId)}（#${e.seq}）：${e.quote}`).join('\n')}`,
+          )
+          .join('\n') || '暂无记录。'),
+    );
+  }
   const memory = extractEvidenceMemory(snapshot.messages);
   sections.push(
     '关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n' +
@@ -64,7 +87,7 @@ export function renderConciseSummary(
   ];
   for (const [label, items] of [
     ['共同判断（按明确支持者归因）', common],
-    ['待复核', disputes],
+    [snapshot.discussion.insightLedger ? '实质分歧' : '待复核', disputes],
   ] as const) {
     let used = 0;
     const entries = [];
@@ -86,6 +109,7 @@ export function renderConciseSummary(
     );
   }
   lines.push(
+    `待外部确认${d.insightLedger?.records.filter((r) => r.status === 'question').length ?? 0}项，已关闭${d.insightLedger?.records.filter((r) => !r.mergedInto && r.verified && r.closedAtSeq !== undefined).length ?? 0}项（依据见展开）。`,
     '下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。',
   );
   return lines.join('\n\n');

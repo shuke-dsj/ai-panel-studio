@@ -66,7 +66,9 @@ try {
       throw new Error(s.discussion.error ?? '讨论暂停');
     if (!steered && s.discussion.status === 'running' && s.discussion.turns >= 1) {
       const body = {
-        text: '接下来优先讨论失败后的人工回退、退出责任人与维护工时验证；2周、只读和非敏感的硬前提不变，不把新阈值当成已批准。',
+        text:
+          process.env.WORKSPACE_FOCUS ??
+          '接下来优先讨论失败后的人工回退、退出责任人与维护工时验证；2周、只读和非敏感的硬前提不变，不把新阈值当成已批准。',
         mode: 'focus',
         clientRequestId: randomUUID(),
       };
@@ -109,7 +111,8 @@ try {
     completed: s.discussion.status === 'completed',
     moreThanSix: s.discussion.turns > 6,
     bounded: s.discussion.turns <= 16 && (s.discussion.modelCalls ?? 0) <= 140,
-    allExpertsContributed: new Set(expertMessages.map((m) => m.participantId)).size === s.discussion.expertCount,
+    allExpertsContributed:
+      new Set(expertMessages.map((m) => m.participantId)).size === s.discussion.expertCount,
     oneUserDirection:
       s.messages.filter((m) => m.kind === 'direction').length === 1 &&
       s.discussion.directionVersion === 1,
@@ -142,6 +145,62 @@ try {
       (!['turn_limit', 'model_budget', 'time_limit'].includes(s.discussion.endReason) ||
         !s.discussion.summary?.includes('已达成一致')),
   };
+  if (process.env.INSIGHT_LEDGER_REGRESSION === '1') {
+    const ledger = s.discussion.insightLedger;
+    const active = ledger?.records.filter((r) => !r.mergedInto) ?? [];
+    const common = s.insights.filter((i) => i.kind === 'consensus');
+    const closed = active.filter(
+      (r) =>
+        r.verified &&
+        r.closedAtSeq !== undefined &&
+        r.status !== 'disagreement' &&
+        r.status !== 'question',
+    );
+    const literal = (e: import('../shared/types.js').InsightEvidence) => {
+      const m = s.messages.find((m) => m.id === e.messageId);
+      return (
+        !!m &&
+        m.participantId === e.participantId &&
+        expertIds.has(e.participantId) &&
+        m.text.includes(e.quote)
+      );
+    };
+    Object.assign(checks, {
+      ledgerSaved: !!ledger && JSON.stringify(saved.insightLedger) === JSON.stringify(ledger),
+      closureActuallyExercised: closed.length > 0,
+      consensusActuallyExercised: common.length > 0,
+      consensusLiteralSupport: common.every(
+        (i) =>
+          new Set(
+            i.evidence
+              ?.filter(
+                (e) => literal(e) && e.supportsClaim && ['support', 'accept'].includes(e.stance),
+              )
+              .map((e) => e.participantId),
+          ).size >= 2,
+      ),
+      closurePartyCoverage: closed.every((r) =>
+        r.requiredParticipantIds.every((p) =>
+          r.evidence.some(
+            (e) =>
+              e.participantId === p &&
+              literal(e) &&
+              ((e.supportsClaim && ['support', 'accept'].includes(e.stance)) ||
+                e.stance === 'withdraw'),
+          ),
+        ),
+      ),
+      noClosedDisputesInActiveList: closed.every(
+        (r) => !s.insights.some((i) => i.id === r.id && i.kind === 'disagreement'),
+      ),
+      noMergedRecordsInActiveList: s.insights.every(
+        (i) => !ledger?.records.find((r) => r.id === i.id)?.mergedInto,
+      ),
+      uniqueCanonicalQuestions:
+        new Set(active.map((r) => r.question.replace(/[\p{P}\p{Z}\s]/gu, ''))).size ===
+        active.length,
+    });
+  }
   mkdirSync('docs/evidence', { recursive: true });
   writeFileSync(
     output,

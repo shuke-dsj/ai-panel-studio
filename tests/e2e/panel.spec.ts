@@ -1,4 +1,5 @@
 import { test, expect, type APIRequestContext } from '@playwright/test';
+import type { Snapshot, InsightLedger } from '../../shared/types';
 async function create(request: APIRequestContext, topic: string, experts = 4, maxTurns = 48) {
   const response = await request.post('/api/discussions', {
     data: { topic, expertCount: experts, maxTurns },
@@ -9,6 +10,106 @@ async function create(request: APIRequestContext, topic: string, experts = 4, ma
   expect((await request.post(`/api/discussions/${d.id}/confirm`, { data: {} })).ok()).toBe(true);
   return d.id as string;
 }
+
+test('closed issues and pending questions stay separate and show exact supporting quotes', async ({
+  page,
+  request,
+}) => {
+  const id = await create(request, '明确标识的账本界面测试替身', 2, 6);
+  const s: Snapshot = await (await request.get(`/api/discussions/${id}`)).json();
+  const experts = s.participants.filter((p) => p.role === 'expert');
+  s.discussion.status = 'completed';
+  s.discussion.summary = '测试替身：运行联系人须在启动前指定。';
+  s.messages = experts.map((p, i) => ({
+    id: `fixture-source-${i}`,
+    discussionId: id,
+    participantId: p.id,
+    seq: i + 1,
+    text: '我接受运行联系人须在启动前指定，其他阈值待用户批准。',
+    replyTo: null,
+    addressedTo: null,
+    phase: 'closing',
+    createdAt: new Date().toISOString(),
+  }));
+  const evidence = s.messages.map((m) => ({
+    messageId: m.id,
+    participantId: m.participantId,
+    seq: m.seq,
+    quote: m.text,
+    stance: 'accept' as const,
+    supportsClaim: true,
+    view: '接受启动前指定',
+  }));
+  const ledger: InsightLedger = {
+    version: 1,
+    audit: [],
+    records: [
+      {
+        id: 'fixture-closed',
+        question: '运行联系人何时指定',
+        text: '运行联系人须在启动前指定',
+        status: 'consensus',
+        verified: true,
+        requiredParticipantIds: experts.map((p) => p.id),
+        evidence,
+        aliases: [],
+        lastSeq: 2,
+        closedAtSeq: 2,
+        history: [],
+      },
+      {
+        id: 'fixture-question',
+        question: '阈值是否获批',
+        text: '阈值待用户批准',
+        status: 'question',
+        verified: true,
+        requiredParticipantIds: [],
+        evidence: evidence.map((e) => ({ ...e, stance: 'context', supportsClaim: false })),
+        aliases: [],
+        lastSeq: 2,
+        history: [],
+      },
+    ],
+  };
+  s.discussion.insightLedger = ledger;
+  ledger.records.push({
+    ...ledger.records[0],
+    id: 'fixture-revoked',
+    verified: false,
+    text: '未通过独立复核的复合候选',
+  });
+  s.insights = [
+    {
+      id: 'fixture-closed',
+      kind: 'consensus',
+      text: '运行联系人须在启动前指定',
+      messageIds: s.messages.map((m) => m.id),
+      positions: experts.map((p) => ({ participantId: p.id, view: '接受启动前指定' })),
+      evidence,
+    },
+  ];
+  await page.route(`**/api/discussions/${id}`, (route) => route.fulfill({ json: s }));
+  await page.goto(`/#/discussion/${id}`);
+  await expect(page.locator('details.disagreement > summary')).toContainText('分歧（0）');
+  await expect(page.getByText('待确认事项（1）', { exact: true })).toBeVisible();
+  await expect(page.getByText('证据待复核（1）', { exact: true })).toBeVisible();
+  const closed = page
+    .locator('details.result-section')
+    .filter({ has: page.getByText('已关闭分歧（1）', { exact: true }) });
+  await closed.locator(':scope > summary').click();
+  await closed.getByText('查看关闭依据', { exact: true }).click();
+  await expect(closed.locator('blockquote')).toHaveCount(2);
+  await expect(closed.locator('blockquote').first()).toContainText(evidence[0].quote);
+  await closed.locator('blockquote button').first().click();
+  await expect(page.locator('.transcript-message.highlighted')).toContainText(evidence[0].quote);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: '打开讨论成果' }).click();
+  expect(
+    await page
+      .locator('body')
+      .evaluate((e) => e.scrollWidth <= innerWidth && e.scrollHeight <= innerHeight),
+  ).toBe(true);
+});
 
 test('dynamic preview, generated profiles, confirmation and independent windows', async ({
   page,

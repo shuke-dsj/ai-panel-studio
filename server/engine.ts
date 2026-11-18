@@ -22,16 +22,19 @@ import {
   closingSchema,
   reviewSchema,
   convergenceSchema,
+  ledgerSchema,
 } from './schemas.js';
-import { phaseFor, selectSpeakers, validateInsights, reconcileInsights } from './scheduler.js';
+import { phaseFor, selectSpeakers } from './scheduler.js';
 import { expertSpeechSchema } from './utterance.js';
 import { buildContext, contextInput, type DiscussionContext } from './context.js';
 import { directConsistencyIssues, type ConsistencyIssue } from './consistency.js';
 import { renderGroundedSummary, renderConciseSummary } from './summary.js';
+import { applyLedger, ledgerFor, ledgerDigest } from './insight-ledger.js';
 const colors = ['#b78626', '#227a64', '#427abf', '#8c58ac', '#ba5e68', '#59818c', '#806347'];
 export class Engine {
   jobs = new Map<string, Promise<void>>();
   rosterJobs = new Set<string>();
+  repairJobs = new Set<string>();
   constructor(
     public store: Store,
     public model: Model,
@@ -73,6 +76,8 @@ export class Engine {
     if ((this.store.get(id).directionVersion ?? 0) !== version) throw new DirectionChanged();
   }
   steer(id: string, text: string, mode: DirectionMode, clientRequestId: string) {
+    if (this.repairJobs.has(id))
+      throw Object.assign(new Error('成果正在复核，请稍后调整方向。'), { statusCode: 409 });
     const before = this.store.get(id);
     if (before.source === 'curated')
       throw Object.assign(new Error('人工示例仅供浏览，请以此话题新建讨论组。'), {
@@ -147,6 +152,8 @@ export class Engine {
     this.store.update(id, { status: 'ready', error: null });
   }
   start(id: string) {
+    if (this.repairJobs.has(id))
+      throw Object.assign(new Error('成果正在复核，请稍后继续。'), { statusCode: 409 });
     const d = this.store.get(id);
     if (['running', 'pausing', 'ending', 'summarizing', 'completed'].includes(d.status)) return;
     if (!['ready', 'paused', 'error'].includes(d.status))
@@ -172,6 +179,8 @@ export class Engine {
       throw Object.assign(new Error('当前状态不能暂停。'), { statusCode: 409 });
   }
   end(id: string) {
+    if (this.repairJobs.has(id))
+      throw Object.assign(new Error('成果正在复核，请稍后操作。'), { statusCode: 409 });
     const d = this.store.get(id);
     if (['completed', 'summarizing', 'ending'].includes(d.status)) return;
     if (!['running', 'pausing', 'paused', 'error'].includes(d.status))
@@ -262,7 +271,11 @@ export class Engine {
         ]);
         const review = await this.call(
           'review',
-          this.input(context, { candidate: result.text, speakerId: person.id }),
+          this.input(context, {
+            purpose: 'speech-boundary',
+            candidate: result.text,
+            speakerId: person.id,
+          }),
           reviewSchema
             .transform((value) => ({
               issues: value.issues.map((issue) => ({
@@ -321,7 +334,12 @@ export class Engine {
         const ids = v.items.flatMap((i) => (i.id ? [i.id] : []));
         return (
           new Set(ids).size === ids.length &&
-          v.items.every((i) => !i.id || old.some((p) => p.id === i.id && p.kind === i.kind)) &&
+          v.items.every(
+            (i) =>
+              !i.id ||
+              old.some((p) => p.id === i.id) ||
+              context.knownIssues?.some((p) => p.id === i.id),
+          ) &&
           v.resolvedDisputes.every((r) =>
             old.some((p) => p.id === r.id && p.kind === 'disagreement'),
           )
@@ -329,48 +347,8 @@ export class Engine {
       }, '沿用已有同类成果ID，关闭分歧必须引用已有分歧ID'),
     );
     this.assertDirection(id, context.directionVersion);
-    // Quote matching proves provenance, not agreement on the same condition.
-    const candidates = result.items.filter((item) => item.kind === 'consensus');
-    let vetted = result;
-    if (candidates.length) {
-      const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
-      const refs = new Set([
-        'topic',
-        ...context.messages.map((m) => m.id),
-        ...context.evidenceMemory.anchors.map((a) => a.messageId),
-      ]);
-      const review = await this.call(
-        'review',
-        this.input(context, {
-          purpose: 'consensus-grounding',
-          candidate: candidates.map((item) => item.text).join('\n'),
-          consensusCandidates: candidates,
-        }),
-        reviewSchema
-          .transform((v) => ({
-            issues: v.issues.map((issue) => ({
-              ...issue,
-              conflictsWith: issue.conflictsWith.map((ref) => aliases.get(ref) ?? ref),
-            })),
-          }))
-          .refine(
-            (v) =>
-              v.issues.every(
-                (issue) =>
-                  candidates.some((item) => item.text === issue.quote) &&
-                  issue.conflictsWith.every((ref) => refs.has(ref)),
-              ),
-            '共同判断审查须引用完整候选判断及有效来源',
-          ),
-      );
-      this.assertDirection(id, context.directionVersion);
-      const rejected = new Set(review.issues.map((issue) => issue.quote));
-      vetted = {
-        ...result,
-        items: result.items.filter((item) => item.kind !== 'consensus' || !rejected.has(item.text)),
-      };
-      if (rejected.size) this.log({ discussionId: id, rejectedConsensusCount: rejected.size });
-    }
+    const reviewed = await this.reviewLedger(id, result.items);
+    this.assertDirection(id, context.directionVersion);
     const s = this.store.snapshot(id);
     const cp = this.store.checkpoint(id);
     cp.pendingInsight = null;
@@ -380,23 +358,7 @@ export class Engine {
       cp.roundActive = false;
       cp.completedRounds = (cp.completedRounds ?? 0) + 1;
     }
-    this.store.replaceInsights(
-      id,
-      reconcileInsights(
-        old,
-        validateInsights(
-          vetted,
-          s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
-          s.participants,
-          old,
-        ),
-        result.resolvedDisputes ?? [],
-        s.messages.filter((m) => m.seq >= (s.discussion.boundaryStartSeq ?? 0)),
-        s.participants,
-      ),
-      result.contextSummary,
-      cp,
-    );
+    this.store.replaceInsights(id, reviewed.insights, result.contextSummary, cp, reviewed.ledger);
   }
   private settlePause(id: string) {
     if (this.store.get(id).status === 'pausing') {
@@ -617,49 +579,194 @@ export class Engine {
       return disputes.length ? 'stable_disagreement' : 'converged';
     return null;
   }
-  private async closeConfirmedDisputes(id: string) {
+  private async reviewLedger(
+    id: string,
+    candidates: import('./schemas.js').InsightOutput['items'] = [],
+    proposedResolutions: import('zod').infer<typeof insightSchema>['resolvedDisputes'] = [],
+  ) {
     const snapshot = this.store.snapshot(id),
-      old = snapshot.insights;
-    if (!old.some((item) => item.kind === 'disagreement')) return;
-    const context = this.context(id);
+      context = this.context(id);
+    const messages = snapshot.messages.filter(
+      (m) => m.seq >= (snapshot.discussion.boundaryStartSeq ?? 0),
+    );
     const aliases = new Map(context.evidenceMemory.anchors.map((a) => [a.id, a.messageId]));
-    const result = await this.call(
-      'resolution',
-      context,
-      insightSchema
-        .pick({ resolvedDisputes: true })
-        .transform((value) => ({
-          resolvedDisputes: value.resolvedDisputes.map((item) => ({
+    let ledger = ledgerFor(snapshot);
+    let reviewed: ReturnType<typeof applyLedger> = {
+      ledger,
+      insights: snapshot.insights,
+      audit: { seq: 0, accepted: [], closed: [], reopened: [], merged: [], rejected: [] },
+    };
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const requiredReviewIds = ledger.records
+        .filter((r) => !r.mergedInto && !r.verified)
+        .map((r) => r.id);
+      const output = await this.call(
+        'ledger',
+        this.input(context, {
+          candidates,
+          proposedResolutions,
+          purpose:
+            !candidates.length &&
+            ledger.records.some((r) => !r.mergedInto && !r.verified && r.status === 'disagreement')
+              ? 'legacy-migration'
+              : 'incremental',
+          knownIssues: ledgerDigest(ledger),
+          requiredReviewIds,
+          validationFeedback: reviewed.audit.rejected,
+        }),
+        ledgerSchema.transform((value) => ({
+          decisions: value.decisions.map((item) => ({
             ...item,
+            mergeIds: item.mergeIds ?? [],
             evidence: item.evidence.map((e) => ({
               ...e,
               messageId: aliases.get(e.messageId) ?? e.messageId,
             })),
           })),
-        }))
-        .refine(
-          (v) =>
-            v.resolvedDisputes.every((r) =>
-              old.some((item) => item.id === r.id && item.kind === 'disagreement'),
-            ),
-          '只能关闭当前已有分歧',
-        ),
-    );
-    this.assertDirection(id, context.directionVersion);
-    const next = reconcileInsights(
-      old,
-      old.filter((item) => item.kind === 'consensus'),
-      result.resolvedDisputes ?? [],
-      snapshot.messages.filter((m) => m.seq >= (snapshot.discussion.boundaryStartSeq ?? 0)),
-      snapshot.participants,
-    );
-    if (next.length !== old.length)
-      this.store.replaceInsights(
-        id,
-        next,
-        snapshot.discussion.contextSummary,
-        this.store.checkpoint(id),
+        })),
       );
+      this.assertDirection(id, context.directionVersion);
+      const semantic = await this.call(
+        'review',
+        this.input(context, {
+          purpose: 'ledger-grounding',
+          knownIssues: ledgerDigest(ledger),
+          ledgerCandidates: output.decisions,
+          existingConsensus: ledger.records
+            .filter((r) => r.status === 'consensus' && r.verified)
+            .map((r) => ({ id: r.id, text: r.text, evidence: r.evidence })),
+        }),
+        reviewSchema,
+      );
+      this.assertDirection(id, context.directionVersion);
+      const failures = semantic.issues;
+      // Independently rejected published claims become unverified until corrected;
+      // source history stays intact and omitted claims cannot silently reappear.
+      for (const record of ledger.records) {
+        if (record.status === 'consensus' && failures.some((f) => f.quote === record.text))
+          record.verified = false;
+      }
+      const semanticRejected = output.decisions.filter((item) =>
+        failures.some((f) => f.quote === item.text),
+      );
+      reviewed = applyLedger(
+        ledger,
+        ledgerSchema
+          .parse(output)
+          .decisions.filter((item) => !semanticRejected.some((r) => r.text === item.text)),
+        messages,
+        snapshot.participants,
+        `${id}:${snapshot.discussion.boundaryStartSeq ?? 0}`,
+      );
+      for (const item of semanticRejected)
+        reviewed.audit.rejected.push({
+          issueId: item.issueId,
+          reason:
+            'semantic_grounding: ' +
+            failures
+              .filter((f) => f.quote === item.text)
+              .map((f) => f.reason)
+              .join('；'),
+        });
+      for (const record of ledger.records.filter((r) => r.status === 'consensus' && !r.verified)) {
+        const reasons = failures.filter((f) => f.quote === record.text);
+        if (reasons.length)
+          reviewed.audit.rejected.push({
+            issueId: record.id,
+            reason: 'existing_claim_needs_correction: ' + reasons.map((f) => f.reason).join('；'),
+          });
+      }
+      ledger = reviewed.ledger;
+      this.log({
+        discussionId: id,
+        ledgerAccepted: reviewed.audit.accepted.length,
+        ledgerClosed: reviewed.audit.closed.length,
+        ledgerMerged: reviewed.audit.merged.length,
+        ledgerRejected: reviewed.audit.rejected,
+      });
+      if (!reviewed.audit.rejected.length) break;
+    }
+    return reviewed;
+  }
+  private async closeConfirmedDisputes(id: string) {
+    const snapshot = this.store.snapshot(id);
+    if (
+      !snapshot.insights.some((item) => item.kind === 'disagreement') &&
+      !snapshot.discussion.insightLedger?.records.some((r) => r.status === 'question')
+    )
+      return;
+    const reviewed = await this.reviewLedger(id);
+    this.store.replaceInsights(
+      id,
+      reviewed.insights,
+      snapshot.discussion.contextSummary,
+      this.store.checkpoint(id),
+      reviewed.ledger,
+    );
+  }
+  async repairInsights(id: string) {
+    if (this.repairJobs.has(id))
+      throw Object.assign(new Error('成果正在复核。'), { statusCode: 409 });
+    this.repairJobs.add(id);
+    try {
+      return await this.repairInsightsUnlocked(id);
+    } finally {
+      this.repairJobs.delete(id);
+    }
+  }
+  private async repairInsightsUnlocked(id: string) {
+    const before = this.store.snapshot(id),
+      d = before.discussion;
+    if (this.jobs.has(id) || !['completed', 'paused', 'error'].includes(d.status))
+      throw Object.assign(new Error('请先暂停或结束讨论，再复核历史成果。'), { statusCode: 409 });
+    if (d.source === 'curated')
+      throw Object.assign(new Error('人工示例只供浏览。'), { statusCode: 409 });
+    this.ensureMode(d);
+    const reviewed = await this.reviewLedger(id);
+    this.assertDirection(id, d.directionVersion ?? 0);
+    const snapshot = {
+      ...this.store.snapshot(id),
+      insights: reviewed.insights,
+      discussion: { ...this.store.get(id), insightLedger: reviewed.ledger },
+    };
+    const archivePatch =
+      d.status === 'completed'
+        ? {
+            summaryHistory: [
+              ...(d.summaryHistory ?? []),
+              {
+                cycle: d.cycle ?? 1,
+                topic: d.effectiveTopic ?? d.topic,
+                summary: d.summary ?? '',
+                details: d.summaryDetails ?? null,
+                createdAt: new Date().toISOString(),
+                revisionReason: '成果复核前归档',
+              },
+            ],
+            previousContexts: [
+              ...(d.previousContexts ?? []),
+              {
+                version: d.directionVersion ?? 0,
+                topic: d.effectiveTopic ?? d.topic,
+                insights: before.insights,
+                ledger: d.insightLedger,
+                createdAt: new Date().toISOString(),
+                reason: 'insight_repair',
+              },
+            ],
+            summary: renderConciseSummary(snapshot, [], d.endReason ?? 'user'),
+            summaryDetails: renderGroundedSummary(snapshot, []),
+          }
+        : {};
+    this.store.replaceInsights(
+      id,
+      reviewed.insights,
+      d.contextSummary,
+      this.store.checkpoint(id),
+      reviewed.ledger,
+      archivePatch,
+    );
+    return this.store.snapshot(id);
   }
   private async finish(
     id: string,

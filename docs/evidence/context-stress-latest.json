@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-11-17T08:35:40.199Z",
+  "testedAt": "2026-11-18T01:42:40.710Z",
   "budgetUnit": "完整上下文JSON的UTF-16字符数，预留2000字符给角色/候选/控制字段；不是精确Token预算。",
   "fixtureSource": "明确标记的合成长历史，不写入live讨论数据库。",
   "cases": [
@@ -10,7 +10,7 @@
       "inputChars": 9170,
       "omittedMessages": 31,
       "protectedAnchors": 5,
-      "durationMs": 3,
+      "durationMs": 4,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -26,7 +26,7 @@
       "inputChars": 25911,
       "omittedMessages": 19,
       "protectedAnchors": 5,
-      "durationMs": 3,
+      "durationMs": 4,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -42,7 +42,7 @@
       "inputChars": 9190,
       "omittedMessages": 171,
       "protectedAnchors": 5,
-      "durationMs": 9,
+      "durationMs": 11,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -58,7 +58,7 @@
       "inputChars": 25967,
       "omittedMessages": 159,
       "protectedAnchors": 5,
-      "durationMs": 11,
+      "durationMs": 15,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -74,7 +74,7 @@
       "inputChars": 9192,
       "omittedMessages": 591,
       "protectedAnchors": 5,
-      "durationMs": 32,
+      "durationMs": 36,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -90,7 +90,7 @@
       "inputChars": 25969,
       "omittedMessages": 579,
       "protectedAnchors": 5,
-      "durationMs": 41,
+      "durationMs": 51,
       "checks": {
         "withinBudget": true,
         "allCriticalQuotes": true,
@@ -108,7 +108,7 @@
     "results": [
       {
         "variant": "full",
-        "inputChars": 30098,
+        "inputChars": 29946,
         "result": {
           "answers": [
             {

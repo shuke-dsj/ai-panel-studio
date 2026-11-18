@@ -23,9 +23,11 @@ export function DiscussionResults({
                 <ChevronRight size={17} />
               </summary>
               <div className="result-body">
-                {kind === 'disagreement' && groups(kind).length > 0 && (
-                  <p className="empty-result">含保守保留的历史项，请结合来源核对最新立场。</p>
-                )}
+                {kind === 'disagreement' &&
+                  groups(kind).length > 0 &&
+                  !snapshot?.discussion.insightLedger && (
+                    <p className="empty-result">含保守保留的历史项，请结合来源核对最新立场。</p>
+                  )}
                 {groups(kind).length ? (
                   groups(kind).map((item) => (
                     <article key={item.id}>
@@ -35,6 +37,20 @@ export function DiscussionResults({
                         </p>
                       )}
                       <p>{item.text}</p>
+                      {!!item.evidence?.length && (
+                        <details className="source-quotes">
+                          <summary>查看原文支持与立场</summary>
+                          {item.evidence.map((e, n) => (
+                            <blockquote key={n}>
+                              <button onClick={() => onReference(e.messageId)}>
+                                {snapshot?.participants.find((p) => p.id === e.participantId)?.name}{' '}
+                                · #{e.seq}
+                              </button>
+                              ：{e.quote}
+                            </blockquote>
+                          ))}
+                        </details>
+                      )}
                       {kind === 'disagreement' &&
                         item.positions.map((p, i) => (
                           <p className="position" key={i}>
@@ -67,6 +83,61 @@ export function DiscussionResults({
               </div>
             </details>
           ))}
+          {(['question', 'closed', 'unverified'] as const).map((group) => {
+            const records =
+              snapshot?.discussion.insightLedger?.records.filter(
+                (r) =>
+                  !r.mergedInto &&
+                  (group === 'unverified'
+                    ? !r.verified && r.status === 'consensus'
+                    : group === 'question'
+                      ? r.status === 'question'
+                      : r.verified &&
+                        (r.status === 'resolved' ||
+                          (r.status === 'consensus' && r.closedAtSeq !== undefined))),
+              ) ?? [];
+            return records.length ? (
+              <details className="result-section" key={group}>
+                <summary>
+                  <FileText size={17} />
+                  <strong>
+                    {group === 'unverified'
+                      ? '证据待复核'
+                      : group === 'question'
+                        ? '待确认事项'
+                        : '已关闭分歧'}
+                    （{records.length}）
+                  </strong>
+                  <ChevronRight size={17} />
+                </summary>
+                <div className="result-body">
+                  {records.map((r) => (
+                    <article key={r.id}>
+                      <strong>{r.question}</strong>
+                      {group === 'unverified' && (
+                        <p className="empty-result">
+                          以下为未通过复核的候选，不计为当前共识或有效关闭。
+                        </p>
+                      )}
+                      <p>{r.text}</p>
+                      <details className="source-quotes">
+                        <summary>查看{group !== 'closed' ? '来源' : '关闭依据'}</summary>
+                        {r.evidence.map((e, n) => (
+                          <blockquote key={n}>
+                            <button onClick={() => onReference(e.messageId)}>
+                              {snapshot?.participants.find((p) => p.id === e.participantId)?.name} ·
+                              #{e.seq}
+                            </button>
+                            ：{e.quote}
+                          </blockquote>
+                        ))}
+                      </details>
+                    </article>
+                  ))}
+                </div>
+              </details>
+            ) : null;
+          })}
           {!!snapshot?.discussion.previousContexts?.length && (
             <details className="result-section archived-contexts">
               <summary>
@@ -121,9 +192,10 @@ export function DiscussionResults({
             <details className="summary-evidence">
               <summary>历史轮次总结（{snapshot.discussion.summaryHistory.length}）</summary>
               {snapshot.discussion.summaryHistory.map((h) => (
-                <article key={h.cycle}>
+                <article key={`${h.cycle}-${h.createdAt}`}>
                   <strong>
                     第{h.cycle}轮 · {h.topic}
+                    {h.revisionReason ? ` · ${h.revisionReason}` : ''}
                   </strong>
                   <p>{h.summary}</p>
                   <details>

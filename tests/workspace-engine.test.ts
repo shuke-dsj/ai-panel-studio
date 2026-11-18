@@ -6,6 +6,7 @@ import type { Model } from '../server/model.js';
 import { DemoModel } from '../server/demo-model.js';
 import { Store } from '../server/db.js';
 import { Engine } from '../server/engine.js';
+import { refreshArchivedSummary } from '../server/refresh-summary.js';
 
 class ProbeModel implements Model {
   mode = 'demo' as const;
@@ -34,6 +35,59 @@ async function setup(maxTurns = 48) {
   return { store, model, engine, id: d.id };
 }
 describe('interactive concurrent workspace engine', () => {
+  it('excludes revoked closure candidates when locally refreshing an archive without consuming model budget', async () => {
+    const { store, engine, id } = await setup(6);
+    try {
+      engine.start(id);
+      await engine.wait(id);
+      const before = store.snapshot(id),
+        ledger = before.discussion.insightLedger!;
+      const item = ledger.records.find((r) => r.status === 'consensus')!;
+      item.verified = false;
+      item.closedAtSeq = 6;
+      store.replaceInsights(
+        id,
+        before.insights,
+        before.discussion.contextSummary,
+        store.checkpoint(id),
+        ledger,
+      );
+      const refreshed = refreshArchivedSummary(store, id);
+      expect(refreshed.insights.some((i) => i.id === item.id)).toBe(false);
+      expect(refreshed.discussion.summary).toContain('已关闭0项');
+      expect(refreshed.discussion.modelCalls).toBe(before.discussion.modelCalls);
+      expect(refreshed.messages).toEqual(before.messages);
+      expect(store.events(id, 0).filter((e) => e.type === 'completed')).toHaveLength(1);
+      const cursor = store.cursor(id);
+      refreshArchivedSummary(store, id);
+      expect(store.cursor(id)).toBe(cursor);
+    } finally {
+      store.close();
+    }
+  });
+  it('repairs archived outcomes atomically while preserving the original summary, transcript and completion event', async () => {
+    const { store, model, engine, id } = await setup(6);
+    try {
+      engine.start(id);
+      await engine.wait(id);
+      const before = store.snapshot(id);
+      const run = model.run.bind(model);
+      model.run = async (task, input, schema, options) =>
+        task === 'ledger' ? schema.parse({ decisions: [] }) : run(task, input, schema, options);
+      await engine.repairInsights(id);
+      const after = store.snapshot(id);
+      expect(after.messages).toEqual(before.messages);
+      expect(after.insights).toEqual(before.insights);
+      expect(after.discussion.summaryHistory?.at(-1)?.summary).toBe(before.discussion.summary);
+      expect(after.discussion.previousContexts?.at(-1)?.ledger).toEqual(
+        before.discussion.insightLedger,
+      );
+      expect(store.events(id, 0).filter((e) => e.type === 'completed')).toHaveLength(1);
+      expect(after.discussion.insightLedger).toBeDefined();
+    } finally {
+      store.close();
+    }
+  });
   it('keeps every stored dispute when the model only echoes a subset of IDs in its convergence verdict', async () => {
     const { store, model, engine, id } = await setup(16);
     try {
@@ -85,12 +139,23 @@ describe('interactive concurrent workspace engine', () => {
       store.update(id, { status: 'paused' });
       const originalRun = model.run.bind(model);
       model.run = async (task, input, schema, options) =>
-        task === 'resolution'
+        task === 'ledger'
           ? schema.parse({
-              resolvedDisputes: [
+              decisions: [
                 {
-                  id: dispute.id,
-                  evidence: messages.map((m) => ({ messageId: m.id, quote: m.text })),
+                  issueId: dispute.id,
+                  mergeIds: [],
+                  question: '建议是否已获批准',
+                  text: '双方接受仅列为待批准建议',
+                  status: 'resolved',
+                  complete: true,
+                  evidence: messages.map((m) => ({
+                    messageId: m.id,
+                    quote: m.text,
+                    stance: 'accept',
+                    supportsClaim: true,
+                    view: '仅为待批准建议',
+                  })),
                 },
               ],
             })
@@ -114,15 +179,17 @@ describe('interactive concurrent workspace engine', () => {
       let reviewed = 0;
       model.run = async (task, input, schema, options) => {
         const data = input as any;
-        if (task === 'review' && data.purpose === 'consensus-grounding') {
+        if (task === 'review' && data.purpose === 'ledger-grounding') {
           reviewed++;
           return schema.parse({
-            issues: data.consensusCandidates.map((item: any) => ({
-              kind: 'consensus',
-              quote: item.text,
-              reason: '引用仅能证明不同阶段的条件，不能合并为同一共同判断。',
-              conflictsWith: [item.evidence[0].messageId],
-            })),
+            issues: data.ledgerCandidates
+              .filter((item: any) => item.status === 'consensus')
+              .map((item: any) => ({
+                kind: 'consensus',
+                quote: item.text,
+                reason: '角色分离不能证明同意指定期限。',
+                conflictsWith: [item.evidence[0].messageId],
+              })),
           });
         }
         return run(task, input, schema, options);

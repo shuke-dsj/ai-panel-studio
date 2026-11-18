@@ -2,6 +2,8 @@ import type { ZodType } from 'zod';
 import type { Message, Participant } from '../shared/types.js';
 import type { Model } from './model.js';
 import type { Task } from './prompts.js';
+import type { InsightOutput } from './schemas.js';
+import type { ledgerDigest } from './insight-ledger.js';
 // Explicit demonstration adapter. Never selected as a fallback.
 export class DemoModel implements Model {
   mode = 'demo' as const;
@@ -67,7 +69,44 @@ export class DemoModel implements Model {
       ['陆衡', '组织发展顾问', '协作评审专家', '关注流程与责任边界', '组织协作、培训与责任'],
     ];
     let result: unknown;
-    if (task === 'resolution') result = { resolvedDisputes: [] };
+    if (task === 'ledger') {
+      const data = input as {
+        candidates: InsightOutput['items'];
+        knownIssues: ReturnType<typeof ledgerDigest>;
+        proposedResolutions: { id: string; evidence: { messageId: string; quote: string }[] }[];
+      };
+      const decisions = data.candidates.map((item) => {
+        const old = data.knownIssues.find((r) => r.id === item.id || r.text === item.text);
+        return {
+          issueId: old?.mergedInto ?? old?.id ?? null,
+          mergeIds: [],
+          question: old?.question ?? item.text,
+          text: item.text,
+          status: item.kind,
+          complete: true,
+          evidence: item.evidence.map((e) => ({ ...e, supportsClaim: e.stance === 'support' })),
+        };
+      });
+      result = {
+        decisions: [
+          ...decisions,
+          ...(data.proposedResolutions ?? []).map((r) => ({
+            issueId: r.id,
+            mergeIds: [],
+            question: data.knownIssues.find((i) => i.id === r.id)?.question ?? '待确认条件',
+            text: '双方已明确接受修订条件',
+            status: 'resolved',
+            complete: true,
+            evidence: r.evidence.map((e) => ({
+              ...e,
+              stance: 'accept',
+              supportsClaim: true,
+              view: '接受修订条件',
+            })),
+          })),
+        ],
+      };
+    } else if (task === 'resolution') result = { resolvedDisputes: [] };
     else if (task === 'convergence') {
       const unresolvedIds = (input as { insights: { kind: string; id: string }[] }).insights
         .filter((i) => i.kind === 'disagreement')

@@ -168,6 +168,17 @@ export class RealModel implements Model {
           });
           retryHint =
             '\n上次响应未通过输出契约，请重新生成完整有效的 JSON；严格遵守字段、引用 ID 与发言句数要求，保持内容简洁，不增加解释或围栏。';
+          if (error instanceof ZodError)
+            retryHint +=
+              '\n具体校验约束：' +
+              JSON.stringify(
+                error.issues.slice(0, 6).map((issue) => ({
+                  path: issue.path.join('.'),
+                  code: issue.code,
+                  ...('maximum' in issue ? { maximum: issue.maximum } : {}),
+                  ...('minimum' in issue ? { minimum: issue.minimum } : {}),
+                })),
+              );
           if (code === 'SENTENCE_LIMIT')
             retryHint +=
               ' 上次专家发言超过句数限制，请严格只写1–2句，不使用编号或列表；同句多个条件可用分号连接。';

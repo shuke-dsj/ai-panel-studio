@@ -1,0 +1,218 @@
+{
+  "testedAt": "2026-11-18T01:42:40.710Z",
+  "budgetUnit": "完整上下文JSON的UTF-16字符数，预留2000字符给角色/候选/控制字段；不是精确Token预算。",
+  "fixtureSource": "明确标记的合成长历史，不写入live讨论数据库。",
+  "cases": [
+    {
+      "messages": 40,
+      "budget": 12000,
+      "rawMessageChars": 49785,
+      "inputChars": 9170,
+      "omittedMessages": 31,
+      "protectedAnchors": 5,
+      "durationMs": 4,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "messages": 40,
+      "budget": 28000,
+      "rawMessageChars": 49785,
+      "inputChars": 25911,
+      "omittedMessages": 19,
+      "protectedAnchors": 5,
+      "durationMs": 4,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "messages": 180,
+      "budget": 12000,
+      "rawMessageChars": 245327,
+      "inputChars": 9190,
+      "omittedMessages": 171,
+      "protectedAnchors": 5,
+      "durationMs": 11,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "messages": 180,
+      "budget": 28000,
+      "rawMessageChars": 245327,
+      "inputChars": 25967,
+      "omittedMessages": 159,
+      "protectedAnchors": 5,
+      "durationMs": 15,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "messages": 600,
+      "budget": 12000,
+      "rawMessageChars": 832487,
+      "inputChars": 9192,
+      "omittedMessages": 591,
+      "protectedAnchors": 5,
+      "durationMs": 36,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "messages": 600,
+      "budget": 28000,
+      "rawMessageChars": 832487,
+      "inputChars": 25969,
+      "omittedMessages": 579,
+      "protectedAnchors": 5,
+      "durationMs": 51,
+      "checks": {
+        "withinBudget": true,
+        "allCriticalQuotes": true,
+        "unresolvedDispute": true,
+        "recentMessage": true,
+        "originalUnchanged": true
+      }
+    }
+  ],
+  "realProbe": {
+    "fixtureMessages": 24,
+    "longFixtureMessages": 600,
+    "comparison": "full/compressed使用同一24条资料；compressed-600增加无关历史，关键条件和分歧保持相同。",
+    "deliberatelyCorruptSummary": true,
+    "results": [
+      {
+        "variant": "full",
+        "inputChars": 29946,
+        "result": {
+          "answers": [
+            {
+              "questionId": "scope",
+              "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+              "sourceMessageId": "m1"
+            },
+            {
+              "questionId": "veto",
+              "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+              "sourceMessageId": "m2"
+            },
+            {
+              "questionId": "maintenance",
+              "quote": "每月维护必须低于4人时，否则退出。",
+              "sourceMessageId": "m3"
+            },
+            {
+              "questionId": "stages",
+              "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+              "sourceMessageId": "m4"
+            }
+          ],
+          "unresolvedDisagreementIds": [
+            "audit-dispute"
+          ]
+        },
+        "checks": {
+          "answers": true,
+          "disputes": true
+        }
+      },
+      {
+        "variant": "compressed",
+        "inputChars": 9187,
+        "result": {
+          "answers": [
+            {
+              "questionId": "scope",
+              "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+              "sourceMessageId": "m1"
+            },
+            {
+              "questionId": "veto",
+              "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+              "sourceMessageId": "m2"
+            },
+            {
+              "questionId": "maintenance",
+              "quote": "每月维护必须低于4人时，否则退出。",
+              "sourceMessageId": "m3"
+            },
+            {
+              "questionId": "stages",
+              "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+              "sourceMessageId": "m4"
+            }
+          ],
+          "unresolvedDisagreementIds": [
+            "audit-dispute"
+          ]
+        },
+        "checks": {
+          "answers": true,
+          "disputes": true
+        }
+      },
+      {
+        "variant": "compressed-600",
+        "inputChars": 9209,
+        "result": {
+          "answers": [
+            {
+              "questionId": "scope",
+              "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+              "sourceMessageId": "m1"
+            },
+            {
+              "questionId": "veto",
+              "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+              "sourceMessageId": "m2"
+            },
+            {
+              "questionId": "maintenance",
+              "quote": "每月维护必须低于4人时，否则退出。",
+              "sourceMessageId": "m3"
+            },
+            {
+              "questionId": "stages",
+              "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+              "sourceMessageId": "m4"
+            }
+          ],
+          "unresolvedDisagreementIds": [
+            "audit-dispute"
+          ]
+        },
+        "checks": {
+          "answers": true,
+          "disputes": true
+        }
+      }
+    ],
+    "equivalent": true
+  },
+  "passed": true
+}

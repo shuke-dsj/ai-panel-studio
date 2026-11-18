@@ -12,12 +12,34 @@ describe('on-disk and HTTP recovery', () => {
     try {
       const before = new Store(path);
       const d = before.create('重启恢复测试', 2, 6);
+      const ledger = {
+        version: 1 as const,
+        records: [
+          {
+            id: 'closed-fixture',
+            question: '已关闭测试条件',
+            text: '双方确认后关闭',
+            status: 'resolved' as const,
+            verified: true,
+            requiredParticipantIds: ['a', 'b'],
+            evidence: [],
+            aliases: ['old-fixture'],
+            lastSeq: 2,
+            closedAtSeq: 2,
+            history: [],
+          },
+        ],
+        audit: [],
+      };
+      before.replaceInsights(d.id, [], '带墓碑的恢复测试', before.checkpoint(d.id), ledger);
       before.update(d.id, { status: 'summarizing', resumeStatus: 'summarizing' });
       const cursor = before.cursor(d.id);
       before.close();
       const after = new Store(path);
       after.recover();
       expect(after.get(d.id).status).toBe('paused');
+      expect(after.get(d.id).insightLedger).toEqual(ledger);
+      expect(after.insights(d.id)).toEqual([]);
       expect(after.get(d.id).resumeStatus).toBe('summarizing');
       expect(after.cursor(d.id)).toBeGreaterThan(cursor);
       expect(after.events(d.id, 0)[0].discussionId).toBe(d.id);

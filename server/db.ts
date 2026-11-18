@@ -17,6 +17,7 @@ import type {
   Activity,
   Discussion,
   Insight,
+  InsightLedger,
   Intent,
   Message,
   PanelEvent,
@@ -173,6 +174,7 @@ export class Store {
             version: d.directionVersion ?? 0,
             topic: d.effectiveTopic ?? d.topic,
             insights: this.insights(id),
+            ledger: d.insightLedger,
             createdAt: now,
           },
         ];
@@ -180,6 +182,7 @@ export class Store {
         d.focus = '';
         d.boundaryStartSeq = before.length + 1;
         d.contextSummary = '用户已更新前提；旧条件只作历史，不能覆盖当前用户前提。';
+        d.insightLedger = { version: 1, records: [], audit: [] };
         this.db.prepare('DELETE FROM insights WHERE discussion_id=?').run(id);
         if (['draft', 'generating', 'roster_ready', 'ready'].includes(d.status)) {
           if (d.status !== 'generating' && this.participants(id).length) d.status = 'roster_ready';
@@ -376,8 +379,15 @@ export class Store {
       .all(id)
       .map((row) => parse<Insight>(row));
   }
-  replaceInsights(id: string, insights: Insight[], contextSummary: string, cp?: Checkpoint) {
-    const e = this.transaction(() => {
+  replaceInsights(
+    id: string,
+    insights: Insight[],
+    contextSummary: string,
+    cp?: Checkpoint,
+    ledger?: InsightLedger,
+    archivePatch: Partial<Discussion> = {},
+  ) {
+    const events = this.transaction(() => {
       this.db.prepare('DELETE FROM insights WHERE discussion_id=?').run(id);
       for (const item of insights)
         this.db
@@ -385,11 +395,14 @@ export class Store {
           .run(item.id, id, JSON.stringify(item));
       const d = this.get(id);
       d.contextSummary = contextSummary;
+      if (ledger) d.insightLedger = ledger;
+      Object.assign(d, archivePatch);
       this.write(d);
       if (cp) this.setCheckpoint(id, cp);
-      return this.insertEvent(id, 'insights', insights);
+      const update = this.insertEvent(id, 'insights', insights);
+      return ledger ? [update, this.insertEvent(id, 'status', d)] : [update];
     });
-    this.bus.emit(id, e);
+    for (const event of events) this.bus.emit(id, event);
   }
   cursor(id: string): number {
     return (

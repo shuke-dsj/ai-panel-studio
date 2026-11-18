@@ -58,6 +58,44 @@ export interface Insight {
   text: string;
   messageIds: string[];
   positions: { participantId: string; view: string }[];
+  question?: string;
+  evidence?: InsightEvidence[];
+}
+export interface InsightEvidence {
+  messageId: string;
+  participantId: string;
+  quote: string;
+  stance: 'support' | 'oppose' | 'accept' | 'withdraw' | 'context';
+  supportsClaim: boolean;
+  view: string;
+  seq: number;
+}
+export type IssueStatus = 'consensus' | 'disagreement' | 'question' | 'resolved' | 'merged';
+export interface IssueRecord {
+  id: string;
+  question: string;
+  text: string;
+  status: IssueStatus;
+  verified: boolean;
+  requiredParticipantIds: string[];
+  evidence: InsightEvidence[];
+  aliases: string[];
+  lastSeq: number;
+  closedAtSeq?: number;
+  mergedInto?: string;
+  history: { status: IssueStatus; text: string; evidence: InsightEvidence[]; seq: number }[];
+}
+export interface InsightLedger {
+  version: 1;
+  records: IssueRecord[];
+  audit: {
+    seq: number;
+    accepted: string[];
+    closed: string[];
+    reopened: string[];
+    merged: string[];
+    rejected: { issueId: string | null; reason: string }[];
+  }[];
 }
 export interface EvidenceAnchor {
   id: string;
@@ -82,6 +120,7 @@ export interface Discussion {
   summary: string | null;
   contextSummary: string;
   evidenceMemory?: EvidenceMemory;
+  insightLedger?: InsightLedger;
   effectiveTopic?: string;
   focus?: string;
   directionVersion?: number;
@@ -105,8 +144,16 @@ export interface Discussion {
     summary: string;
     details: string | null;
     createdAt: string;
+    revisionReason?: string;
   }[];
-  previousContexts?: { version: number; topic: string; insights: Insight[]; createdAt: string }[];
+  previousContexts?: {
+    version: number;
+    topic: string;
+    insights: Insight[];
+    createdAt: string;
+    ledger?: InsightLedger;
+    reason?: string;
+  }[];
   error: string | null;
   resumeStatus: 'running' | 'summarizing' | null;
   createdAt: string;

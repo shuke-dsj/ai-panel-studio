@@ -981,6 +981,30 @@ p {
   line-height: 1.9;
   padding-top: 13px;
 }
+.source-quotes {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #617080;
+}
+.source-quotes > summary {
+  cursor: pointer;
+  color: #347e65;
+}
+.source-quotes blockquote {
+  margin: 8px 0;
+  padding: 7px 10px;
+  border-left: 2px solid #c8dbd3;
+  background: #f7faf8;
+  overflow-wrap: anywhere;
+}
+.source-quotes button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #347e65;
+  font: inherit;
+  text-decoration: underline;
+}
 .closing-summary {
   padding: 0;
   flex: 0 0 auto;

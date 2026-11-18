@@ -1,0 +1,263 @@
+{
+  "discussion": {
+    "id": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+    "topic": "公开合成产品评审：6位工程师、无专职运维的小团队，计划做仅非敏感示例文档的只读知识库2周试点，后续4周收益评估需另行批准。只评审两个问题：运行联系人应在启动前还是运行时指定；退出负责人应在启动前还是退出前指定。比较可执行性和成本，明确阶段与适用条件，真实人选由用户指定，不自行承诺已批准或已执行。",
+    "expertCount": 2,
+    "maxTurns": 16,
+    "turns": 1,
+    "status": "error",
+    "phase": "exploration",
+    "summary": null,
+    "contextSummary": "当前共识：两角色时点问题尚在观点展开，沈砚舟已发言主张运行联系人与退出负责人均在启动前指定，理由为无专职运维下临时找人易落空、责任稀释、退出无人拍板，运行时变更仅作替补例外，人选由用户指定。周岚仅以角色资料提出不同条件（运行联系人启动前定角色与替补机制、运行时确认当班人；退出负责人启动前指定），本轮尚未实际发言，不能计为已表态或共识。主持人划定范围：2周非敏感示例文档只读试点，后续4周收益评估需另行批准，真实人选由用户指定，不承诺已批准或已执行。用户最新焦点要求区分联系名单与能力验收、启动阶段与退出阶段；接受或撤回旧反对须指出原话；待用户指定或批准的内容保持待办；不加新期限或范围外议题。未解决：运行联系人是否必须启动前定具体姓名还是可运行时确认当班人；退出负责人是否需要同时满足启动前与退出前两次确认；联系名单与能力验收是否分开管理。",
+    "evidenceMemory": {
+      "version": 1,
+      "anchors": [
+        {
+          "id": "f26b7f2c-9bb8-4a89-b461-bd08178c6e74:0",
+          "messageId": "f26b7f2c-9bb8-4a89-b461-bd08178c6e74",
+          "participantId": "7f233f42-a798-4161-ba22-176f6819aab1",
+          "seq": 1,
+          "quote": "本轮只评审两个问题：运行联系人、退出负责人分别该在启动前还是运行时/退出前指定；比较可执行性与成本，阶段限定为2周非敏感示例文档只读试点，后续4周收益评估需另行批准，真实人选由用户指定。",
+          "kinds": [
+            "scope",
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "e8dab610-4d0f-4b99-9521-5bc15648af1b:1",
+          "messageId": "e8dab610-4d0f-4b99-9521-5bc15648af1b",
+          "participantId": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+          "seq": 2,
+          "quote": "退出负责人若延到退出前才指定，可能在2周试点结束时无人有权拍板；运行时变更只应作为替补例外流程，人选仍由用户指定。",
+          "kinds": [
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5:0",
+          "messageId": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5",
+          "participantId": "user",
+          "seq": 3,
+          "quote": "请先回应双方对运行联系人与退出负责人的不同条件；区分联系名单与能力验收、启动阶段与退出阶段。",
+          "kinds": [
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5:1",
+          "messageId": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5",
+          "participantId": "user",
+          "seq": 3,
+          "quote": "接受或撤回旧反对时明确指出对应原话，仍需用户指定或批准的内容保持待办；不要增加新期限或范围外议题。",
+          "kinds": [
+            "scope",
+            "condition"
+          ]
+        },
+        {
+          "id": "9a66ac0e-155c-4121-90bb-cf202777c059:0",
+          "messageId": "9a66ac0e-155c-4121-90bb-cf202777c059",
+          "participantId": "7f233f42-a798-4161-ba22-176f6819aab1",
+          "seq": 4,
+          "quote": "确认用户新焦点生效：仍限于2周非敏感只读试点，后续4周评估另行批准，人选与批准保持待办。",
+          "kinds": [
+            "scope",
+            "timeline"
+          ]
+        },
+        {
+          "id": "9a66ac0e-155c-4121-90bb-cf202777c059:1",
+          "messageId": "9a66ac0e-155c-4121-90bb-cf202777c059",
+          "participantId": "7f233f42-a798-4161-ba22-176f6819aab1",
+          "seq": 4,
+          "quote": "请沈砚舟先按新焦点回应周岚提出的分开规则，并区分联系名单与能力验收各自落在启动前还是运行时。",
+          "kinds": [
+            "condition"
+          ]
+        }
+      ]
+    },
+    "error": "发言仍存在范围、时间线或共识归因冲突，已暂停且未提交该发言。最近校验指出：沈砚舟原话是“运行时变更只应作为替补例外流程”，并把“启动前固定姓名与替补”作为主流程、运行时临时找接班人视为易落空；周岚的“运行时确认当班人”与沈砚舟把运行时定位为例外替补并不完全同义，且其前句明确“不接受两个角色都在启动前指定”，此处引用沈砚舟判断作为“部分接受”的共识基础需说明仅接受例外变更这一点，避免被读成对运行时确认的认可。",
+    "resumeStatus": "running",
+    "createdAt": "2026-11-18T01:47:38.256Z",
+    "updatedAt": "2026-11-18T01:48:20.02Z",
+    "source": "live",
+    "effectiveTopic": "公开合成产品评审：6位工程师、无专职运维的小团队，计划做仅非敏感示例文档的只读知识库2周试点，后续4周收益评估需另行批准。只评审两个问题：运行联系人应在启动前还是运行时指定；退出负责人应在启动前还是退出前指定。比较可执行性和成本，明确阶段与适用条件，真实人选由用户指定，不自行承诺已批准或已执行。",
+    "focus": "请先回应双方对运行联系人与退出负责人的不同条件；区分联系名单与能力验收、启动阶段与退出阶段。接受或撤回旧反对时明确指出对应原话，仍需用户指定或批准的内容保持待办；不要增加新期限或范围外议题。",
+    "directionVersion": 1,
+    "boundaryStartSeq": 0,
+    "handledDirectionVersion": 1,
+    "rosterStale": false,
+    "cycle": 1,
+    "cycleStartTurns": 0,
+    "cycleStartSeq": 0,
+    "directionStartTurns": 1,
+    "modelCalls": 23,
+    "activeMs": 38068,
+    "runStartedAt": null,
+    "limits": {
+      "minTurns": 6,
+      "maxModelCalls": 140,
+      "maxActiveMs": 720000
+    },
+    "endReason": null,
+    "summaryDetails": null,
+    "summaryHistory": [],
+    "previousContexts": [],
+    "lastMeterAt": "2026-11-18T01:48:18.275Z",
+    "insightLedger": {
+      "version": 1,
+      "audit": [
+        {
+          "seq": 3,
+          "accepted": [],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "semantic_grounding: 该条目以“question”而非待批准提议记录，且其文字容易被读作本轮已确认的安排；但原文只是用户与主持人设定的边界前提，而非待批准的共识提议，无法由两条来源共同支持这一原子判断。应改为“待用户指定/待批准”的前置约束，不能列为完整共识或已决问题。"
+            }
+          ]
+        },
+        {
+          "seq": 3,
+          "accepted": [],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            }
+          ]
+        }
+      ],
+      "records": []
+    }
+  },
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林知远",
+      "occupation": "技术评审主持人",
+      "title": "评审协调人",
+      "stance": "确认本轮只评审两个角色指定时点问题，以“启动前指定”和“运行时/退出前指定”为对比轴，结论限定在2周试点与后续4周收益评估需另行批准的边界内；不承诺任何已批准或已执行事项，真实人选由用户指定。",
+      "focus": "议程边界控制、阶段划分、可执行性与成本对比、决策记录",
+      "id": "7f233f42-a798-4161-ba22-176f6819aab1",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "color": "#b78626"
+    },
+    {
+      "role": "expert",
+      "name": "沈砚舟",
+      "occupation": "SRE工程师",
+      "title": "高级站点可靠性工程师",
+      "stance": "两个角色都应在启动前指定：小团队无专职运维，临时找人易落空且责任稀释；启动前固定姓名与替补可执行性最高，运行时再指定只适合作为替补变更的例外流程。",
+      "focus": "值班可执行性、联系人可达性、替补与升级路径、无专职运维下的隐性协调成本",
+      "id": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "周岚",
+      "occupation": "敏捷交付项目经理",
+      "title": "交付治理与流程顾问",
+      "stance": "运行联系人可在启动前只定角色与替补机制、运行时确认当班人；退出负责人须在启动前指定，否则退出决策会被无限推迟。两类指定的成本结构不同，应分开定规则而非统一处理。",
+      "focus": "流程成本、决策延迟风险、角色与具体人选的区分、试点阶段门禁与后续评估衔接",
+      "id": "44f56c54-d555-41fc-82cd-521e660520a9",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "color": "#427abf"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "7f233f42-a798-4161-ba22-176f6819aab1",
+      "text": "本轮只评审两个问题：运行联系人、退出负责人分别该在启动前还是运行时/退出前指定；比较可执行性与成本，阶段限定为2周非敏感示例文档只读试点，后续4周收益评估需另行批准，真实人选由用户指定。请各位分别说明两个角色所选时点的理由，并对不同意见给出适用条件。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "f26b7f2c-9bb8-4a89-b461-bd08178c6e74",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "seq": 1,
+      "createdAt": "2026-11-18T01:47:44.16Z"
+    },
+    {
+      "participantId": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+      "text": "我主张两个角色都在启动前指定：无专职运维时，运行时临时找接班人容易落空并稀释责任，启动前固定姓名与替补的可执行性最高。退出负责人若延到退出前才指定，可能在2周试点结束时无人有权拍板；运行时变更只应作为替补例外流程，人选仍由用户指定。",
+      "replyTo": "f26b7f2c-9bb8-4a89-b461-bd08178c6e74",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "e8dab610-4d0f-4b99-9521-5bc15648af1b",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "seq": 2,
+      "createdAt": "2026-11-18T01:47:50.142Z"
+    },
+    {
+      "id": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "participantId": "user",
+      "seq": 3,
+      "text": "请先回应双方对运行联系人与退出负责人的不同条件；区分联系名单与能力验收、启动阶段与退出阶段。接受或撤回旧反对时明确指出对应原话，仍需用户指定或批准的内容保持待办；不要增加新期限或范围外议题。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "createdAt": "2026-11-18T01:47:51.012Z",
+      "kind": "direction",
+      "directionVersion": 1,
+      "directionMode": "focus",
+      "clientRequestId": "32e8676a-dd2a-45fc-ba40-1bbd740dc11c"
+    },
+    {
+      "participantId": "7f233f42-a798-4161-ba22-176f6819aab1",
+      "text": "确认用户新焦点生效：仍限于2周非敏感只读试点，后续4周评估另行批准，人选与批准保持待办。请沈砚舟先按新焦点回应周岚提出的分开规则，并区分联系名单与能力验收各自落在启动前还是运行时。",
+      "replyTo": "68940f44-92b9-45a2-8dce-e0ca93f0e2b5",
+      "addressedTo": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 1,
+      "id": "9a66ac0e-155c-4121-90bb-cf202777c059",
+      "discussionId": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "seq": 4,
+      "createdAt": "2026-11-18T01:48:12.051Z"
+    }
+  ],
+  "insights": [],
+  "activities": {
+    "7f233f42-a798-4161-ba22-176f6819aab1": {
+      "state": "idle",
+      "focus": "议程边界控制、阶段划分、可执行性与成本对比、决策记录"
+    },
+    "0ce8deb9-3b34-4d13-8573-2295108b72b4": {
+      "state": "idle",
+      "focus": "值班可执行性、联系人可达性、替补与升级路径、无专职运维下的隐性协调成本"
+    },
+    "44f56c54-d555-41fc-82cd-521e660520a9": {
+      "state": "idle",
+      "focus": "流程成本、决策延迟风险、角色与具体人选的区分、试点阶段门禁与后续评估衔接"
+    }
+  },
+  "cursor": 40
+}

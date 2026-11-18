@@ -6,6 +6,34 @@ import { renderGroundedSummary, renderConciseSummary } from '../server/summary.j
 import { directConsistencyIssues, hasUniversalAgreement } from '../server/consistency.js';
 import { reconcileInsights, validateInsights } from '../server/scheduler.js';
 describe('loss-aware context compression', () => {
+  it('keeps full cited paragraphs when the entire history fits instead of prematurely removing a referenced field list', () => {
+    const s = longDiscussion(8);
+    s.messages[0].text = '登记字段包括事件类型、执行人和执行起止时间。具体阈值仍需另行批准。';
+    s.insights[0].messageIds = [s.messages[0].id];
+    const c = buildContext(s, [], 100000);
+    expect(c.messages.find((m) => m.id === s.messages[0].id)?.text).toBe(s.messages[0].text);
+    expect(c.compression.applied).toBe(false);
+  });
+  it('protects exact ledger support quotes even when they are not condition anchors under pressure', () => {
+    const s = longDiscussion(600);
+    const quote = '登记字段包括事件类型、执行人和执行起止时间。';
+    s.messages[0].text = quote + '具体阈值仍需另行批准。';
+    s.insights[0].messageIds = [s.messages[0].id];
+    s.insights[0].evidence = [
+      {
+        messageId: s.messages[0].id,
+        participantId: s.messages[0].participantId,
+        quote,
+        seq: 1,
+        stance: 'support',
+        supportsClaim: true,
+        view: '支持登记字段',
+      },
+    ];
+    const c = buildContext(s, [], 12000);
+    expect(c.messages.find((m) => m.id === s.messages[0].id)?.text).toContain(quote);
+    expect(JSON.stringify(c).length).toBeLessThanOrEqual(10000);
+  });
   it.each([40, 180, 600])(
     'keeps early negative conditions, timelines and unresolved disputes over %i messages',
     (count) => {

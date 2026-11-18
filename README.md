@@ -6,6 +6,10 @@
 
 React + TypeScript / Fastify / Node 内置 SQLite / SSE。支持多场讨论隔离、发言边界暂停、失败步骤重试、断线恢复与重启恢复。
 
+2026-11-18增加稳定议题账本：同义合并、关闭历史、逐字支持证据和待外部确认事项分开保存；未通过复核的候选不计共识或有效关闭。见[账本验收报告](docs/INSIGHT-LEDGER-REGRESSION.md)。
+
+历史成果复核：已确认历史内容可发送到当前模型接口后，调用 `POST /api/discussions/:id/reconcile`（`{}`），原发言和旧总结保留。仅重排已有核验结果而不调用模型，可运行 `npx tsx scripts/refresh-summary.ts <已结束讨论ID>`；页面刷新后读取新归档。独立SQLite审计使用 `npx tsx scripts/audit-ledger.ts <真实回归ID>`，该脚本还对照本次旧记录修复前证据。
+
 ## 快速开始
 
 需要 **Node.js 24+**、npm。无需单独安装 SQLite 或 Python。

@@ -3,6 +3,7 @@ import { phaseLabels } from '../shared/types.js';
 import { extractEvidenceMemory } from './memory.js';
 import { ModelError } from './model.js';
 import { cycleTurns, limitsFor } from './boundaries.js';
+import { ledgerDigest } from './insight-ledger.js';
 export class ContextBudgetError extends ModelError {
   constructor(budget?: number) {
     super(
@@ -39,6 +40,7 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
     termination: { ...limitsFor(d), maxTurns: d.maxTurns },
     messages: [] as ContextMessage[],
     insights,
+    ...(d.insightLedger ? { knownIssues: ledgerDigest(d.insightLedger) } : {}),
     evidenceMemory,
     contextSummary: d.contextSummary,
     summaryAuthority: 'navigation_only' as const,
@@ -53,9 +55,18 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
   };
   const cap = budget - 2000; // Reserve for current role, intent, candidate and control fields.
   const size = () => JSON.stringify(context).length;
+  // Do not excerpt cited source paragraphs when the complete history already fits.
+  // Premature excerpts can remove the clause that an acceptance refers back to.
+  context.messages = messages.map((m) => ({ ...m }));
+  for (let i = 0; i < 3; i++) context.compression.inputChars = size();
+  if (size() <= cap) return context;
+  context.messages = [];
   const recent = new Set(messages.slice(-2).map((m) => m.id));
   const refs = new Set([
     ...insights.flatMap((i) => i.messageIds),
+    ...(context.knownIssues ?? []).flatMap((r) =>
+      [...r.evidence, ...r.previousPositions].map((e) => e.messageId).concat(r.contextMessageIds),
+    ),
     ...queue.flatMap((i) => (i.replyTo ? [i.replyTo] : [])),
     ...messages.filter((m) => m.kind === 'direction').map((m) => m.id),
   ]);
@@ -66,7 +77,16 @@ export function buildContext(snapshot: Snapshot, queue: Intent[], budget: number
       const quotes = evidenceMemory.anchors
         .filter((a) => a.messageId === message.id)
         .map((a) => a.quote);
-      const excerptText = quotes.length ? quotes.join('\n') : message.text;
+      const citedQuotes = [
+        ...insights.flatMap((i) => i.evidence ?? []),
+        ...(context.knownIssues ?? []).flatMap((r) => [...r.evidence, ...r.previousPositions]),
+      ]
+        .filter((e) => e.messageId === message.id && message.text.includes(e.quote))
+        .map((e) => e.quote);
+      const excerptText =
+        quotes.length || citedQuotes.length
+          ? [...new Set([...quotes, ...citedQuotes])].join('\n')
+          : message.text;
       value = {
         ...message,
         text: excerptText,

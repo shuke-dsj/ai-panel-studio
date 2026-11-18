@@ -4,7 +4,7 @@
 
 追加字段：`summary`为简短的自然语言总结，`summaryDetails`为完整的证据、条件、分歧及阶段安排；二者均写入discussions.data，completed事件和Snapshot携带同一归档内容。`endReason`区分稳定收束、停滞、发言/时间/调用预算和用户结束；达到预算不能称为已达成一致。
 
-共同判断增加逐来源语义review，验证同一原子条件和阶段归因。收束判断前/归档前的resolution步骤仅提出逐ID关闭凭证，后端按实际专家、逐字引用、各方自身最近证据和后续反对复核；旧状态仍在事件中。模型的unresolvedIds只可引用已有ID，完整未关闭列表始终从数据库保留，不依赖模型逐一复述；矛盾的ready/needs_more不计收束票数。所有额外调用及重试均受本轮调用/时间预算约束。
+共同判断增加逐来源语义ledger-grounding审核，验证同一原子条件和阶段归因。收束判断前/归档前复核议题账本，由ledger独立提出逐ID关闭凭证，后端按实际专家、逐字引用、各方自身最近有效立场和新反对复核；旧状态仍在事件和账本历史中。旧候选resolvedDisputes不再参与关闭。模型的unresolvedIds只可引用已有ID，完整未关闭列表始终从数据库保留，不依赖模型逐一复述；矛盾的ready/needs_more不计收束票数。所有额外调用及重试均受本轮调用/时间预算约束。
 
 所有路由以 `/api` 为前缀。请求与响应为 JSON，SSE 除外。服务仅监听 127.0.0.1；浏览器写操作拒绝跨站来源。无账户和权限系统。
 
@@ -29,6 +29,18 @@ topic去除首尾空白后1–2000字符；expertCount整数2–6，默认4。ma
 `POST /discussions/:id/directions`：`{text,mode:"focus"|"replace",clientRequestId:UUID}`。已接入中央底部输入区。同一请求ID幂等；focus保留硬前提，replace归档旧成果并移动boundaryStartSeq，旧消息仍留库，过期候选按directionVersion拒绝提交。结束后或已触及本轮上限时重开周期，保存summaryHistory；确认前修改前提会标记rosterStale，旧阵容不能确认。
 
 ## 核心类型
+
+### 2026-11-18：议题账本与历史复核
+
+`POST /discussions/:id/reconcile`，请求 `{}`，等待真实模型复核后返回Snapshot。仅允许本机非示例记录处于completed/paused/error，运行中或重复并发复核返回409；沿用当前模型、费用及调用预算，不自动改用演示。该操作会把当前边界内原文发送到配置接口，调用者应确认历史内容可出站。前提替换、启动和提前结束在复核锁期间被拒绝。
+
+`Discussion.insightLedger`保存version=1、records与audit。记录含稳定id、中性question、当前text、status（consensus/disagreement/question/resolved/merged）、逐字evidence、requiredParticipantIds、aliases、mergedInto、closedAtSeq、历史状态history。每条证据保存messageId、实际participantId、seq、quote、语义stance、supportsClaim；身份和原文由后端核验。audit记录接受、关闭、合并、重开和拒绝原因。question为待外部确认项，不计入专家实质分歧。
+
+`insights`表是账本当前投影，只发布有证据的共识与仍开放分歧；关闭与合并保留在discussions.data账本中。列表省略不删除已验证共识或开放记录；同义合并保留墓碑，历史反对不能重新打开已关闭项。只有关闭后的新相关反对可重开。语义匹配由模型提出，后端不以相似词自动合并不同阶段条件。
+
+后续独立审核若否定已有共识，将verified设为false，原证据及关闭序号只作历史。当前有效关闭必须verified=true；界面将此类候选放入“证据待复核”，不作为共识或当前关闭。初步insights步骤的旧resolvedDisputes字段已忽略，所有关闭只走ledger的双向证据校验，避免两个协议互相冲突。
+
+已完成记录复核时，原总结存入summaryHistory（revisionReason），原成果及账本存入previousContexts（reason=insight_repair）。新投影、账本、历史归档与按新证据装配的总结在同一SQLite事务保存；消息不改写，原事件保留，不额外产生completed事件。提交后推送insights与status，重连快照包含完整账本。
 
 完整 TypeScript 类型见 `shared/types.ts`。
 

@@ -1,0 +1,997 @@
+{
+  "discussion": {
+    "id": "3b05567d-11cb-4105-8aeb-158a8b063944",
+    "topic": "公开的合成产品评审测试，不涉及任何真实组织或私人资料：6位工程师、无专职运维的小团队是否值得做只读内部知识库？固定前提仅使用非敏感示例文档，初始试点2周，后续4周评估需另行批准。请讨论运行联络人与退出负责人分别应在哪个阶段指定，区分启动门槛、运行回退和退出前条件；对彼此实际提出的条件澄清或反驳，也明确可以接受的条件与仍需外部确认的事项。",
+    "expertCount": 2,
+    "maxTurns": 16,
+    "turns": 3,
+    "status": "error",
+    "phase": "exchange",
+    "summary": null,
+    "contextSummary": "固定前提：仅非敏感示例文档、只读内部知识库；初始试点2周，后续4周评估需另行批准，不并入同一截止日。用户新版焦点：优先讨论失败后人工回退、退出责任人与维护工时验证；2周、只读、非敏感硬前提不变，新阈值未批准，主持人已确认保留原边界。\n\n已达成共识：运行联络人与退出负责人必须分离，不得同一人兼任，防止修复者自评（许岸提出、周岚接受）。\n\n条件性一致但未成全体共识：退出负责人最迟在试点结束前书面指定并备案，作为退出前条件（许岸明确表述）。\n\n分歧：1) 运行联络人指定时点——周岚主张试点启动门槛时由值班最频繁者兼任登记；许岸强调不能只临时指派、4周评估前须复核回退沟通能力，该复核属另行批准提议。2) 回退失败触发——周岚提议记录失败现象与时间、交退出负责人24小时内复核，许岸以“待批准提议+可核验记录”接受，24小时与记录内容仍待外部批准。3) 维护工时：许岸提议2周内逐日登记、只记录不设阈值，尚未见周岚回应。\n\n待议/待外部确认：工时登记由联络人执行是否接受、退出前条件清单、回退沟通复核的批准归属。事实假设：值班最频繁者存在；意见：24小时节点与启动登记属未批准提议。",
+    "evidenceMemory": {
+      "version": 1,
+      "anchors": [
+        {
+          "id": "bbac98fb-8f5f-4db6-b060-086666d72701:0",
+          "messageId": "bbac98fb-8f5f-4db6-b060-086666d72701",
+          "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+          "seq": 1,
+          "quote": "开场先定边界：本场只讨论非敏感示例文档组成的只读内部知识库，初始试点2周，后续4周评估需另行批准，不能默认并入同一截止日。",
+          "kinds": [
+            "scope",
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "bbac98fb-8f5f-4db6-b060-086666d72701:1",
+          "messageId": "bbac98fb-8f5f-4db6-b060-086666d72701",
+          "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+          "seq": 1,
+          "quote": "评审标准是启动门槛可核验、运行回退有明确联络人、退出前有独立负责人；请周岚与许岸分别说明这两个角色应在哪个阶段指定、为何不能合并为一人。",
+          "kinds": [
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "24d61fbe-4511-496a-8302-dba706f9ddae:0",
+          "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 2,
+          "quote": "我接受把退出负责人最迟在试点结束前书面指定并备案，这能形成可追溯的退出前条件；但运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准。",
+          "kinds": [
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "24d61fbe-4511-496a-8302-dba706f9ddae:1",
+          "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 2,
+          "quote": "两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+          "kinds": [
+            "condition"
+          ]
+        },
+        {
+          "id": "3d92995e-2f7e-4f28-aa38-b3ab1a205ef5:0",
+          "messageId": "3d92995e-2f7e-4f28-aa38-b3ab1a205ef5",
+          "participantId": "user",
+          "seq": 3,
+          "quote": "接下来优先讨论失败后的人工回退、退出责任人与维护工时验证；2周、只读和非敏感的硬前提不变，不把新阈值当成已批准。",
+          "kinds": [
+            "scope",
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f:0",
+          "messageId": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f",
+          "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+          "seq": 4,
+          "quote": "确认新焦点：优先讨论失败后人工回退、退出责任人与维护工时验证；2周试点、只读、非敏感三项硬前提保留，原定4周评估仍须另行批准，任何新工时阈值只算提议。",
+          "kinds": [
+            "scope",
+            "timeline",
+            "condition"
+          ]
+        },
+        {
+          "id": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f:1",
+          "messageId": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f",
+          "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+          "seq": 4,
+          "quote": "请周岚先回答一个具体问题：人工回退流程由运行联络人执行时，退出负责人要在哪个可核验节点确认回退失败并触发退出判断？",
+          "kinds": [
+            "condition"
+          ]
+        },
+        {
+          "id": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b:0",
+          "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "seq": 5,
+          "quote": "人工回退首次执行后仍未恢复只读查询，应由运行联络人记录失败现象与尝试时间，并提交给退出负责人在24小时内的复核节点确认是否触发退出判断；这个24小时只是我方提议、尚未批准。",
+          "kinds": [
+            "scope",
+            "condition"
+          ]
+        },
+        {
+          "id": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b:1",
+          "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "seq": 5,
+          "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件。",
+          "kinds": [
+            "timeline"
+          ]
+        },
+        {
+          "id": "ae56171d-7089-42fc-bc81-92afcdda0004:0",
+          "messageId": "ae56171d-7089-42fc-bc81-92afcdda0004",
+          "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+          "seq": 6,
+          "quote": "请许岸回应周岚的提议：若采用“运行联络人在试点启动门槛登记、退出负责人最迟试点结束前指定”，你能接受哪些条件，回退沟通复核与24小时复核节点又留给谁在哪个批准环节确认？",
+          "kinds": [
+            "condition"
+          ]
+        },
+        {
+          "id": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1:0",
+          "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 7,
+          "quote": "我接受周岚的24小时复核作为待批准提议，但触发条件要可核验：运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，退出负责人据此书面确认是否退出。",
+          "kinds": [
+            "scope",
+            "condition"
+          ]
+        },
+        {
+          "id": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1:1",
+          "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 7,
+          "quote": "维护工时验证我提议在2周试点内由联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均需另行批准。",
+          "kinds": [
+            "timeline",
+            "condition"
+          ]
+        }
+      ]
+    },
+    "error": "发言仍存在范围、时间线或共识归因冲突，已暂停且未提交该发言。最近校验指出：许岸接受周岚的24小时复核，但要求由退出负责人“据此书面确认是否退出”；退出负责人最迟在试点结束前“被指定并备案”，备案对象是人选，并非回退记录。这里把“人选备案”与“回退失败后24小时内书面确认”混成同一节点，可能让尚未批准的24小时复核看起来已在试点结束备案中生效。",
+    "resumeStatus": "running",
+    "createdAt": "2026-11-18T01:19:31.894Z",
+    "updatedAt": "2026-11-18T01:25:44.208Z",
+    "source": "live",
+    "effectiveTopic": "公开的合成产品评审测试，不涉及任何真实组织或私人资料：6位工程师、无专职运维的小团队是否值得做只读内部知识库？固定前提仅使用非敏感示例文档，初始试点2周，后续4周评估需另行批准。请讨论运行联络人与退出负责人分别应在哪个阶段指定，区分启动门槛、运行回退和退出前条件；对彼此实际提出的条件澄清或反驳，也明确可以接受的条件与仍需外部确认的事项。",
+    "focus": "接下来优先讨论失败后的人工回退、退出责任人与维护工时验证；2周、只读和非敏感的硬前提不变，不把新阈值当成已批准。",
+    "directionVersion": 1,
+    "boundaryStartSeq": 0,
+    "handledDirectionVersion": 1,
+    "rosterStale": false,
+    "cycle": 1,
+    "cycleStartTurns": 0,
+    "cycleStartSeq": 0,
+    "directionStartTurns": 1,
+    "modelCalls": 36,
+    "activeMs": 72107,
+    "runStartedAt": null,
+    "limits": {
+      "minTurns": 6,
+      "maxModelCalls": 140,
+      "maxActiveMs": 720000
+    },
+    "endReason": null,
+    "summaryDetails": null,
+    "summaryHistory": [],
+    "previousContexts": [],
+    "lastMeterAt": "2026-11-18T01:25:42.52Z",
+    "insightLedger": {
+      "version": 1,
+      "audit": [
+        {
+          "seq": 3,
+          "accepted": [],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            }
+          ]
+        },
+        {
+          "seq": 3,
+          "accepted": [],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            }
+          ]
+        },
+        {
+          "seq": 5,
+          "accepted": [
+            "issue-82e568f5161357c7"
+          ],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            }
+          ]
+        },
+        {
+          "seq": 5,
+          "accepted": [
+            "issue-4b6239bdcdb344ec",
+            "issue-82e568f5161357c7"
+          ],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            },
+            {
+              "issueId": null,
+              "reason": "invalid_literal_evidence"
+            }
+          ]
+        },
+        {
+          "seq": 7,
+          "accepted": [
+            "issue-4b6239bdcdb344ec",
+            "issue-82e568f5161357c7",
+            "issue-2c6919cb70e1c7af",
+            "issue-20b664ea7a523982",
+            "issue-17eaee07f5406249"
+          ],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": []
+        },
+        {
+          "seq": 7,
+          "accepted": [
+            "issue-2c6919cb70e1c7af",
+            "issue-20b664ea7a523982"
+          ],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": "issue-82e568f5161357c7",
+              "reason": "semantic_grounding: 该条由原分歧改判为共识缺乏依据：许岸原话明确反对“运行联络人不能只临时指派”，并坚持4周评估前须复核其回退沟通能力；其seq7原话“我接受周岚的24小时复核作为待批准提议”只涉及回退失败后的24小时复核节点，未接受启动门槛登记，也未撤回对指定时点的保留。两位专家对运行联络人指定时点的立场仍直接冲突，不能升级为共识。"
+            },
+            {
+              "issueId": "issue-17eaee07f5406249",
+              "reason": "semantic_grounding: 仅许岸原话明确支持“最迟在试点结束前书面指定并备案”；周岚seq5原话为“我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记”，接受的是角色分离及运行联络人安排，未对退出负责人的指定时点作出支持表述。证据中“接受含退出负责人在试点结束前指定在内的角色安排，未提异议”属推断，沉默或未反对不等于支持该附加时点，尚缺第二位专家的原话支持。"
+            },
+            {
+              "issueId": "issue-17eaee07f5406249",
+              "reason": "existing_claim_needs_correction: 仅许岸原话明确支持“最迟在试点结束前书面指定并备案”；周岚seq5原话为“我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记”，接受的是角色分离及运行联络人安排，未对退出负责人的指定时点作出支持表述。证据中“接受含退出负责人在试点结束前指定在内的角色安排，未提异议”属推断，沉默或未反对不等于支持该附加时点，尚缺第二位专家的原话支持。"
+            }
+          ]
+        },
+        {
+          "seq": 7,
+          "accepted": [
+            "issue-82e568f5161357c7",
+            "issue-2c6919cb70e1c7af",
+            "issue-20b664ea7a523982"
+          ],
+          "closed": [],
+          "reopened": [],
+          "merged": [],
+          "rejected": [
+            {
+              "issueId": "issue-17eaee07f5406249",
+              "reason": "semantic_grounding: 该条目原为verified:false的共识候选，仅许岸明确支持“试点结束前书面指定并备案”；周岚原话“我也接受许岸的角色分离”只接受角色分离，未支持退出负责人的指定时点，不构成两位专家对同一原子判断的支持。"
+            }
+          ]
+        }
+      ],
+      "records": [
+        {
+          "id": "issue-82e568f5161357c7",
+          "question": "运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，还是仅临时指派、4周评估前再复核回退沟通能力？",
+          "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+          "status": "disagreement",
+          "verified": true,
+          "requiredParticipantIds": [
+            "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+            "6317ba9d-849f-41ab-b75b-0f322e79180d"
+          ],
+          "evidence": [
+            {
+              "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+              "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "主张启动门槛即指定登记，复核为后续另行批准事项",
+              "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+              "seq": 5
+            },
+            {
+              "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+              "quote": "但运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准。",
+              "stance": "oppose",
+              "supportsClaim": true,
+              "view": "保留对指定时点的要求，坚持评估前复核回退沟通能力",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 2
+            },
+            {
+              "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+              "quote": "我接受周岚的24小时复核作为待批准提议",
+              "stance": "context",
+              "supportsClaim": false,
+              "view": "仅接受回退失败后的24小时复核，未撤回对运行联络人指定时点的保留",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "disagreement",
+              "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "启动门槛即指定登记，复核为后续另行批准事项",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "反对仅在启动时临时指派即以为了结，强调评估前复核",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                }
+              ],
+              "seq": 5
+            },
+            {
+              "status": "disagreement",
+              "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "启动门槛即指定登记，复核为后续另行批准事项",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "强调评估前复核，但未明确接受启动门槛登记兼任的具体人选规则",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                }
+              ],
+              "seq": 5
+            },
+            {
+              "status": "disagreement",
+              "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "启动门槛即指定登记，复核为后续另行批准事项",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "反对仅启动临时指派即以为了结，坚持评估前复核",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "disagreement",
+              "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "主张启动门槛即指定登记，复核为后续另行批准事项",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "但运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准。",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "保留对指定时点的要求，坚持评估前复核回退沟通能力",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                },
+                {
+                  "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+                  "quote": "我接受周岚的24小时复核作为待批准提议",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "仅接受回退失败后的24小时复核，未撤回对运行联络人指定时点的保留",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        },
+        {
+          "id": "issue-4b6239bdcdb344ec",
+          "question": "运行联络人与退出负责人是否必须分离，不得由同一人兼任？",
+          "text": "运行联络人与退出负责人必须分离，不由同一人兼任：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+          "status": "consensus",
+          "verified": true,
+          "requiredParticipantIds": [
+            "6317ba9d-849f-41ab-b75b-0f322e79180d",
+            "7219adc9-a4c7-4273-8be2-e09a341b4d8b"
+          ],
+          "evidence": [
+            {
+              "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+              "quote": "两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "明确要求分离并给出防自评理由",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 2
+            },
+            {
+              "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+              "quote": "我也接受许岸的角色分离",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "周岚接受角色分离",
+              "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+              "seq": 5
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 5,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "运行联络人与退出负责人必须分离，不由同一人兼任：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+              "evidence": [
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "明确要求两角色分离并说明理由",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                },
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "我也接受许岸的角色分离",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "接受角色分离",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                }
+              ],
+              "seq": 5
+            },
+            {
+              "status": "consensus",
+              "text": "运行联络人与退出负责人必须分离，不由同一人兼任：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+              "evidence": [
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "明确要求分离并给出防自评理由",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                },
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "我也接受许岸的角色分离",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "周岚接受角色分离",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        },
+        {
+          "id": "issue-2c6919cb70e1c7af",
+          "question": "回退失败后由谁在什么可核验节点确认失败并触发退出判断？",
+          "text": "人工回退首次执行后仍未恢复只读查询时，运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，提交退出负责人复核并书面确认是否退出；24小时内复核与记录字段仍为待批准提议，未经批准。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+            "6317ba9d-849f-41ab-b75b-0f322e79180d"
+          ],
+          "evidence": [
+            {
+              "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+              "quote": "人工回退首次执行后仍未恢复只读查询，应由运行联络人记录失败现象与尝试时间，并提交给退出负责人在24小时内的复核节点确认是否触发退出判断；这个24小时只是我方提议、尚未批准。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "提议24小时内复核并明示待批准",
+              "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+              "seq": 5
+            },
+            {
+              "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+              "quote": "我接受周岚的24小时复核作为待批准提议，但触发条件要可核验：运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，退出负责人据此书面确认是否退出。",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "接受为待批提议，补充可核验记录字段",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，提交退出负责人在24小时内复核并书面确认是否退出；24小时节点仍为待批准提议。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "人工回退首次执行后仍未恢复只读查询，应由运行联络人记录失败现象与尝试时间，并提交给退出负责人在24小时内的复核节点确认是否触发退出判断；这个24小时只是我方提议、尚未批准。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "提议24小时内复核，明示待批准",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+                  "quote": "我接受周岚的24小时复核作为待批准提议，但触发条件要可核验：运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，退出负责人据此书面确认是否退出。",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "接受为待批提议并要求记录可核验",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "人工回退首次执行后仍未恢复只读查询时，运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，提交退出负责人复核并书面确认是否退出；24小时内复核与记录字段仍为待批准提议，未经批准。",
+              "evidence": [
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "人工回退首次执行后仍未恢复只读查询，应由运行联络人记录失败现象与尝试时间，并提交给退出负责人在24小时内的复核节点确认是否触发退出判断；这个24小时只是我方提议、尚未批准。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "提议24小时内复核并明示待批准",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                },
+                {
+                  "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+                  "quote": "我接受周岚的24小时复核作为待批准提议，但触发条件要可核验：运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，退出负责人据此书面确认是否退出。",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "接受为待批提议，补充可核验记录字段",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        },
+        {
+          "id": "issue-20b664ea7a523982",
+          "question": "2周试点内如何验证维护工时？",
+          "text": "2周试点内由运行联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均须另行批准。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "6317ba9d-849f-41ab-b75b-0f322e79180d"
+          ],
+          "evidence": [
+            {
+              "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+              "quote": "维护工时验证我提议在2周试点内由联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均需另行批准。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "提议逐日登记、暂不设阈值，阈值与4周评估另批",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "2周试点内由运行联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均须另行批准。",
+              "evidence": [
+                {
+                  "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+                  "quote": "维护工时验证我提议在2周试点内由联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均需另行批准。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "提议逐日登记、暂不设阈值，阈值与4周评估另批",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        },
+        {
+          "id": "issue-17eaee07f5406249",
+          "question": "退出负责人最迟应在哪个阶段被书面指定并备案？",
+          "text": "退出负责人最迟应在2周试点结束前书面指定并备案，作为可追溯的退出前条件。",
+          "status": "consensus",
+          "verified": false,
+          "requiredParticipantIds": [
+            "6317ba9d-849f-41ab-b75b-0f322e79180d",
+            "7219adc9-a4c7-4273-8be2-e09a341b4d8b"
+          ],
+          "evidence": [
+            {
+              "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+              "quote": "我接受把退出负责人最迟在试点结束前书面指定并备案，这能形成可追溯的退出前条件",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "明确接受试点结束前书面指定并备案",
+              "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+              "seq": 2
+            },
+            {
+              "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+              "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "接受含退出负责人在试点结束前指定在内的角色安排，未提异议",
+              "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+              "seq": 5
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 5,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "退出负责人最迟应在2周试点结束前书面指定并备案，作为可追溯的退出前条件。",
+              "evidence": [
+                {
+                  "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+                  "quote": "我接受把退出负责人最迟在试点结束前书面指定并备案，这能形成可追溯的退出前条件",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "明确接受试点结束前书面指定并备案",
+                  "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+                  "seq": 2
+                },
+                {
+                  "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+                  "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "接受含退出负责人在试点结束前指定在内的角色安排，未提异议",
+                  "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+                  "seq": 5
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林沐",
+      "occupation": "虚构技术评审主持人",
+      "title": "评审协调人",
+      "stance": "先锁定启动门槛与角色时分，再谈运行与退出；两阶段角色不可合并为一人",
+      "focus": "议程边界、决策记录、版本前提确认",
+      "id": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "color": "#b78626"
+    },
+    {
+      "role": "expert",
+      "name": "周岚",
+      "occupation": "虚构平台工程师",
+      "title": "工程效能负责人",
+      "stance": "运行联络人应在试点启动时由值班最频繁的工程师兼任，退出负责人则在评估批准前指定且独立于联络人，避免修复者自评",
+      "focus": "启动门槛、只读权限最小化、值班负荷",
+      "id": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "许岸",
+      "occupation": "虚构风险与合规顾问",
+      "title": "流程风控顾问",
+      "stance": "退出负责人必须在2周试点结束前书面指定并备案；运行联络人可启动时临时指派，但4周评估前须复核其能否承担回退沟通",
+      "focus": "退出前条件、责任可追溯、非敏感示例边界",
+      "id": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "color": "#427abf"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+      "text": "开场先定边界：本场只讨论非敏感示例文档组成的只读内部知识库，初始试点2周，后续4周评估需另行批准，不能默认并入同一截止日。评审标准是启动门槛可核验、运行回退有明确联络人、退出前有独立负责人；请周岚与许岸分别说明这两个角色应在哪个阶段指定、为何不能合并为一人。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "bbac98fb-8f5f-4db6-b060-086666d72701",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 1,
+      "createdAt": "2026-11-18T01:19:35.939Z"
+    },
+    {
+      "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+      "text": "我接受把退出负责人最迟在试点结束前书面指定并备案，这能形成可追溯的退出前条件；但运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准。两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+      "replyTo": "bbac98fb-8f5f-4db6-b060-086666d72701",
+      "addressedTo": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "24d61fbe-4511-496a-8302-dba706f9ddae",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 2,
+      "createdAt": "2026-11-18T01:19:39.537Z"
+    },
+    {
+      "id": "3d92995e-2f7e-4f28-aa38-b3ab1a205ef5",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "participantId": "user",
+      "seq": 3,
+      "text": "接下来优先讨论失败后的人工回退、退出责任人与维护工时验证；2周、只读和非敏感的硬前提不变，不把新阈值当成已批准。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "createdAt": "2026-11-18T01:19:40.221Z",
+      "kind": "direction",
+      "directionVersion": 1,
+      "directionMode": "focus",
+      "clientRequestId": "680eca38-275d-427c-8966-3d56f74787ef"
+    },
+    {
+      "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+      "text": "确认新焦点：优先讨论失败后人工回退、退出责任人与维护工时验证；2周试点、只读、非敏感三项硬前提保留，原定4周评估仍须另行批准，任何新工时阈值只算提议。请周岚先回答一个具体问题：人工回退流程由运行联络人执行时，退出负责人要在哪个可核验节点确认回退失败并触发退出判断？",
+      "replyTo": null,
+      "addressedTo": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 1,
+      "id": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 4,
+      "createdAt": "2026-11-18T01:19:59.997Z"
+    },
+    {
+      "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+      "text": "人工回退首次执行后仍未恢复只读查询，应由运行联络人记录失败现象与尝试时间，并提交给退出负责人在24小时内的复核节点确认是否触发退出判断；这个24小时只是我方提议、尚未批准。我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件。",
+      "replyTo": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 1,
+      "id": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 5,
+      "createdAt": "2026-11-18T01:20:04.155Z"
+    },
+    {
+      "participantId": "d4570b24-5176-4f4d-8576-9777bfbb205e",
+      "text": "请许岸回应周岚的提议：若采用“运行联络人在试点启动门槛登记、退出负责人最迟试点结束前指定”，你能接受哪些条件，回退沟通复核与24小时复核节点又留给谁在哪个批准环节确认？",
+      "replyTo": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+      "addressedTo": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 1,
+      "id": "ae56171d-7089-42fc-bc81-92afcdda0004",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 6,
+      "createdAt": "2026-11-18T01:20:22.698Z"
+    },
+    {
+      "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+      "text": "我接受周岚的24小时复核作为待批准提议，但触发条件要可核验：运行联络人须在记录中写明只读查询失败时刻、回退尝试次数与结果，退出负责人据此书面确认是否退出。维护工时验证我提议在2周试点内由联络人逐日登记投入时长、只记录不设阈值；具体工时阈值与4周评估均需另行批准。",
+      "replyTo": "5c4d774d-15a6-4339-ae95-0bfe80f94e8f",
+      "addressedTo": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 1,
+      "id": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+      "discussionId": "3b05567d-11cb-4105-8aeb-158a8b063944",
+      "seq": 7,
+      "createdAt": "2026-11-18T01:20:25.186Z"
+    }
+  ],
+  "insights": [
+    {
+      "id": "issue-82e568f5161357c7",
+      "kind": "disagreement",
+      "question": "运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，还是仅临时指派、4周评估前再复核回退沟通能力？",
+      "text": "运行联络人应在2周试点启动门槛时由值班最频繁的工程师兼任并登记；4周评估前的回退沟通能力复核属后续阶段提议、需另行批准，不能替代启动时的登记。",
+      "messageIds": [
+        "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+        "24d61fbe-4511-496a-8302-dba706f9ddae",
+        "e7a7833a-f1c1-453b-abe2-8df0822b4cd1"
+      ],
+      "positions": [
+        {
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "view": "主张启动门槛即指定登记，复核为后续另行批准事项"
+        },
+        {
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "view": "保留对指定时点的要求，坚持评估前复核回退沟通能力"
+        },
+        {
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "view": "仅接受回退失败后的24小时复核，未撤回对运行联络人指定时点的保留"
+        }
+      ],
+      "evidence": [
+        {
+          "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+          "quote": "我也接受许岸的角色分离，但运行联络人应在试点启动门槛时由值班最频繁者兼任并登记，4周评估前的回退沟通复核可作为另行批准的后续条件。",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "主张启动门槛即指定登记，复核为后续另行批准事项",
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "seq": 5
+        },
+        {
+          "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+          "quote": "但运行联络人不能只临时指派，4周评估前须复核其回退沟通能力，这一复核属后续阶段提议、需另行批准。",
+          "stance": "oppose",
+          "supportsClaim": true,
+          "view": "保留对指定时点的要求，坚持评估前复核回退沟通能力",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 2
+        },
+        {
+          "messageId": "e7a7833a-f1c1-453b-abe2-8df0822b4cd1",
+          "quote": "我接受周岚的24小时复核作为待批准提议",
+          "stance": "context",
+          "supportsClaim": false,
+          "view": "仅接受回退失败后的24小时复核，未撤回对运行联络人指定时点的保留",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 7
+        }
+      ]
+    },
+    {
+      "id": "issue-4b6239bdcdb344ec",
+      "kind": "consensus",
+      "question": "运行联络人与退出负责人是否必须分离，不得由同一人兼任？",
+      "text": "运行联络人与退出负责人必须分离，不由同一人兼任：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+      "messageIds": [
+        "24d61fbe-4511-496a-8302-dba706f9ddae",
+        "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b"
+      ],
+      "positions": [
+        {
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "view": "明确要求分离并给出防自评理由"
+        },
+        {
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "view": "周岚接受角色分离"
+        }
+      ],
+      "evidence": [
+        {
+          "messageId": "24d61fbe-4511-496a-8302-dba706f9ddae",
+          "quote": "两角色必须分离：运行联络人负责回退沟通，退出负责人独立判断是否退出，防止修复者自评。",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "明确要求分离并给出防自评理由",
+          "participantId": "6317ba9d-849f-41ab-b75b-0f322e79180d",
+          "seq": 2
+        },
+        {
+          "messageId": "2c0fd592-abf5-4d6f-9798-1b690c7f4a8b",
+          "quote": "我也接受许岸的角色分离",
+          "stance": "accept",
+          "supportsClaim": true,
+          "view": "周岚接受角色分离",
+          "participantId": "7219adc9-a4c7-4273-8be2-e09a341b4d8b",
+          "seq": 5
+        }
+      ]
+    }
+  ],
+  "activities": {
+    "d4570b24-5176-4f4d-8576-9777bfbb205e": {
+      "state": "idle",
+      "focus": "议程边界、决策记录、版本前提确认"
+    },
+    "7219adc9-a4c7-4273-8be2-e09a341b4d8b": {
+      "state": "idle",
+      "focus": "启动门槛、只读权限最小化、值班负荷"
+    },
+    "6317ba9d-849f-41ab-b75b-0f322e79180d": {
+      "state": "idle",
+      "focus": "退出前条件、责任可追溯、非敏感示例边界"
+    }
+  },
+  "cursor": 66
+}

@@ -75,6 +75,9 @@ export async function createApp(
     await engine.generate(request.params.id);
     return store.snapshot(request.params.id);
   });
+  app.post<{ Params: { id: string } }>('/api/discussions/:id/reconcile', async (request) =>
+    engine.repairInsights(request.params.id),
+  );
   for (const action of ['confirm', 'start', 'resume', 'pause', 'end'] as const) {
     app.post<{ Params: { id: string } }>(`/api/discussions/:id/${action}`, async (request) => {
       const id = request.params.id;

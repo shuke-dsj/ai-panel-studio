@@ -66,18 +66,18 @@ export const insightSchema = z.object({
     )
     .max(12),
   contextSummary: text(3000),
+  // Legacy candidate-only closure output is deliberately ignored. The ledger
+  // independently obtains and validates all current parties' original evidence.
   resolvedDisputes: z
-    .array(
-      z.object({
-        id: text(100),
-        evidence: z
-          .array(z.object({ messageId: text(100), quote: text(300) }))
-          .min(2)
-          .max(8),
-      }),
-    )
-    .max(12)
-    .default([]),
+    .unknown()
+    .optional()
+    .transform(
+      () =>
+        [] as {
+          id: string;
+          evidence: { messageId: string; quote: string }[];
+        }[],
+    ),
 });
 export const summarySchema = z.object({ text: text(6000) });
 export const closingSchema = z.object({ highlightMessageIds: z.array(text(100)).max(4) }).strict();
@@ -100,3 +100,30 @@ export const retentionSchema = z.object({
   unresolvedDisagreementIds: z.array(text(100)).max(12),
 });
 export type InsightOutput = Pick<z.infer<typeof insightSchema>, 'items' | 'contextSummary'>;
+export const ledgerSchema = z.object({
+  decisions: z
+    .array(
+      z.object({
+        issueId: text(100).nullable(),
+        mergeIds: z.array(text(100)).max(40).default([]),
+        question: text(180),
+        text: text(400),
+        status: z.enum(['consensus', 'disagreement', 'question', 'resolved']),
+        complete: z.boolean(),
+        evidence: z
+          .array(
+            z.object({
+              messageId: text(100),
+              quote: text(500),
+              stance: z.enum(['support', 'oppose', 'accept', 'withdraw', 'context']),
+              supportsClaim: z.boolean(),
+              view: text(200),
+            }),
+          )
+          .min(1)
+          .max(16),
+      }),
+    )
+    .max(20),
+});
+export type LedgerDecision = z.infer<typeof ledgerSchema>['decisions'][number];

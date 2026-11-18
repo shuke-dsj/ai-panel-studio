@@ -1,0 +1,421 @@
+{
+  "testedAt": "2026-11-18T01:57:11.314Z",
+  "results": [
+    {
+      "id": "e950f15d-2229-456a-bf2d-cf3a2194ba06",
+      "checks": {
+        "completed": true,
+        "sqliteDiscussion": true,
+        "sqliteMessages": true,
+        "sqliteInsights": true,
+        "onlyOneCompletion": true,
+        "originalMessagesPreserved": true,
+        "oldSummaryArchived": true,
+        "noUnreviewedDisputes": true,
+        "noMergedPublished": true,
+        "noClosedPublishedAsDispute": true,
+        "actualClosures": true,
+        "actualConsensus": true,
+        "consensusQuotes": true,
+        "closureWitnesses": true,
+        "literalAllPublished": true
+      },
+      "passed": true,
+      "counts": {
+        "consensus": 5,
+        "disagreements": 0,
+        "questions": 3,
+        "closed": 3,
+        "merged": 7
+      },
+      "canonical": [
+        {
+          "id": "disagreement-afaa89476ffa",
+          "status": "question",
+          "question": "维护工时观察阈值与频次是否仅列为待批准提议、不作启动门槛",
+          "text": "维护工时观察频次与阈值尚未细化，仅列为待批准提议、不作启动门槛，需用户批准后方可写入。",
+          "evidence": [
+            {
+              "messageId": "4359b793-19d1-4dd4-bd2a-9a460ce77184",
+              "quote": "这些只是记录字段，观察阈值与频次仍属待批准提议。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "确认观察阈值与频次仍待批准",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 20
+            },
+            {
+              "messageId": "e2ccde61-46b7-4807-9e96-2cc9a194158e",
+              "quote": "退出责任人与工时观察阈值仍候用户指定，属待批准提议或后续阶段变更。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "确认工时观察阈值待用户指定，属待批准提议或后续阶段变更",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 21
+            }
+          ]
+        },
+        {
+          "id": "disagreement-bbf1ba96b506",
+          "status": "consensus",
+          "question": "运行联系人未由用户指定前是否满足启动门槛",
+          "text": "运行联系人就位属启动门槛，未指定即该门槛未满足并记待办。",
+          "evidence": [
+            {
+              "messageId": "07fc2530-ed08-4a98-be4d-358ddd6d8769",
+              "quote": "“运行联系人就位”是启动门槛，未指定即门槛未满足并记待办",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "接受运行联系人属启动门槛",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 15
+            },
+            {
+              "messageId": "3803388d-5fc8-4d45-926d-ec96b7d38178",
+              "quote": "把运行联系人写成“回退可执行”这一启动门槛的具体条件，未指定即该门槛未满足并记待办",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "运行联系人未指定即门槛未满足",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 14
+            }
+          ]
+        },
+        {
+          "id": "disagreement-dde3b19ec796",
+          "status": "consensus",
+          "question": "退出责任人是否阻断启动及其指定状态",
+          "text": "退出责任人只约束退出阶段、不阻断启动；在用户指定前只记待办，不写成既定安排。",
+          "evidence": [
+            {
+              "messageId": "3803388d-5fc8-4d45-926d-ec96b7d38178",
+              "quote": "退出责任人只约束退出阶段，故不阻断启动。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "退出责任人不阻断启动",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 14
+            },
+            {
+              "messageId": "3fd43e46-6891-47e3-9288-a048f798faa7",
+              "quote": "退出责任人只列为退出阶段待办，两者都不写成既定安排。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "退出责任人仅列退出阶段待办",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 13
+            }
+          ]
+        },
+        {
+          "id": "disagreement-6c2c4df54995",
+          "status": "consensus",
+          "question": "退出责任人与运行联系人未由用户指定前是否阻断启动",
+          "text": "运行联系人未指定则启动门槛未满足；退出责任人不阻断启动，仅约束退出阶段，两者在用户指定前均只记待办、不写成既定安排。",
+          "evidence": [
+            {
+              "messageId": "3fd43e46-6891-47e3-9288-a048f798faa7",
+              "quote": "我的主张收窄为：运行联系人属启动前置须由用户指定，退出责任人只列为退出阶段待办，两者都不写成既定安排。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "运行联系人属启动前置，退出责任人只列退出阶段待办",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 13
+            },
+            {
+              "messageId": "3803388d-5fc8-4d45-926d-ec96b7d38178",
+              "quote": "把运行联系人写成“回退可执行”这一启动门槛的具体条件，未指定即该门槛未满足并记待办；退出责任人只约束退出阶段，故不阻断启动。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "运行联系人未指定未满足门槛，退出责任人不阻断启动",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 14
+            },
+            {
+              "messageId": "07fc2530-ed08-4a98-be4d-358ddd6d8769",
+              "quote": "这即为我第10条旧主张的撤回，两处分歧按原话关闭。",
+              "stance": "withdraw",
+              "supportsClaim": true,
+              "view": "撤回退出责任人作为启动前置的旧主张",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 15
+            }
+          ]
+        },
+        {
+          "id": "disagreement-01bafea2c778",
+          "status": "question",
+          "question": "缺外部批准时相关待批准建议是否只列稳定分歧、不写入既定安排",
+          "text": "缺外部批准时，待批准建议只列稳定分歧，不写入既定安排。",
+          "evidence": [
+            {
+              "messageId": "347532b3-aa24-405c-b309-98bdbedf3a11",
+              "quote": "缺外部批准的部分只列为稳定分歧，不写入既定安排。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "缺批准部分只列稳定分歧",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 2
+            },
+            {
+              "messageId": "563ae52e-ce03-41d1-a945-92716a468385",
+              "quote": "退出责任人与维护工时验证需用户指定人选后才能验证，具体阈值只标待批准提议。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "待批准建议不当作既定安排",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 5
+            }
+          ]
+        },
+        {
+          "id": "issue-518541ab6a33c344",
+          "status": "consensus",
+          "question": "维护工时事实登记包含哪些字段",
+          "text": "维护工时按人工回退与违规回退分表，只记事实字段（事件类型、执行起止时间、执行人、涉及文档、访问状态已恢复/未恢复、失败处置步骤是否走完），不作效果评分。",
+          "evidence": [
+            {
+              "messageId": "4359b793-19d1-4dd4-bd2a-9a460ce77184",
+              "quote": "沈岚第19条的五项登记我接受，但事实口径需补两项：事件表须单列回退结束时间以对应退出动作，并记录失败处置步骤逐项是否走完；这些只是记录字段，观察阈值与频次仍属待批准提议。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "接受五项并补结束时间与步骤是否走完",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 20
+            },
+            {
+              "messageId": "e2ccde61-46b7-4807-9e96-2cc9a194158e",
+              "quote": "我接受第20条补的“回退结束时间”和“失败处置步骤逐项是否走完”两个字段，并把五项登记与这两项合并为同一事实表；但须说明，运行联系人就位仍是已确认的启动门槛，记录字段不记效果与门槛判定是两回事。",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "接受合并为同一事实表，不记效果",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 21
+            }
+          ]
+        },
+        {
+          "id": "issue-366ff0f6c7beb71f",
+          "status": "consensus",
+          "question": "人工回退清单是否须写明执行失败处置步骤",
+          "text": "人工回退清单须写明执行失败的处置步骤，并列为清单必填项。",
+          "evidence": [
+            {
+              "messageId": "ab22c65d-6012-410c-a7ad-1fb2d6c5c7de",
+              "quote": "我再补一条可核验要求：人工回退清单须写明执行失败的处置步骤，否则回退本身也可能中断。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "清单须写明执行失败处置步骤",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 17
+            },
+            {
+              "messageId": "af05134a-1129-457b-8102-8b2f482da423",
+              "quote": "我接受周砚清第17条的执行失败处置步骤要求，建议将其列为人工回退清单的必填项；退出责任人未指定前只能记待办，工时观察频次与阈值仍属待批准提议，若有变动须标为后续阶段变更。",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "接受并列为必填项",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 18
+            }
+          ]
+        },
+        {
+          "id": "issue-be3df1ddb126bec9",
+          "status": "question",
+          "question": "退出责任人指定与维护工时验证的待确认事项",
+          "text": "退出责任人由用户指定，未指定前只记待办；其指定与维护工时观察频次、阈值的验证须在用户指定并另行批准后进行，均不写入既定安排。",
+          "evidence": [
+            {
+              "messageId": "3fd43e46-6891-47e3-9288-a048f798faa7",
+              "quote": "退出责任人只列为退出阶段待办，两者都不写成既定安排。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "退出责任人只列退出阶段待办，不写成既定安排",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 13
+            },
+            {
+              "messageId": "e2ccde61-46b7-4807-9e96-2cc9a194158e",
+              "quote": "退出责任人与工时观察阈值仍候用户指定，属待批准提议或后续阶段变更。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "确认待用户指定，属待批准提议或后续阶段变更",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 21
+            }
+          ]
+        },
+        {
+          "id": "issue-5a491e111915d1ff",
+          "status": "consensus",
+          "question": "人工回退的触发条件、触发权与记录是否与运行中违规回退分开",
+          "text": "人工回退由2周内实测失败或延迟超预设观察项触发，由用户指定的运行联系人按清单执行并留痕（谁触发、哪份文档、恢复状态）；运行中违规回退（如误接入敏感库）立即停止并单列事件，两类分开记录。",
+          "evidence": [
+            {
+              "messageId": "563ae52e-ce03-41d1-a945-92716a468385",
+              "quote": "应分开记录：人工回退由2周内实测失败或延迟超预设观察项触发，由用户在试点启动前指定的运行联系人按清单执行，谁触发、哪份文档、恢复状态都留痕；违规回退则是误接入敏感库等硬前提被破坏，立即停止并单列事件。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "两类回退分开记录，触发与执行留痕",
+              "participantId": "7db50634-c579-4290-a72e-32153b0770eb",
+              "seq": 5
+            },
+            {
+              "messageId": "347532b3-aa24-405c-b309-98bdbedf3a11",
+              "quote": "若讨论误接入敏感库，应立即停止并记录为回退事件。",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "误接入敏感库即停止并记为违规回退",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 2
+            },
+            {
+              "messageId": "1b5c1bac-cd89-477d-9fc1-82f8f9dd1454",
+              "quote": "为了不混淆两类事件，我建议维护工时按事件类型分表计量：人工回退单独一表，违规回退单独一表，各有开始与结束时间，但不做任何效果评分",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "两类事件分表计量、不记效果",
+              "participantId": "49bed04a-15d3-4f26-bc9b-cd05099c6757",
+              "seq": 9
+            }
+          ]
+        }
+      ],
+      "archives": {
+        "summaryVersions": 7,
+        "previousContexts": 7
+      }
+    },
+    {
+      "id": "1f90169e-f3da-4083-ad63-b1502a89da8d",
+      "checks": {
+        "completed": true,
+        "sqliteDiscussion": true,
+        "sqliteMessages": true,
+        "sqliteInsights": true,
+        "onlyOneCompletion": true,
+        "originalMessagesPreserved": true,
+        "oldSummaryArchived": true,
+        "noUnreviewedDisputes": true,
+        "noMergedPublished": true,
+        "noClosedPublishedAsDispute": true,
+        "actualClosures": true,
+        "actualConsensus": true,
+        "consensusQuotes": true,
+        "closureWitnesses": true,
+        "literalAllPublished": true
+      },
+      "passed": true,
+      "counts": {
+        "consensus": 2,
+        "disagreements": 0,
+        "questions": 1,
+        "closed": 1,
+        "merged": 0
+      },
+      "canonical": [
+        {
+          "id": "issue-1087e646c05b46e0",
+          "status": "consensus",
+          "question": "退出负责人应在2周试点启动前指定，人选由用户指定吗？",
+          "text": "退出负责人应在2周试点启动前指定，退出阶段仅履职、不另设指定时点；真实人选由用户指定并保持待办。",
+          "evidence": [
+            {
+              "messageId": "e8dab610-4d0f-4b99-9521-5bc15648af1b",
+              "quote": "退出负责人若延到退出前才指定，可能在2周试点结束时无人有权拍板",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "退出晚指定易致无人拍板，故须启动前指定",
+              "participantId": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+              "seq": 2
+            },
+            {
+              "messageId": "bac5067f-06b6-4e58-8b29-131c206bf702",
+              "quote": "指定仍在启动前，退出决策时只是履职而非另设指定时点",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "接受启动前指定，退出时仅履职",
+              "participantId": "44f56c54-d555-41fc-82cd-521e660520a9",
+              "seq": 10
+            },
+            {
+              "messageId": "5370d5cb-0df3-44bd-b247-13d000bc035f",
+              "quote": "退出负责人退出时仅履职",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "确认退出负责人启动前指定",
+              "participantId": "44f56c54-d555-41fc-82cd-521e660520a9",
+              "seq": 13
+            }
+          ]
+        },
+        {
+          "id": "issue-3b3126c36535620a",
+          "status": "consensus",
+          "question": "运行联系人的指定时点与内容：启动前名单是否须含当班姓名与替补两栏，能力验收是否放试点中记录？",
+          "text": "运行联系人应在2周试点启动前锁定含当班姓名与替补两栏的联系名单，能力验收放试点记录、二者不互相替代；真实人选待用户指定。",
+          "evidence": [
+            {
+              "messageId": "df122709-887d-4c8b-85c5-41d0cc6bf124",
+              "quote": "启动前名单须含当班姓名与替补两栏、能力验收仍放试点记录",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "名单含当班与替补，能力验收放试点",
+              "participantId": "44f56c54-d555-41fc-82cd-521e660520a9",
+              "seq": 8
+            },
+            {
+              "messageId": "0dd576e2-5084-47f6-9742-99a82574752f",
+              "quote": "姓名只承担排班与替补留痕责任，不等于能力已被验收",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "姓名只承担排班责任，非能力验收",
+              "participantId": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+              "seq": 9
+            },
+            {
+              "messageId": "5370d5cb-0df3-44bd-b247-13d000bc035f",
+              "quote": "运行联系人锁定含当班与替补两栏名单、能力验收留试点记录",
+              "stance": "accept",
+              "supportsClaim": true,
+              "view": "确认启动前锁名单、能力验收留试点",
+              "participantId": "44f56c54-d555-41fc-82cd-521e660520a9",
+              "seq": 13
+            }
+          ]
+        },
+        {
+          "id": "issue-2f01d83e77ef1ec5",
+          "status": "question",
+          "question": "两个角色启动前指定的结论，是否仅限2周试点阶段，真实人选与后续4周收益评估是否留待用户指定/批准？",
+          "text": "两个角色启动前指定的结论仅限2周非敏感示例文档只读试点阶段；真实人选由用户指定、后续4周收益评估需另行批准，均不视为已批准或已执行。",
+          "evidence": [
+            {
+              "messageId": "5370d5cb-0df3-44bd-b247-13d000bc035f",
+              "quote": "真实人选与后续4周评估批准仍待用户指定",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "人选与后续评估批准留待用户",
+              "participantId": "44f56c54-d555-41fc-82cd-521e660520a9",
+              "seq": 13
+            },
+            {
+              "messageId": "2ec48c69-81aa-40a4-b6a5-105d15764775",
+              "quote": "具体人选和后续4周评估批准仍待用户指定",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "确认边界，待办保持",
+              "participantId": "0ce8deb9-3b34-4d13-8573-2295108b72b4",
+              "seq": 14
+            }
+          ]
+        }
+      ],
+      "archives": {
+        "summaryVersions": 0,
+        "previousContexts": 0
+      }
+    }
+  ]
+}
