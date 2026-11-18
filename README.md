@@ -133,7 +133,7 @@ npm run seed:real
 
 已实现：完整产品路径、真实兼容模型适配、显式测试模型、SQLite 状态与事件、动态发言调度、带证据的成果更新、恢复机制、三栏独立滚动、手机页签和自动化测试。
 
-真实模型已完成初次验收和后续回归，见[紧凑上下文回归报告](docs/COMPACT-CONTEXT-REGRESSION.md)。交付包包含 5/5 主题的已审阅真实归档。实际开发工具为 Codex，题面另列的 Claude Code + DeepSeek V4 Pro 流程没有实际执行记录。当前仅本地交付，详见[交付清单](docs/DELIVERY.md)。
+项目使用 Codex 开发，使用 DeepSeek 作为真实讨论的模型服务。真实模型已经完成初次验收和后续回归，交付包包含 5 个主题的已审阅真实归档。详见[紧凑上下文回归报告](docs/COMPACT-CONTEXT-REGRESSION.md)和[交付清单](docs/DELIVERY.md)。
 
 ## 开发文档
 
