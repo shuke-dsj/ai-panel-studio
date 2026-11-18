@@ -49,6 +49,13 @@ export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]):
           .join('\n') || '暂无记录。'),
     );
   }
+  const withdrawn =
+    snapshot.discussion.insightLedger?.records.filter((r) => r.reviewRequired && !r.mergedInto) ??
+    [];
+  if (withdrawn.length)
+    sections.push(
+      '待重新核验的议题（当前成果不引用旧结论）：\n' + withdrawn.map((r) => r.question).join('\n'),
+    );
   const memory = extractEvidenceMemory(snapshot.messages);
   sections.push(
     '关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n' +

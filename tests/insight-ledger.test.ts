@@ -68,6 +68,13 @@ const close = (id: string, patch: Partial<LedgerDecision> = {}) =>
     ...patch,
   });
 describe('canonical evidence ledger', () => {
+  it('rejects a dispute that cites an earlier opposition superseded in the same issue', () => {
+    const result = run(empty(), [
+      decision({ evidence: [e('a2', 'support'), e('b1', 'oppose'), e('b2', 'accept')] }),
+    ]);
+    expect(result.insights).toEqual([]);
+    expect(result.audit.rejected[0].reason).toBe('opposition_superseded_by_later_position');
+  });
   it('records question to consensus without a dispute closure, including legacy display filtering', () => {
     const pending = run(empty(), [
       decision({ status: 'question', evidence: [e('a2', 'support')] }),

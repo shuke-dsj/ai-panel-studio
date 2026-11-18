@@ -141,6 +141,41 @@ describe('interactive concurrent workspace engine', () => {
       store.close();
     }
   });
+  it('checks a published dispute even when extraction omits it and suspends stale quotes without erasing history', async () => {
+    const { store, model, engine, id } = await setup(6);
+    try {
+      engine.start(id);
+      await engine.wait(id);
+      const before = store.snapshot(id);
+      const dispute = before.insights.find((i) => i.kind === 'disagreement')!;
+      const source = before.messages.find((m) => m.id === dispute.messageIds[0])!;
+      const run = model.run.bind(model);
+      model.run = async (task, input, schema, options) => {
+        if (task === 'ledger') return schema.parse({ decisions: [] });
+        if (task === 'review' && (input as { purpose?: string }).purpose === 'ledger-grounding')
+          return schema.parse({
+            issues: [
+              {
+                kind: 'consensus',
+                quote: dispute.text,
+                reason: '当前记录引用的反对已被同一专家修正',
+                conflictsWith: [source.id],
+              },
+            ],
+          });
+        return run(task, input, schema, options);
+      };
+      const after = await engine.repairInsights(id);
+      expect(after.insights.some((i) => i.id === dispute.id)).toBe(false);
+      expect(
+        after.discussion.insightLedger?.records.find((r) => r.id === dispute.id)?.reviewRequired,
+      ).toBe(true);
+      expect(after.discussion.summaryDetails).toContain('待重新核验的议题');
+      expect(after.messages).toEqual(before.messages);
+    } finally {
+      store.close();
+    }
+  });
   it('keeps every stored dispute when the model only echoes a subset of IDs in its convergence verdict', async () => {
     const { store, model, engine, id } = await setup(16);
     try {

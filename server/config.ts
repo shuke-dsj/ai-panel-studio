@@ -32,9 +32,9 @@ export function configuredModel(
   if (!forceReal && process.env.MODEL_MODE === 'demo') return new DemoModel(settings.demoDelay);
   if (process.env.MODEL_MODE && !['real', 'demo'].includes(process.env.MODEL_MODE))
     throw new Error('MODEL_MODE 只能为 real 或 demo');
-  const requestLayout = overrides.requestLayout ?? process.env.MODEL_REQUEST_LAYOUT ?? 'prefix';
-  if (!['prefix', 'legacy'].includes(requestLayout))
-    throw new Error('MODEL_REQUEST_LAYOUT只能为prefix或legacy');
+  const requestLayout = overrides.requestLayout ?? process.env.MODEL_REQUEST_LAYOUT ?? 'compact';
+  if (!['compact', 'prefix', 'legacy'].includes(requestLayout))
+    throw new Error('MODEL_REQUEST_LAYOUT只能为compact、prefix或legacy');
   return new RealModel({
     key: process.env.MODEL_API_KEY ?? process.env.DEEPSEEK_API_KEY ?? '',
     baseUrl: process.env.MODEL_BASE_URL ?? 'https://api.deepseek.com',

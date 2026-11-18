@@ -90,7 +90,7 @@ export function DiscussionResults({
                 (r) =>
                   !r.mergedInto &&
                   (group === 'unverified'
-                    ? !r.verified && r.status === 'consensus'
+                    ? r.reviewRequired || (!r.verified && r.status === 'consensus')
                     : group === 'question'
                       ? r.status === 'question'
                       : isClosedDisagreement(r)),

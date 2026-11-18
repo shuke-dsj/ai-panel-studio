@@ -36,6 +36,7 @@ export interface Checkpoint {
   roundActive?: boolean;
   roundProgress?: boolean;
   convergenceVotes?: number;
+  convergenceFollowUps?: number;
   lastConvergenceTurns?: number;
   completedRounds?: number;
 }

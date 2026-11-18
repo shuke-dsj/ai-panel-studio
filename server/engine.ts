@@ -589,7 +589,13 @@ export class Engine {
         result.reason === 'stable_disagreement'
         ? 'stable_disagreement'
         : 'converged';
-    if (!ready && (result.followUp || result.missingPerspectives.length)) {
+    if (
+      !ready &&
+      (result.followUp || result.missingPerspectives.length) &&
+      (current.convergenceFollowUps ?? 0) < 2
+    ) {
+      current.convergenceFollowUps = (current.convergenceFollowUps ?? 0) + 1;
+      this.store.setCheckpoint(id, current);
       const target = experts.find((p) => p.id === result.followUp?.expertId);
       const question = result.followUp?.question ?? result.missingPerspectives[0];
       try {
@@ -652,25 +658,50 @@ export class Engine {
         })),
       );
       this.assertDirection(id, context.directionVersion);
-      const semantic = await this.call(
-        'review',
-        this.input(context, {
-          purpose: 'ledger-grounding',
-          knownIssues: ledgerDigest(ledger),
-          ledgerCandidates: output.decisions,
-          existingConsensus: ledger.records
-            .filter((r) => r.status === 'consensus' && r.verified)
-            .map((r) => ({ id: r.id, text: r.text, evidence: r.evidence })),
-        }),
-        reviewSchema,
-      );
+      const existingClaims = ledger.records
+        .filter(
+          (r) =>
+            !r.mergedInto &&
+            !r.reviewRequired &&
+            (r.status === 'disagreement' || (r.status === 'consensus' && r.verified)),
+        )
+        .map((r) => ({ id: r.id, status: r.status, text: r.text, evidence: r.evidence }));
+      const semantic =
+        !output.decisions.length && !existingClaims.length
+          ? { issues: [] }
+          : await this.call(
+              'review',
+              this.input(context, {
+                purpose: 'ledger-grounding',
+                knownIssues: ledgerDigest(ledger),
+                ledgerCandidates: output.decisions,
+                existingClaims,
+              }),
+              reviewSchema,
+            );
       this.assertDirection(id, context.directionVersion);
       const failures = semantic.issues;
       // Independently rejected published claims become unverified until corrected;
       // source history stays intact and omitted claims cannot silently reappear.
-      for (const record of ledger.records) {
-        if (record.status === 'consensus' && failures.some((f) => f.quote === record.text))
-          record.verified = false;
+      for (const record of existingClaims) {
+        const stored = ledger.records.find((r) => r.id === record.id)!;
+        const rejected = failures.some(
+          (f) =>
+            f.quote === record.text &&
+            f.conflictsWith.some((id) =>
+              messages.some(
+                (m) =>
+                  m.id === id &&
+                  snapshot.participants.some(
+                    (p) => p.id === m.participantId && p.role === 'expert',
+                  ),
+              ),
+            ),
+        );
+        if (rejected) {
+          stored.reviewRequired = true;
+          if (record.status === 'consensus') stored.verified = false;
+        }
       }
       const semanticRejected = output.decisions.filter((item) =>
         failures.some((f) => f.quote === item.text),
@@ -694,7 +725,9 @@ export class Engine {
               .map((f) => f.reason)
               .join('；'),
         });
-      for (const record of ledger.records.filter((r) => r.status === 'consensus' && !r.verified)) {
+      for (const record of ledger.records.filter(
+        (r) => r.reviewRequired || (r.status === 'consensus' && !r.verified),
+      )) {
         const reasons = failures.filter((f) => f.quote === record.text);
         if (reasons.length)
           reviewed.audit.rejected.push({

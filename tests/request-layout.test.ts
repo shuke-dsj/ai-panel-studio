@@ -6,6 +6,38 @@ import { buildContext } from '../server/context.js';
 import { longDiscussion, criticalQuotes } from './fixtures/long-discussion.js';
 
 describe('cacheable transport without context loss', () => {
+  it('preserves evidence and role identity while reusing the compact transcript prefix across tasks', () => {
+    const input = buildContext(longDiscussion(9), [], 56000);
+    const first = buildModelMessages(
+      'intent',
+      { ...input, current: input.participants[1] },
+      '',
+      'compact',
+    );
+    const second = buildModelMessages(
+      'speech',
+      { ...input, current: input.participants[2] },
+      '',
+      'compact',
+    );
+    expect(second.slice(0, 2)).toEqual(first.slice(0, 2));
+    const [header, ...lines] = first[1].content.split('\n');
+    const tail = JSON.parse(lines.pop()!.slice('SNAPSHOT '.length));
+    expect(JSON.parse(header).participants).toEqual(input.participants);
+    expect(JSON.parse(first[3].content).current).toEqual({ id: input.participants[1].id });
+    expect(tail.evidenceMemory).toEqual(input.evidenceMemory);
+    expect(tail.insights).toEqual(input.insights);
+    expect(lines.map((line) => JSON.parse(line))).toEqual(
+      input.messages.map(({ discussionId, createdAt, ...m }) => m),
+    );
+    const extended = buildModelMessages(
+      'speech',
+      { ...input, messages: [...input.messages, { ...input.messages[0], id: 'new', seq: 10 }] },
+      '',
+      'compact',
+    );
+    expect(extended[1].content.startsWith(first[1].content.split('SNAPSHOT ')[0])).toBe(true);
+  });
   it('preserves opaque JSON keys without treating __proto__ as an assignment to the transport prototype', () => {
     const input = JSON.parse(
       '{"topic":"测试","messages":[],"__proto__":{"polluted":true},"constructor":"opaque"}',

@@ -77,6 +77,7 @@ export function ledgerDigest(ledger: InsightLedger) {
     text: r.text,
     status: r.status,
     verified: r.verified,
+    reviewRequired: r.reviewRequired,
     aliases: r.aliases,
     mergedInto: r.mergedInto,
     requiredParticipantIds: r.requiredParticipantIds,
@@ -115,9 +116,22 @@ export function ledgerDigest(ledger: InsightLedger) {
 
 export function projectInsights(ledger: InsightLedger): Insight[] {
   return ledger.records
-    .filter((r) => r.status === 'disagreement' || (r.status === 'consensus' && r.verified))
+    .filter(
+      (r) =>
+        !r.reviewRequired &&
+        (r.status === 'disagreement' || (r.status === 'consensus' && r.verified)),
+    )
     .map((r) => {
-      const evidence = r.status === 'consensus' ? r.evidence.filter(positive) : r.evidence;
+      const applicable = r.status === 'consensus' ? r.evidence.filter(positive) : r.evidence;
+      const evidence = applicable.filter(
+        (e) =>
+          !applicable.some(
+            (later) =>
+              later.participantId === e.participantId &&
+              later.seq > e.seq &&
+              later.stance !== 'context',
+          ),
+      );
       return {
         id: r.id,
         kind: r.status as Insight['kind'],
@@ -205,6 +219,22 @@ export function applyLedger(
     });
     if (!evidence.length || evidence.length !== decision.evidence.length) {
       reject('invalid_literal_evidence');
+      continue;
+    }
+    if (
+      decision.status === 'disagreement' &&
+      evidence.some(
+        (old) =>
+          old.stance === 'oppose' &&
+          evidence.some(
+            (latest) =>
+              latest.participantId === old.participantId &&
+              latest.seq > old.seq &&
+              (positive(latest) || latest.stance === 'withdraw'),
+          ),
+      )
+    ) {
+      reject('opposition_superseded_by_later_position');
       continue;
     }
     const supporters = new Set(evidence.filter(positive).map((e) => e.participantId));
@@ -347,6 +377,7 @@ export function applyLedger(
     current.text = decision.text;
     current.status = decision.status;
     current.verified = true;
+    delete current.reviewRequired;
     current.requiredParticipantIds = unique([
       ...required,
       ...evidence.filter((e) => e.stance !== 'context').map((e) => e.participantId),

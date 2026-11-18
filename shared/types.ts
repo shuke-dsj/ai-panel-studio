@@ -77,6 +77,7 @@ export interface IssueRecord {
   text: string;
   status: IssueStatus;
   verified: boolean;
+  reviewRequired?: boolean;
   requiredParticipantIds: string[];
   evidence: InsightEvidence[];
   aliases: string[];
@@ -101,6 +102,7 @@ export function isClosedDisagreement(record: IssueRecord): boolean {
   return (
     !record.mergedInto &&
     record.verified &&
+    !record.reviewRequired &&
     record.closedAtSeq !== undefined &&
     (record.status === 'resolved' || record.status === 'consensus') &&
     record.history.some((entry) => entry.status === 'disagreement')
