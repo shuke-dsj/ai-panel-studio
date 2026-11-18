@@ -1,0 +1,1419 @@
+{
+  "discussion": {
+    "id": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+    "topic": "公开合成流程评审：8人团队在 Git 上维护内部 TypeScript 项目，现状须人工批准 PR。只比较 AI 评审旁路评论与经过验证后对一种低风险确定性规则启用阻断；AI 不读取密钥或客户数据，不可自行合并。讨论误报反馈、人工复核、退出条件，测试数据尚未测得。",
+    "expertCount": 3,
+    "maxTurns": 8,
+    "turns": 8,
+    "status": "completed",
+    "phase": "closing",
+    "summary": "达到发言安全上限，尚不代表完全收敛。本轮8次专家发言，2项共同判断、0条未关闭分歧记录。\n\n共同判断（按明确支持者归因）：AI 代码评审先采用旁路评论，通过验证后再评估是否升级为阻断。（许蔚、陈序、周谨支持）；升级为阻断后，若实测未达标即退回旁路并写进审计。（许蔚、周谨支持）\n\n实质分歧：暂无符合证据要求的记录。\n\n待外部确认4项，已关闭0项（依据见展开）。\n\n下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。",
+    "effectiveTopic": "公开合成流程评审：8人团队在 Git 上维护内部 TypeScript 项目，现状须人工批准 PR。只比较 AI 评审旁路评论与经过验证后对一种低风险确定性规则启用阻断；AI 不读取密钥或客户数据，不可自行合并。讨论误报反馈、人工复核、退出条件，测试数据尚未测得。",
+    "focus": "",
+    "directionVersion": 0,
+    "handledDirectionVersion": 0,
+    "cycle": 1,
+    "cycleStartTurns": 0,
+    "cycleStartSeq": 0,
+    "endReason": "turn_limit",
+    "summaryDetails": "本场围绕“公开合成流程评审：8人团队在 Git 上维护内部 TypeScript 项目，现状须人工批准 PR。只比较 AI 评审旁路评论与经过验证后对一种低风险确定性规则启用阻断；AI 不读取密钥或客户数据，不可自行合并。讨论误报反馈、人工复核、退出条件，测试数据尚未测得。”完成了8次专家发言。以下结论按本场证据列示，角色意见与阈值均未经外部事实核实。\n\n有证据的共同判断（不代表全员逐项确认）：\n1. AI 代码评审先采用旁路评论，通过验证后再评估是否升级为阻断。\n明确支持记录：许蔚、陈序、周谨；依据#2、#3、#4。\n许蔚（#2）：否则我坚持先做旁路评论\n陈序（#3）：因此我支持旁路评论先行\n周谨（#4）：验证期可对一种低风险确定性规则以旁路模式收集数据\n2. 升级为阻断后，若实测未达标即退回旁路并写进审计。\n明确支持记录：许蔚、周谨；依据#6、#7。\n许蔚（#6）：未达标即退回旁路并写进审计\n周谨（#7）：未达标即退回旁路并写审计\n\n当前实质分歧：\n本场未记录有证据的未决分歧，不据此推定全员赞同。\n\n已关闭分歧及确认原文：\n暂无记录。\n\n待外部确认事项（不等于专家彼此反对）：\n测前误报反复触发阻断是否会导致习惯性人工放行、门禁失效而审计仍显示合规？：测前误报反复触发阻断可能使人工放行成为惯例、门禁失效而审计仍显示合规，此风险尚无实测数据可排除。\n许蔚（#2）：我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。\n升级为阻断前，误报漏报达标的判定负责人与测量口径如何确定？：许蔚与周谨建议由用户指定负责人基于同一测试集判断误报与漏报；具体阈值、负责人任命和测量方案待用户确认。\n许蔚（#6）：达标判定要由用户指定的负责人基于同一测试集做\n周谨（#7）：测量方法固定为重复注入已知正负样本并记录误报与漏报\n验证期旁路数据收集时长与后续评估截止如何确定？：验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混作同一截止日。\n周谨（#7）：我补充一点，验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认；未达标即退回旁路并写审计。\n误报一键标记、豁免与复核记录如何留痕，复核责任与时效如何确定？：陈序提议PR内一键标记误报并记录理由，许蔚认为可作为旁路期误报反馈原始记录、须对齐同一测试集口径并写入审计；字段、复核责任、时效与落库方式均待用户确认。\n陈序（#8）：接着许蔚的达标口径，我补充开发侧的衔接提议：验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据，避免单靠人工翻审计。\n许蔚（#9）：回应陈序：PR 里一键标记误报并记录理由可以直接作为旁路期误报反馈的原始记录，但每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标，避免复核依据重复或缺口；标记与豁免都不改变测前仅旁路的前提。\n\n关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n林岚（#1）：开场先对齐比较维度：两条路径的误报成本、复核责任、审计留痕与回滚能力，而不是预设阻断更优。\n林岚（#1）：测试数据尚未测得，本轮任何阻断范围与阈值都只能标为提议，不当作已批准前提。\n许蔚（#2）：我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。\n许蔚（#2）：因此若AI要升级为阻断，前提是测试集实测误报率与漏报率均达标，且复核由你方指定的人承担，否则我坚持先做旁路评论。\n陈序（#3）：因此我支持旁路评论先行，若将来对某种规则启用阻断，申诉通道必须能一键豁免并当场记录理由，且复核时效要事先写明——这些数值目前只是提议，需等测试数据测得后再定。\n周谨（#4）：许蔚要求实测误报达标后才考虑阻断，我不反对，但建议区分“测前”和“验证期”：验证期可对一种低风险确定性规则以旁路模式收集数据，先定回退开关与退出条件，达标后再升阻断；阈值与验证时长目前均为提议，待用户指定负责人后确认。\n许蔚（#6）：回应周谨的验证期提议：我同意旁路期先收集数据，但达标判定要由用户指定的负责人基于同一测试集做，未达标即退回旁路并写进审计。\n许蔚（#6）：另外旁路评论本身也要记录误报反馈与人工处理理由，否则验证期结束我们仍无数据判断；阈值与时长均维持提议。\n周谨（#7）：我补充一点，验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认；未达标即退回旁路并写审计。\n陈序（#8）：接着许蔚的达标口径，我补充开发侧的衔接提议：验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据，避免单靠人工翻审计。\n许蔚（#9）：回应陈序：PR 里一键标记误报并记录理由可以直接作为旁路期误报反馈的原始记录，但每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标，避免复核依据重复或缺口；标记与豁免都不改变测前仅旁路的前提。\n周谨（#10）：回应陈序的 PR 内一键标记：我提议标记结构对齐重复注入正负样本的测试集口径，至少记录样本类别与理由字段，供用户指定负责人据此判达标；字段清单与落库方式目前只是提议，复核时效数值仍待用户确认。\n\n后续验证参考：\n先由相关方确认尚未解决的范围、阶段和验收条件，再决定是否推进。",
+    "createdAt": "2026-11-18T12:12:40.133Z",
+    "updatedAt": "2026-11-18T12:16:05.709Z",
+    "tokenUsage": {
+      "attempts": 70,
+      "inputReports": 70,
+      "outputReports": 70,
+      "cacheReports": 70,
+      "inputTokens": 444009,
+      "outputTokens": 23445,
+      "cacheHitTokens": 279168,
+      "cacheMissTokens": 164841
+    },
+    "contextSummary": "",
+    "error": null,
+    "resumeStatus": null,
+    "source": "real-example",
+    "insightLedger": {
+      "version": 1,
+      "records": [
+        {
+          "id": "issue-e15906700d1367b6",
+          "question": "测前误报反复触发阻断是否会导致习惯性人工放行、门禁失效而审计仍显示合规？",
+          "text": "测前误报反复触发阻断可能使人工放行成为惯例、门禁失效而审计仍显示合规，此风险尚无实测数据可排除。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+              "quote": "我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "提出未排除风险",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 2
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 2,
+          "history": [
+            {
+              "status": "question",
+              "text": "误报反复触发阻断后开发者习惯性找人工放行、门禁失效而审计仍显示合规的风险尚无验证数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "开发者习惯性找人工放行，门禁形同虚设，审计却显示合规",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出该失效场景待验证",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                }
+              ],
+              "seq": 2
+            },
+            {
+              "status": "question",
+              "text": "误报反复触发阻断后开发者习惯性找人工放行、门禁失效而审计仍显示合规的风险尚无验证数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "开发者习惯性找人工放行，门禁形同虚设，审计却显示合规",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出阻断失效与审计失真风险，待验证",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                }
+              ],
+              "seq": 2
+            },
+            {
+              "status": "question",
+              "text": "误报反复触发阻断后开发者习惯性找人工放行、门禁失效而审计仍显示合规的风险尚无验证数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出该失效场景，主张测前仅做旁路评论",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "我最担心的失效场景是：8人小团队里一条确定性规则误报后，开发者要等半天才有人工复核，只能干等或反复催，合并节奏被直接打断。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "同样担忧误报触发阻断后复核延迟影响合并节奏",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "测前误报反复触发阻断可能使人工放行成为惯例、门禁失效而审计仍显示合规，此风险尚无数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "开发者习惯性找人工放行，门禁形同虚设",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出该失效风险待数据排除",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+                  "quote": "验证期可对一种低风险确定性规则以旁路模式收集数据",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "主张以验证期收集数据再评估",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 4
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "测前误报反复触发阻断可能使人工放行成为惯例、门禁失效而审计仍显示合规，此风险尚无实测数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "门禁形同虚设，审计却显示合规",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出该风险，尚无数据可排除",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "旁路评论本身也要记录误报反馈与人工处理理由",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "旁路期须记录误报反馈与理由，风险未被实测排除",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "测前误报反复触发阻断可能使人工放行成为惯例、门禁失效而审计仍显示合规，此风险尚无实测数据可排除。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出未排除风险",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-0d12b648fceee0af",
+          "question": "测试数据测得前，AI评审是否仅作旁路评论而不影响合并门禁？",
+          "text": "AI 代码评审先采用旁路评论，通过验证后再评估是否升级为阻断。",
+          "status": "consensus",
+          "verified": true,
+          "requiredParticipantIds": [
+            "414b61e6-5635-445f-bdd1-40c4ace3127c",
+            "5887d22c-5645-4463-9365-9dc971dbe9b8",
+            "d804f73c-e952-4b27-90d4-59001a71794b"
+          ],
+          "evidence": [
+            {
+              "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+              "quote": "否则我坚持先做旁路评论",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "测前坚持仅旁路评论",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 2
+            },
+            {
+              "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+              "quote": "因此我支持旁路评论先行",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "支持旁路评论先行",
+              "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+              "seq": 3
+            },
+            {
+              "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+              "quote": "验证期可对一种低风险确定性规则以旁路模式收集数据",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "测前以旁路模式收集数据",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "seq": 4
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 4,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "测试数据尚未测得，两位专家均主张先以旁路评论运行，阻断范围与阈值仅作提议，不作为已批准前提。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "否则我坚持先做旁路评论",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前坚持旁路评论，反对升级阻断",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "因此我支持旁路评论先行",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "支持旁路评论先行，阻断留待后续验证",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "consensus",
+              "text": "测试数据尚未测得，应先以旁路评论运行，阻断范围与阈值仅作提议，不作为已批准前提。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "否则我坚持先做旁路评论",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前坚持旁路评论，反对升级阻断",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "因此我支持旁路评论先行",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "支持旁路评论先行，阻断留待后续验证",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "consensus",
+              "text": "测试数据尚未测得，应以AI旁路评论先运行，不影响合并门禁；阻断范围与阈值仅作提议。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "否则我坚持先做旁路评论",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前坚持仅旁路评论",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "因此我支持旁路评论先行",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "支持旁路评论先行",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                },
+                {
+                  "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+                  "quote": "验证期可对一种低风险确定性规则以旁路模式收集数据",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前以旁路模式收集数据",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 4
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "consensus",
+              "text": "测试数据尚未测得前，AI评审先以旁路评论运行、不影响合并门禁；阻断范围与阈值只作提议。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "否则我坚持先做旁路评论",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前坚持仅旁路评论",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "因此我支持旁路评论先行",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "支持旁路评论先行",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                },
+                {
+                  "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+                  "quote": "验证期可对一种低风险确定性规则以旁路模式收集数据",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "测前以旁路模式收集数据",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 4
+                }
+              ],
+              "seq": 8
+            }
+          ]
+        },
+        {
+          "id": "issue-e1a373d7974b9ad1",
+          "question": "升级为阻断前，误报漏报达标的判定负责人与测量口径如何确定？",
+          "text": "许蔚与周谨建议由用户指定负责人基于同一测试集判断误报与漏报；具体阈值、负责人任命和测量方案待用户确认。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "414b61e6-5635-445f-bdd1-40c4ace3127c",
+            "d804f73c-e952-4b27-90d4-59001a71794b"
+          ],
+          "evidence": [
+            {
+              "seq": 6,
+              "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+              "view": "达标判定要由用户指定的负责人基于同一测试集做",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 7,
+              "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "quote": "测量方法固定为重复注入已知正负样本并记录误报与漏报",
+              "view": "测量方法固定为重复注入已知正负样本并记录误报与漏报",
+              "stance": "context",
+              "supportsClaim": false
+            }
+          ],
+          "aliases": [
+            "issue-c15f7d90c85f001d"
+          ],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "阻断升级的前置门槛尚无实测数据：许蔚要求实测误报率与漏报率达标且复核由指定一方承担，陈序要求申诉一键豁免留痕、复核时效事先写明；阈值与时效均为待定提议。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "因此若AI要升级为阻断，前提是测试集实测误报率与漏报率均达标，且复核由你方指定的人承担，否则我坚持先做旁路评论。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "以实测指标达标与复核责任指定为升级前提",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "因此我支持旁路评论先行，若将来对某种规则启用阻断，申诉通道必须能一键豁免并当场记录理由，且复核时效要事先写明——这些数值目前只是提议，需等测试数据测得后再定。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "以一键豁免留痕与复核时效事先写明为升级前提，数值待定",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "阻断升级的前置门槛尚无实测数据：实测误报漏报率、复核责任归属、申诉一键豁免留痕与复核时效均为待定提议。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "前提是测试集实测误报率与漏报率均达标",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求实测达标并明确复核责任才可阻断",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "申诉通道必须能一键豁免并当场记录理由",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求豁免留痕且复核时效事先写明",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                },
+                {
+                  "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+                  "quote": "先定回退开关与退出条件，达标后再升阻断",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "先定回退与退出条件再升阻断",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 4
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "阻断升级的前置门槛尚无实测数据：实测误报漏报率、复核责任归属、申诉一键豁免留痕与复核时效均为待定提议。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "前提是测试集实测误报率与漏报率均达标",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "升级阻断须实测误报漏报率达标，达标口径待定",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "申诉通道必须能一键豁免并当场记录理由，且复核时效要事先写明",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "申诉豁免留痕与复核时效须事先写明，数值待测",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                },
+                {
+                  "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+                  "quote": "先定回退开关与退出条件，达标后再升阻断",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "回退与退出条件待定，阈值与验证时长为提议",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 4
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "阻断升级前置门槛尚未确定：须基于同一测试集实测误报漏报达标，由用户指定负责人判定；验证期数据收集时长与后续评估截止是两个独立提议，均为待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "前提是测试集实测误报率与漏报率均达标",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "升级阻断须实测误报漏报达标",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "达标由用户指定负责人判定",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "两段时长独立且待用户确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "阻断升级前置门槛尚未确定：须基于同一测试集实测误报漏报达标，由用户指定负责人判定；验证期数据收集时长与后续评估截止是两个独立提议，均待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "达标判定责任待用户指定",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "两时长均为待确认提议",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                },
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "阈值与时长均维持提议",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "阈值时长仅作提议",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "升级为阻断前，须由用户指定的负责人基于同一测试集判定误报漏报达标；指定负责人与测量口径仍待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "负责人依同一测试集判定达标",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "测量方法固定为重复注入已知正负样本并记录误报与漏报",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "提议固定测量方法",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "升级为阻断前须基于同一测试集实测误报漏报达标、由用户指定负责人判定；重复注入已知正负样本仅为周谨提议的测量方法，负责人与口径均待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "前提是测试集实测误报率与漏报率均达标，且复核由你方指定的人承担",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求实测达标且由指定人复核",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "同意许蔚：达标判定由用户指定负责人基于同一测试集做，测量方法固定为重复注入已知正负样本并记录误报与漏报",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出测量方法与判定归属，均待用户确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "升级为阻断前须基于同一测试集实测误报漏报达标，判定负责人与测量口径仍待用户确认；重复注入已知正负样本仅为周谨的提议方法。",
+              "evidence": [
+                {
+                  "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+                  "quote": "因此若AI要升级为阻断，前提是测试集实测误报率与漏报率均达标，且复核由你方指定的人承担，否则我坚持先做旁路评论。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "门槛要求实测达标且由指定负责人复核",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 2
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "同意许蔚：达标判定由用户指定负责人基于同一测试集做，测量方法固定为重复注入已知正负样本并记录误报与漏报。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "认可该待办，测量方法仅为提议",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-c096cf0d842ce1f3",
+          "question": "升级为阻断后，未达标时应退回旁路并写入审计吗？",
+          "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+          "status": "consensus",
+          "verified": true,
+          "requiredParticipantIds": [
+            "414b61e6-5635-445f-bdd1-40c4ace3127c",
+            "d804f73c-e952-4b27-90d4-59001a71794b"
+          ],
+          "evidence": [
+            {
+              "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+              "quote": "未达标即退回旁路并写进审计",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "未达标退回旁路并入审计",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 6
+            },
+            {
+              "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+              "quote": "未达标即退回旁路并写审计",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "同意未达标退回旁路并写审计",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "seq": 7
+            }
+          ],
+          "aliases": [
+            "issue-f12c77cea661261a"
+          ],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "未达标即退回旁路并写进审计。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "未达标即退回旁路并写进审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "支持未达标退回旁路并入审计",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "未达标即退回旁路并写审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "同意未达标退回旁路并写审计",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "consensus",
+              "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "未达标即退回旁路并写进审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "未达标退回旁路并入审计",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "未达标即退回旁路并写审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "同意未达标退回旁路并写审计",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "consensus",
+              "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "未达标即退回旁路并写进审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "未达标退回旁路并入审计",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "未达标即退回旁路并写审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "同意未达标退回旁路并写审计",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 9
+            }
+          ]
+        },
+        {
+          "id": "issue-f12c77cea661261a",
+          "question": "升级为阻断后，若实测未达标应如何处置？",
+          "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+          "status": "merged",
+          "verified": true,
+          "requiredParticipantIds": [
+            "414b61e6-5635-445f-bdd1-40c4ace3127c",
+            "d804f73c-e952-4b27-90d4-59001a71794b"
+          ],
+          "evidence": [
+            {
+              "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+              "quote": "未达标即退回旁路并写进审计",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "未达标退回旁路并入审计",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 6
+            },
+            {
+              "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+              "quote": "未达标即退回旁路并写审计",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "同意未达标退回旁路并写审计",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "未达标即退回旁路并写进审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "未达标退回旁路并入审计",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "未达标即退回旁路并写审计",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "同意未达标退回旁路并写审计",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 8
+            }
+          ],
+          "mergedInto": "issue-c096cf0d842ce1f3"
+        },
+        {
+          "id": "issue-c15f7d90c85f001d",
+          "question": "升级为阻断前，误报漏报达标由谁基于什么判定？",
+          "text": "升级为阻断前，须由用户指定的负责人基于同一测试集判定误报漏报达标；指定负责人与测量口径仍待用户确认。",
+          "status": "merged",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+              "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+              "stance": "context",
+              "supportsClaim": false,
+              "view": "负责人依同一测试集判定达标",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 6
+            },
+            {
+              "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+              "quote": "测量方法固定为重复注入已知正负样本并记录误报与漏报",
+              "stance": "context",
+              "supportsClaim": false,
+              "view": "提议固定测量方法",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "升级为阻断前，须由用户指定的负责人基于同一测试集判定误报漏报达标；指定负责人与测量口径仍待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "达标判定要由用户指定的负责人基于同一测试集做",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "负责人依同一测试集判定达标",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "测量方法固定为重复注入已知正负样本并记录误报与漏报",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "提议固定测量方法",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 8
+            }
+          ],
+          "mergedInto": "issue-e1a373d7974b9ad1"
+        },
+        {
+          "id": "issue-28a82ae8f912793e",
+          "question": "验证期旁路数据收集时长与后续评估截止如何确定？",
+          "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混作同一截止日。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+              "quote": "我补充一点，验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认；未达标即退回旁路并写审计。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "两项时长分别待确认",
+              "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+              "seq": 7
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混用。",
+              "evidence": [
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "两时长为独立提议待确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                },
+                {
+                  "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+                  "quote": "阈值与时长均维持提议",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "阈值时长仅作提议",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 6
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混用。",
+              "evidence": [
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "两项时长均待用户确认且不可混用",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                },
+                {
+                  "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+                  "quote": "复核时效的具体数值仍是提议，待用户指定负责人后确认",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "复核时效数值仍待确认",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 8
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混用。",
+              "evidence": [
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "两时长独立且待用户确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混作同一截止日。",
+              "evidence": [
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "两时长独立且待用户确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "验证期旁路数据收集时长与后续评估截止是两个独立提议，具体数值均待用户确认，不可混作同一截止日。",
+              "evidence": [
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "我补充一点，验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认；未达标即退回旁路并写审计。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "两项时长分别待确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-725321a8555fff5e",
+          "question": "误报一键标记、豁免与复核记录如何留痕，复核责任与时效如何确定？",
+          "text": "陈序提议PR内一键标记误报并记录理由，许蔚认为可作为旁路期误报反馈原始记录、须对齐同一测试集口径并写入审计；字段、复核责任、时效与落库方式均待用户确认。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+              "quote": "接着许蔚的达标口径，我补充开发侧的衔接提议：验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据，避免单靠人工翻审计。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "提议一键标记并留痕",
+              "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+              "seq": 8
+            },
+            {
+              "messageId": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+              "quote": "回应陈序：PR 里一键标记误报并记录理由可以直接作为旁路期误报反馈的原始记录，但每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标，避免复核依据重复或缺口；标记与豁免都不改变测前仅旁路的前提。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "认可为原始记录但须对齐口径",
+              "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+              "seq": 9
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 9,
+          "history": [
+            {
+              "status": "question",
+              "text": "误报可在PR中一键标记并记录理由，豁免同时留痕；这些记录作为旁路期误报反馈原始依据，具体复核责任、时效与审计方式仍待确认，且不改变测前仅作旁路评论的前提。",
+              "evidence": [
+                {
+                  "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+                  "quote": "验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提议PR内一键标记误报并留痕",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 8
+                },
+                {
+                  "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+                  "quote": "申诉通道必须能一键豁免并当场记录理由，且复核时效要事先写明",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求豁免留痕与复核时效，数值待定",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 3
+                },
+                {
+                  "messageId": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+                  "quote": "标记与豁免都不改变测前仅旁路的前提",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "留痕不改变测前仅旁路",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 9
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "误报可在PR中一键标记并记录理由，豁免同时留痕；这些记录作为旁路期误报反馈原始依据，具体复核责任、时效与审计方式仍待确认，且不改变测前仅作旁路评论的前提。",
+              "evidence": [
+                {
+                  "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+                  "quote": "每条误报必须能在PR里一键标记为误报并记录理由",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "PR内一键标记留痕提议",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 8
+                },
+                {
+                  "messageId": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+                  "quote": "每次标记都要落到周谨提议的同一测试集口径下",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "标记须对齐测试集口径",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 9
+                },
+                {
+                  "messageId": "b2a1ba4d-64e6-4ca7-9538-9bec00c01438",
+                  "quote": "字段清单与落库方式目前只是提议，复核时效数值仍待用户确认",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "字段与时效待确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 10
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "陈序提议误报可在PR内一键标记并记录理由，许蔚认为这可作为旁路期误报反馈原始记录、须对齐同一测试集口径并写入审计；具体字段、复核责任、时效与落库方式均待用户确认，且不改变测前仅作旁路评论的前提。",
+              "evidence": [
+                {
+                  "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+                  "quote": "验证期里每条误报必须能在PR里一键标记为误报并记录理由",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "误报在PR内标记并记录理由",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 8
+                },
+                {
+                  "messageId": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+                  "quote": "每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "标记须对齐测试集口径",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 9
+                },
+                {
+                  "messageId": "b2a1ba4d-64e6-4ca7-9538-9bec00c01438",
+                  "quote": "字段清单与落库方式目前只是提议，复核时效数值仍待用户确认",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "字段、落库与时效待确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 10
+                },
+                {
+                  "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+                  "quote": "验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "两时长独立待确认",
+                  "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+                  "seq": 7
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "陈序提议PR内一键标记误报并记录理由，许蔚认为可作为旁路期误报反馈原始记录、须对齐同一测试集口径并写入审计；字段、复核责任、时效与落库方式均待用户确认。",
+              "evidence": [
+                {
+                  "messageId": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+                  "quote": "接着许蔚的达标口径，我补充开发侧的衔接提议：验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据，避免单靠人工翻审计。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提议一键标记并留痕",
+                  "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+                  "seq": 8
+                },
+                {
+                  "messageId": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+                  "quote": "回应陈序：PR 里一键标记误报并记录理由可以直接作为旁路期误报反馈的原始记录，但每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标，避免复核依据重复或缺口；标记与豁免都不改变测前仅旁路的前提。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "认可为原始记录但须对齐口径",
+                  "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        }
+      ],
+      "audit": []
+    }
+  },
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林岚",
+      "occupation": "研发流程治理顾问",
+      "title": "流程评审主持人",
+      "stance": "先明确比较维度与退出条件，再让两侧方案各自暴露失效场景；不预设阻断优于旁路",
+      "focus": "议程编排、边界确认、结论收敛与待验证项登记",
+      "id": "cfd73dc3-7b2c-4cea-b973-d62b7bde2f28",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "color": "#b78626"
+    },
+    {
+      "role": "expert",
+      "name": "周谨",
+      "occupation": "平台工程负责人",
+      "title": "研发效能平台主管",
+      "stance": "支持对一种低风险确定性规则启用阻断，但前提是先有小流量验证与可一键回退的旁路开关",
+      "focus": "规则可确定性、误报率基线、反馈闭环、退出与回滚条件",
+      "id": "d804f73c-e952-4b27-90d4-59001a71794b",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "许蔚",
+      "occupation": "应用安全工程师",
+      "title": "代码安全评审专家",
+      "stance": "倾向AI旁路评论先行，反对在测试数据未测得前让AI结论影响合并门禁",
+      "focus": "误报漏报风险、人工复核责任归属、密钥与客户数据边界、审计留痕",
+      "id": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "color": "#427abf"
+    },
+    {
+      "role": "expert",
+      "name": "陈序",
+      "occupation": "一线开发工程师",
+      "title": "TypeScript 项目核心贡献者",
+      "stance": "担心任何新增阻断拖慢8人小团队的合并节奏，要求误报申诉通道足够轻量",
+      "focus": "开发者体验、申诉成本、复核时效、阈值与豁免机制",
+      "id": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "color": "#8c58ac"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "cfd73dc3-7b2c-4cea-b973-d62b7bde2f28",
+      "text": "开场先对齐比较维度：两条路径的误报成本、复核责任、审计留痕与回滚能力，而不是预设阻断更优。测试数据尚未测得，本轮任何阻断范围与阈值都只能标为提议，不当作已批准前提。请三位分别说明各自最担心的失效场景。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "e87494c7-75ae-4295-aadb-830841152e5c",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 1,
+      "createdAt": "2026-11-18T12:12:46.096Z"
+    },
+    {
+      "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "text": "我最担心的失效场景：测试数据尚未测得时，误报在8人团队里反复触发阻断，开发者习惯性找人工放行，门禁形同虚设，审计却显示合规。因此若AI要升级为阻断，前提是测试集实测误报率与漏报率均达标，且复核由你方指定的人承担，否则我坚持先做旁路评论。",
+      "replyTo": "e87494c7-75ae-4295-aadb-830841152e5c",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 2,
+      "createdAt": "2026-11-18T12:12:53.267Z"
+    },
+    {
+      "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+      "text": "我最担心的失效场景是：8人小团队里一条确定性规则误报后，开发者要等半天才有人工复核，只能干等或反复催，合并节奏被直接打断。因此我支持旁路评论先行，若将来对某种规则启用阻断，申诉通道必须能一键豁免并当场记录理由，且复核时效要事先写明——这些数值目前只是提议，需等测试数据测得后再定。",
+      "replyTo": "e87494c7-75ae-4295-aadb-830841152e5c",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "3b352472-9945-4019-a1fd-6a917693e16f",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 3,
+      "createdAt": "2026-11-18T12:13:15.345Z"
+    },
+    {
+      "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+      "text": "许蔚要求实测误报达标后才考虑阻断，我不反对，但建议区分“测前”和“验证期”：验证期可对一种低风险确定性规则以旁路模式收集数据，先定回退开关与退出条件，达标后再升阻断；阈值与验证时长目前均为提议，待用户指定负责人后确认。",
+      "replyTo": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+      "addressedTo": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 4,
+      "createdAt": "2026-11-18T12:13:34.841Z"
+    },
+    {
+      "participantId": "cfd73dc3-7b2c-4cea-b973-d62b7bde2f28",
+      "text": "交叉讨论只聚焦一个尚未解决的问题：升级为阻断要求“实测误报漏报率达标”，请许蔚与周谨各自明确达标判定口径——何种测量方法、由谁判定达标，以及未达标时是先退回旁路还是保留人工复核，这些目前都只是提议。",
+      "replyTo": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+      "addressedTo": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "38c056f4-672e-4316-ba4f-b74e37a70fba",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 5,
+      "createdAt": "2026-11-18T12:13:51.337Z"
+    },
+    {
+      "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "text": "回应周谨的验证期提议：我同意旁路期先收集数据，但达标判定要由用户指定的负责人基于同一测试集做，未达标即退回旁路并写进审计。另外旁路评论本身也要记录误报反馈与人工处理理由，否则验证期结束我们仍无数据判断；阈值与时长均维持提议。",
+      "replyTo": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+      "addressedTo": "d804f73c-e952-4b27-90d4-59001a71794b",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "42509e76-3f6e-492a-ab8b-5933fc191005",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 6,
+      "createdAt": "2026-11-18T12:13:54.603Z"
+    },
+    {
+      "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+      "text": "同意许蔚：达标判定由用户指定负责人基于同一测试集做，测量方法固定为重复注入已知正负样本并记录误报与漏报。我补充一点，验证期的旁路数据收集时长与后续评估截止是两个独立提议，不可混用，两者时长都待用户确认；未达标即退回旁路并写审计。",
+      "replyTo": "42509e76-3f6e-492a-ab8b-5933fc191005",
+      "addressedTo": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "8b031de1-c55e-4910-ba32-adc9073759c0",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 7,
+      "createdAt": "2026-11-18T12:14:18.224Z"
+    },
+    {
+      "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+      "text": "接着许蔚的达标口径，我补充开发侧的衔接提议：验证期里每条误报必须能在PR里一键标记为误报并记录理由，未达标退回旁路时这些记录直接构成复核依据，避免单靠人工翻审计。复核时效的具体数值仍是提议，待用户指定负责人后确认。",
+      "replyTo": "42509e76-3f6e-492a-ab8b-5933fc191005",
+      "addressedTo": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 8,
+      "createdAt": "2026-11-18T12:14:41.337Z"
+    },
+    {
+      "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+      "text": "回应陈序：PR 里一键标记误报并记录理由可以直接作为旁路期误报反馈的原始记录，但每次标记都要落到周谨提议的同一测试集口径下、由用户指定负责人据此判定达标，避免复核依据重复或缺口；标记与豁免都不改变测前仅旁路的前提。",
+      "replyTo": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+      "addressedTo": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "949101f0-abd0-4957-b38b-b5e4cf9a834a",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 9,
+      "createdAt": "2026-11-18T12:15:15.948Z"
+    },
+    {
+      "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+      "text": "回应陈序的 PR 内一键标记：我提议标记结构对齐重复注入正负样本的测试集口径，至少记录样本类别与理由字段，供用户指定负责人据此判达标；字段清单与落库方式目前只是提议，复核时效数值仍待用户确认。",
+      "replyTo": "357a00c1-40f0-4489-b5f1-e2c226d81308",
+      "addressedTo": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "b2a1ba4d-64e6-4ca7-9538-9bec00c01438",
+      "discussionId": "99c0b3fd-055d-45cd-828b-a6ec58669c81",
+      "seq": 10,
+      "createdAt": "2026-11-18T12:15:34.045Z"
+    }
+  ],
+  "insights": [
+    {
+      "id": "issue-0d12b648fceee0af",
+      "kind": "consensus",
+      "question": "测试数据测得前，AI评审是否仅作旁路评论而不影响合并门禁？",
+      "text": "AI 代码评审先采用旁路评论，通过验证后再评估是否升级为阻断。",
+      "messageIds": [
+        "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+        "3b352472-9945-4019-a1fd-6a917693e16f",
+        "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26"
+      ],
+      "positions": [
+        {
+          "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+          "view": "测前坚持仅旁路评论"
+        },
+        {
+          "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+          "view": "支持旁路评论先行"
+        },
+        {
+          "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+          "view": "测前以旁路模式收集数据"
+        }
+      ],
+      "evidence": [
+        {
+          "messageId": "5d69c59a-4866-4d89-9ae4-a875e36ad7b3",
+          "quote": "否则我坚持先做旁路评论",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "测前坚持仅旁路评论",
+          "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+          "seq": 2
+        },
+        {
+          "messageId": "3b352472-9945-4019-a1fd-6a917693e16f",
+          "quote": "因此我支持旁路评论先行",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "支持旁路评论先行",
+          "participantId": "5887d22c-5645-4463-9365-9dc971dbe9b8",
+          "seq": 3
+        },
+        {
+          "messageId": "ad12ee1d-476f-43f4-bbe7-d63a9b9f1a26",
+          "quote": "验证期可对一种低风险确定性规则以旁路模式收集数据",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "测前以旁路模式收集数据",
+          "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+          "seq": 4
+        }
+      ]
+    },
+    {
+      "id": "issue-c096cf0d842ce1f3",
+      "kind": "consensus",
+      "question": "升级为阻断后，未达标时应退回旁路并写入审计吗？",
+      "text": "升级为阻断后，若实测未达标即退回旁路并写进审计。",
+      "messageIds": [
+        "42509e76-3f6e-492a-ab8b-5933fc191005",
+        "8b031de1-c55e-4910-ba32-adc9073759c0"
+      ],
+      "positions": [
+        {
+          "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+          "view": "未达标退回旁路并入审计"
+        },
+        {
+          "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+          "view": "同意未达标退回旁路并写审计"
+        }
+      ],
+      "evidence": [
+        {
+          "messageId": "42509e76-3f6e-492a-ab8b-5933fc191005",
+          "quote": "未达标即退回旁路并写进审计",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "未达标退回旁路并入审计",
+          "participantId": "414b61e6-5635-445f-bdd1-40c4ace3127c",
+          "seq": 6
+        },
+        {
+          "messageId": "8b031de1-c55e-4910-ba32-adc9073759c0",
+          "quote": "未达标即退回旁路并写审计",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "同意未达标退回旁路并写审计",
+          "participantId": "d804f73c-e952-4b27-90d4-59001a71794b",
+          "seq": 7
+        }
+      ]
+    }
+  ]
+}

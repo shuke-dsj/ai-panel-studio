@@ -1,0 +1,1473 @@
+{
+  "discussion": {
+    "id": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+    "topic": "公开合成产品评审：个人笔记工具免费版有本地编辑和手动导出，考虑把新增多设备同步作为付费订阅，现有免费编辑、导出及本地笔记访问保持。比较维持免费与小范围自愿付费试点，给出价值、迁移与退出条件。没有真实转化率或用户访谈，不能断言收益。",
+    "expertCount": 3,
+    "maxTurns": 8,
+    "turns": 8,
+    "status": "completed",
+    "phase": "closing",
+    "summary": "达到发言安全上限，尚不代表完全收敛。本轮8次专家发言，1项共同判断、0条未关闭分歧记录。\n\n共同判断（按明确支持者归因）：多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。（沈牧、周岚、何佳支持）\n\n实质分歧：暂无符合证据要求的记录。\n\n待外部确认2项，已关闭0项（依据见展开）。\n\n下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。",
+    "effectiveTopic": "公开合成产品评审：个人笔记工具免费版有本地编辑和手动导出，考虑把新增多设备同步作为付费订阅，现有免费编辑、导出及本地笔记访问保持。比较维持免费与小范围自愿付费试点，给出价值、迁移与退出条件。没有真实转化率或用户访谈，不能断言收益。",
+    "focus": "",
+    "directionVersion": 0,
+    "handledDirectionVersion": 0,
+    "cycle": 1,
+    "cycleStartTurns": 0,
+    "cycleStartSeq": 0,
+    "endReason": "turn_limit",
+    "summaryDetails": "本场围绕“公开合成产品评审：个人笔记工具免费版有本地编辑和手动导出，考虑把新增多设备同步作为付费订阅，现有免费编辑、导出及本地笔记访问保持。比较维持免费与小范围自愿付费试点，给出价值、迁移与退出条件。没有真实转化率或用户访谈，不能断言收益。”完成了8次专家发言。以下结论按本场证据列示，角色意见与阈值均未经外部事实核实。\n\n有证据的共同判断（不代表全员逐项确认）：\n1. 多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。\n明确支持记录：沈牧、周岚、何佳；依据#3、#4、#6。\n沈牧（#3）：若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险\n周岚（#4）：我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项\n何佳（#6）：同意把加密、最小化与可导出删除作为硬门槛\n\n当前实质分歧：\n本场未记录有证据的未决分歧，不据此推定全员赞同。\n\n已关闭分歧及确认原文：\n暂无记录。\n\n待外部确认事项（不等于专家彼此反对）：\n取消或终止同步后关闭同步存储、云端不驻留副本并公开保留期，是否应写入待批准清单，且保留期具体天数由用户在获批时指定？：终止同步后的关闭流程、云端副本处理和保留期仍需明确并经用户批准；具体保留天数和试点范围未定。\n何佳（#6）：还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期\n周岚（#8）：与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定\n沈牧（#10）：保留期未定前不应启动试点，应把“公开保留期并由用户在获批时指定天数”与三项硬门槛并列写入待批准清单\n三项硬门槛满足后，是即可启动少量老用户邀请制低价试点，还是须先验证信任兑现（取消后关闭同步存储、公开保留期）再收费？：是否启动邀请制收费试点及其验证顺序仍待决定。周岚支持将试点作为待批准方案；何佳与沈牧认可实际导出、云端副本按时清理和投诉观察可用来验证信任可逆性，仍不能证明用户愿意付费。\n周岚（#8）：方案只作为可撤回的待批准提议\n何佳（#9）：这个信号验证的是信任可逆而非付费意愿\n沈牧（#10）：我愿意据此不反对邀请制试点，但这不等于付费证据\n\n关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n林澈（#1）：开场先定边界：免费本地编辑、手动导出和本地笔记访问不可回退，本场只比较“维持免费”与“多设备同步小范围自愿付费试点”，缺真实转化与访谈数据，不把预期当证据。\n林澈（#1）：评审看四点：增量价值是否足以支撑自愿付费、迁移与退出是否清楚、隐私与信任风险是否可控、退出条件是否可逆；请周岚、沈牧、何佳各自给出一个最关键理由。\n何佳（#2）：因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。\n沈牧（#3）：最关键的理由是免费本地访问构成信任底线：一旦同步收费，数据出境与加密责任边界随之改变，若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险。\n沈牧（#3）：因此我审慎看待试点，赞成何佳的先验证信任再收费顺序。\n周岚（#4）：我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项；在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击。\n周岚（#4）：但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。\n林澈（#5）：追问何佳：若把“不影响免费用户、可随时终止”作为绝对前提，你会在什么可观察信号出现时才不再反对邀请制试点？\n何佳（#6）：同意把加密、最小化与可导出删除作为硬门槛，但还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期；否则社区仍会怀疑“取消即回退”只是界面回退。\n沈牧（#7）：但保留期具体天数须用户在获批时指定，且本地可导出删除不受影响，才可随时撤回。\n周岚（#8）：何佳补的“终止后关闭同步存储、云端不驻留副本并公开保留期”我接受为试点并列成本项，与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定，在此之前不宣称转换或收益，方案只作为可撤回的待批准提议。\n何佳（#9）：回应林澈此前的追问：我接受把“终止后关闭同步存储、云端不驻留副本并公开保留期”写入待批准清单作为并列条件，但我松口的信号是可撤回的邀请制试点中，取消或终止的用户实际完成本地导出、云端副本按时清空且无投诉反复，而非点击或注册。\n沈牧（#10）：我补充一点：保留期未定前不应启动试点，应把“公开保留期并由用户在获批时指定天数”与三项硬门槛并列写入待批准清单。\n沈牧（#10）：何佳提出的“取消后实际完成本地导出、云端按时清空且无投诉”是验证信任可逆的观察信号，我愿意据此不反对邀请制试点，但这不等于付费证据。\n\n后续验证参考：\n先由相关方确认尚未解决的范围、阶段和验收条件，再决定是否推进。",
+    "createdAt": "2026-11-18T12:12:40.137Z",
+    "updatedAt": "2026-11-18T12:16:00.144Z",
+    "tokenUsage": {
+      "attempts": 73,
+      "inputReports": 73,
+      "outputReports": 73,
+      "cacheReports": 73,
+      "inputTokens": 490800,
+      "outputTokens": 24444,
+      "cacheHitTokens": 304128,
+      "cacheMissTokens": 186672
+    },
+    "contextSummary": "",
+    "error": null,
+    "resumeStatus": null,
+    "source": "real-example",
+    "insightLedger": {
+      "version": 1,
+      "records": [
+        {
+          "id": "issue-76c39ee8b0f6d986",
+          "question": "多设备同步收费试点启动前，是否须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺？",
+          "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+          "status": "consensus",
+          "verified": true,
+          "requiredParticipantIds": [
+            "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+            "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+            "cc723f50-8fdc-442f-8e9a-5df99e7b67e2"
+          ],
+          "evidence": [
+            {
+              "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+              "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "沈牧：三项承诺为试点前提",
+              "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+              "seq": 3
+            },
+            {
+              "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+              "quote": "我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "周岚：三项承诺为不可选成本项",
+              "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+              "seq": 4
+            },
+            {
+              "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+              "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+              "stance": "support",
+              "supportsClaim": true,
+              "view": "何佳：明确同意为硬门槛",
+              "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+              "seq": 6
+            }
+          ],
+          "aliases": [
+            "issue-28575bf96edecae5"
+          ],
+          "lastSeq": 6,
+          "history": [
+            {
+              "status": "consensus",
+              "text": "若开展多设备同步收费试点，需先明确端到端加密、数据最小化和退出后数据可导出删除的承诺，否则增量价值不足以覆盖迁移与合规风险。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：隐私承诺为试点前置条件",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "并预设随时终止条件",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "何佳：接受可逆与退出条件为试点前提",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "多设备同步收费试点启动前，需先明确端到端加密、数据最小化与退出后数据可导出删除的承诺；该前置条件尚未批准，方案细节待定。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：提出三项前置承诺作为试点条件",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：接受可逆小范围试点，具体隐私承诺待定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "多设备同步收费试点启动前，需先明确端到端加密、数据最小化与退出后数据可导出删除的承诺；该前置条件属待批准事项，细节尚未确定。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：将隐私承诺列为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：接受该前提为硬门槛，但仍属待批准方案",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选成本项。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺缺失则风险不可覆盖，作为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：接受隐私承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：同意三项为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选成本项。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：接受三项承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：明确同意三项为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：接受三项承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：明确同意三项为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：三项承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：明确同意三项为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：接受三项承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：明确同意三项为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "consensus",
+              "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "沈牧：三项承诺为试点前提",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：三项承诺为不可选成本项",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：明确同意为硬门槛",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 9
+            }
+          ]
+        },
+        {
+          "id": "issue-28575bf96edecae5",
+          "question": "多设备同步收费试点启动前，是否需先明确端到端加密、数据最小化与退出后数据可导出删除的承诺？",
+          "text": "多设备同步收费试点启动前，需先明确端到端加密、数据最小化与退出后数据可导出删除的承诺；该前置条件尚未批准，方案细节待定。",
+          "status": "merged",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+              "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "沈牧：提出三项前置承诺作为试点条件",
+              "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+              "seq": 3
+            },
+            {
+              "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+              "quote": "只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "何佳：接受可逆小范围试点，具体隐私承诺待定",
+              "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+              "seq": 2
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 3,
+          "history": [
+            {
+              "status": "question",
+              "text": "多设备同步收费试点启动前，需先明确端到端加密、数据最小化与退出后数据可导出删除的承诺；该前置条件尚未批准，方案细节待定。",
+              "evidence": [
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：提出三项前置承诺作为试点条件",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：接受可逆小范围试点，具体隐私承诺待定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            }
+          ],
+          "mergedInto": "issue-76c39ee8b0f6d986"
+        },
+        {
+          "id": "issue-42bd915d0e7a3a42",
+          "question": "多设备同步收费试点的样本规模、邀请方式、试点时长、终止阈值与评估截止日是否尚未确定、需待用户批准？",
+          "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+          "status": "merged",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+              "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "周岚：试点参数仍待批准",
+              "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+              "seq": 4
+            },
+            {
+              "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+              "quote": "因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "何佳：试点范围与终止条件待定",
+              "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+              "seq": 2
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 4,
+          "history": [
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长与评估截止日尚未在原文确定，需作为待批准提议补齐。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：提出方向性方案但未给具体规模与时长",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：要求邀请制与终止条件，具体阈值未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、时长、终止阈值与评估截止日尚未确定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：自认方案待批准，具体参数未定",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：同意可逆试点但终止条件未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、时长、终止阈值与评估截止日尚未确定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：方案细节待批准，不作收益断言",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "具体保留期属于待批准提议，我不把它当作已定门槛",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：部分参数属待批准提议",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：小范围方案细节待批准",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：试点范围与终止条件仍需确定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：试点参数仍待批准，不作收益断言",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "只邀少量老用户、价格低于常见同步订阅",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：样本与价格仅有方向性提议，未定参数",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：同意需要预设终止条件，具体阈值未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：试点参数仍待批准",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：试点范围与终止条件待定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 10
+            }
+          ],
+          "mergedInto": "issue-a66a1656c6162a2c"
+        },
+        {
+          "id": "issue-a66a1656c6162a2c",
+          "question": "取消或终止同步后关闭同步存储、云端不驻留副本并公开保留期，是否应写入待批准清单，且保留期具体天数由用户在获批时指定？",
+          "text": "终止同步后的关闭流程、云端副本处理和保留期仍需明确并经用户批准；具体保留天数和试点范围未定。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+            "cc723f50-8fdc-442f-8e9a-5df99e7b67e2"
+          ],
+          "evidence": [
+            {
+              "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+              "quote": "还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "何佳：该承诺应先补入，尚待批准",
+              "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+              "seq": 6
+            },
+            {
+              "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+              "quote": "与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "周岚：接受为待批准清单项，天数由用户获批时指定",
+              "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+              "seq": 8
+            },
+            {
+              "messageId": "9052da22-1bda-4a38-8b62-1639e05cb6e6",
+              "quote": "保留期未定前不应启动试点，应把“公开保留期并由用户在获批时指定天数”与三项硬门槛并列写入待批准清单",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "沈牧：写入待批准清单，天数由用户获批时指定",
+              "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+              "seq": 10
+            }
+          ],
+          "aliases": [
+            "issue-42bd915d0e7a3a42"
+          ],
+          "lastSeq": 10,
+          "history": [
+            {
+              "status": "question",
+              "text": "何佳提出取消或终止后关闭同步存储、云端不驻留副本并公开保留期，该条件尚待各方确认与批准。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：提出云端清除与保留期公开为待确认条件",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "具体保留期属于待批准提议，我不把它当作已定门槛",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：自认保留期尚未批准",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "取消或终止同步后是否须关闭同步存储、云端不驻留副本并公开说明数据保留期，尚待确认；保留期具体天数由用户在获批时指定。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛，但还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：提出取消后关闭存储、不驻留副本并公开保留期",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "dba54429-eeec-4f39-a90f-7bb1f197c8df",
+                  "quote": "但保留期具体天数须用户在获批时指定，且本地可导出删除不受影响，才可随时撤回",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：接受方向，天数与本地可导出删除待明确",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 7
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "取消或终止同步后须关闭同步存储、云端不驻留副本并公开说明数据保留期，属待批准事项；保留期具体天数由用户在获批时指定。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "同意把加密、最小化与可导出删除作为硬门槛，但还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期；否则社区仍会怀疑“取消即回退”只是界面回退。具体保留期属于待批准提议，我不把它当作已定门槛。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：提出该承诺方向，保留期待批准",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "dba54429-eeec-4f39-a90f-7bb1f197c8df",
+                  "quote": "何佳的保留期质疑有道理：我提议把“终止后关闭同步存储、云端不驻留副本”写进试点条件。但保留期具体天数须用户在获批时指定，且本地可导出删除不受影响，才可随时撤回。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：接受方向，天数待获批指定",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 7
+                },
+                {
+                  "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+                  "quote": "何佳补的“终止后关闭同步存储、云端不驻留副本并公开保留期”我接受为试点并列成本项，与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定，在此之前不宣称转换或收益，方案只作为可撤回的待批准提议。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：接受列入待批准清单",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 8
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "方向获接受、未形成收费前必须满足的共识：取消或终止同步后须关闭同步存储、云端不驻留副本并公开说明保留期；保留期具体天数由用户在获批时指定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：提出并坚持该可验证承诺",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+                  "quote": "何佳补的“终止后关闭同步存储、云端不驻留副本并公开保留期”我接受为试点并列成本项，与三项硬门槛一起写入待批准清单",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：接受写入待批准清单",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 8
+                },
+                {
+                  "messageId": "dba54429-eeec-4f39-a90f-7bb1f197c8df",
+                  "quote": "保留期具体天数须用户在获批时指定",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：方向接受，天数待指定",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 7
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "方向获接受、未形成收费前必须满足的共识：取消或终止同步后须关闭同步存储、云端不驻留副本并公开说明保留期；保留期具体天数由用户在获批时指定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "何佳：须写入可验证的终止承诺",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+                  "quote": "与三项硬门槛一起写入待批准清单",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：接受为并列待批准条件",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 8
+                },
+                {
+                  "messageId": "9052da22-1bda-4a38-8b62-1639e05cb6e6",
+                  "quote": "保留期未定前不应启动试点",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：接受方向，保留期天数须获批时指定且未定前不启动",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 10
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长与评估截止日尚未在原文确定，需作为待批准提议补齐。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：提出方向性方案但未给具体规模与时长",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：要求邀请制与终止条件，具体阈值未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、时长、终止阈值与评估截止日尚未确定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：自认方案待批准，具体参数未定",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：同意可逆试点但终止条件未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、时长、终止阈值与评估截止日尚未确定，属待批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：方案细节待批准，不作收益断言",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "具体保留期属于待批准提议，我不把它当作已定门槛",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：部分参数属待批准提议",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：小范围方案细节待批准",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：试点范围与终止条件仍需确定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：试点参数仍待批准，不作收益断言",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "只邀少量老用户、价格低于常见同步订阅",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：样本与价格仅有方向性提议，未定参数",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：同意需要预设终止条件，具体阈值未定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "试点样本规模、邀请方式、试点时长、终止阈值与评估截止日尚未确定，属待用户批准事项。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：试点参数仍待批准",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：试点范围与终止条件待定",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "待用户批准的试点条件：取消或终止同步后须关闭同步存储、云端不驻留副本并公开保留期，保留期天数由用户在获批时指定；试点样本规模、邀请方式、时长、终止阈值与评估截止日同样未定。以上均属待确认事项，尚未成为已批准义务。",
+              "evidence": [
+                {
+                  "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+                  "quote": "还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "何佳：该承诺应先补入，尚待批准",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 6
+                },
+                {
+                  "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+                  "quote": "与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周岚：接受为待批准清单项，天数由用户获批时指定",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 8
+                },
+                {
+                  "messageId": "9052da22-1bda-4a38-8b62-1639e05cb6e6",
+                  "quote": "保留期未定前不应启动试点，应把“公开保留期并由用户在获批时指定天数”与三项硬门槛并列写入待批准清单",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "沈牧：写入待批准清单，天数由用户获批时指定",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 10
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-b48d6129cb47d545",
+          "question": "三项硬门槛满足后，是即可启动少量老用户邀请制低价试点，还是须先验证信任兑现（取消后关闭同步存储、公开保留期）再收费？",
+          "text": "是否启动邀请制收费试点及其验证顺序仍待决定。周岚支持将试点作为待批准方案；何佳与沈牧认可实际导出、云端副本按时清理和投诉观察可用来验证信任可逆性，仍不能证明用户愿意付费。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+            "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+            "93b686ff-eb0c-4aa5-8563-10e097dea6fb"
+          ],
+          "evidence": [
+            {
+              "seq": 8,
+              "messageId": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+              "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+              "quote": "方案只作为可撤回的待批准提议",
+              "view": "方案只作为可撤回的待批准提议",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 9,
+              "messageId": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+              "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+              "quote": "这个信号验证的是信任可逆而非付费意愿",
+              "view": "这个信号验证的是信任可逆而非付费意愿",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 10,
+              "messageId": "9052da22-1bda-4a38-8b62-1639e05cb6e6",
+              "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+              "quote": "我愿意据此不反对邀请制试点，但这不等于付费证据",
+              "view": "我愿意据此不反对邀请制试点，但这不等于付费证据",
+              "stance": "context",
+              "supportsClaim": false
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 9,
+          "history": [
+            {
+              "status": "disagreement",
+              "text": "推进顺序未决：周岚主张门槛满足后即启动少量老用户邀请制低价试点；沈牧主张先验证信任再收费，何佳倾向无访谈证据前维持免费。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：门槛满足后即可小范围试点",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "因此我审慎看待试点，赞成何佳的先验证信任再收费顺序。",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "沈牧：应先验证信任再收费",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+                  "quote": "因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "何佳：无访谈证据前倾向维持免费",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 2
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "disagreement",
+              "text": "推进顺序未决：周岚主张门槛满足后即启动少量老用户邀请制低价试点；沈牧主张先验证信任再收费；何佳倾向无访谈证据前维持免费，松口信号是取消或终止用户实际完成本地导出、云端按时清空且无投诉反复。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：三项门槛满足后即可启动邀请制低价试点",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "因此我审慎看待试点，赞成何佳的先验证信任再收费顺序",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "沈牧：须先验证信任再收费",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+                  "quote": "而非点击或注册。这个信号验证的是信任可逆而非付费意愿，仍不构成收益证据",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "何佳：松口信号是信任兑现，而非付费或点击",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 9
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "disagreement",
+              "text": "推进顺序未决：周岚主张三项门槛满足后即启动少量老用户邀请制低价试点，观察实际付费与退订；沈牧主张先验证信任再收费；何佳在无访谈证据前倾向维持免费，其松口信号是取消或终止用户实际完成本地导出、云端按时清空且无投诉反复，并明确这不等于付费证据。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "观察实际付费与退订而非点击",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：三项门槛满足后启动邀请制试点，观察实际付费与退订",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "赞成何佳的先验证信任再收费顺序",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "沈牧：须先验证信任再收费",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+                  "quote": "这个信号验证的是信任可逆而非付费意愿",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "何佳：松口信号是信任兑现而非付费",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "disagreement",
+              "text": "推进顺序未决：周岚主张三项门槛满足后即启动少量老用户邀请制低价试点，观察实际付费与退订；沈牧主张先验证信任再收费；何佳在无访谈证据前倾向维持免费，其松口信号是取消或终止用户实际完成本地导出、云端按时清空且无投诉反复，并明确这不等于付费证据。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击。",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：门槛满足即启动邀请制试点，观察实际付费与退订",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "因此我审慎看待试点，赞成何佳的先验证信任再收费顺序。",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "沈牧：须先验证信任再收费",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+                  "quote": "我接受把“终止后关闭同步存储、云端不驻留副本并公开保留期”写入待批准清单作为并列条件，但我松口的信号是可撤回的邀请制试点中，取消或终止的用户实际完成本地导出、云端副本按时清空且无投诉反复，而非点击或注册。",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "何佳：松口信号是信任兑现而非付费",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "disagreement",
+              "text": "推进顺序仍分歧：周岚主张三项硬门槛满足后即启动少量老用户邀请制低价试点并观察实际付费与退订；沈牧主张先验证信任再收费；何佳在无访谈证据前倾向维持免费，其松口信号是取消或终止用户实际完成本地导出、云端按时清空且无投诉反复，并明确不等于付费证据。",
+              "evidence": [
+                {
+                  "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+                  "quote": "在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周岚：门槛满足即启动邀请制低价试点",
+                  "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+                  "seq": 4
+                },
+                {
+                  "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+                  "quote": "因此我审慎看待试点，赞成何佳的先验证信任再收费顺序",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "沈牧：须先验证信任再收费",
+                  "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+                  "seq": 3
+                },
+                {
+                  "messageId": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+                  "quote": "我松口的信号是可撤回的邀请制试点中，取消或终止的用户实际完成本地导出、云端副本按时清空且无投诉反复，而非点击或注册",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "何佳：松口信号是信任兑现而非付费",
+                  "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        }
+      ],
+      "audit": []
+    }
+  },
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林澈",
+      "occupation": "产品评审主持人",
+      "title": "独立产品评审主持人",
+      "stance": "先确认边界：免费本地编辑、手动导出与本地笔记访问不可回退；仅比较维持免费与多设备同步小范围自愿付费试点，并在缺乏真实转化与访谈数据时以可逆实验和明确退出条件代替收益断言。",
+      "focus": "议程控制、证据等级与决策门槛",
+      "id": "c58d7900-5140-4f43-b0d0-9dbc92485088",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "color": "#b78626"
+    },
+    {
+      "role": "expert",
+      "name": "周岚",
+      "occupation": "独立开发者/运营顾问",
+      "title": "订阅制运营顾问",
+      "stance": "支持小范围自愿付费试点，但必须限定同步为增量能力、老用户本地功能不变、价格与取消路径透明；用少量可撤回的邀请制样本观察意愿，不把注册或点击当作付费证据。",
+      "focus": "订阅价值主张、定价与流失风险",
+      "id": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "沈牧",
+      "occupation": "数据隐私与合规研究者",
+      "title": "隐私工程研究员",
+      "stance": "对同步收费试点持审慎态度：同步会改变数据出境与加密责任边界，免费本地访问是信任底线；若试点，需先明确端到端加密、数据最小化、退出后数据可导出删除，否则价值不足以覆盖迁移与合规风险。",
+      "focus": "隐私边界、数据迁移与用户退出",
+      "id": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "color": "#427abf"
+    },
+    {
+      "role": "expert",
+      "name": "何佳",
+      "occupation": "开源笔记工具社区维护者",
+      "title": "笔记工具社区维护者",
+      "stance": "倾向维持免费而非仓促收费试点：多设备同步可能被社区视为把基础便利拆分收费；应先收集定性反馈并验证自愿付费是否损伤信任，试点必须可随时终止且不影响免费用户。",
+      "focus": "社区信任、免费承诺与口碑迁移",
+      "id": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "color": "#8c58ac"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "c58d7900-5140-4f43-b0d0-9dbc92485088",
+      "text": "开场先定边界：免费本地编辑、手动导出和本地笔记访问不可回退，本场只比较“维持免费”与“多设备同步小范围自愿付费试点”，缺真实转化与访谈数据，不把预期当证据。评审看四点：增量价值是否足以支撑自愿付费、迁移与退出是否清楚、隐私与信任风险是否可控、退出条件是否可逆；请周岚、沈牧、何佳各自给出一个最关键理由。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "bbb394b3-52ad-4e40-9594-dfa96652f59a",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 1,
+      "createdAt": "2026-11-18T12:12:46.473Z"
+    },
+    {
+      "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "text": "最关键的理由是信任的可逆性：多设备同步一旦被视为把基础便利拆出来收费，社区口碑的损伤很难靠取消试点修复。因此在没有真实访谈与转化证据前，我倾向维持免费，或只做不影响免费用户的邀请制小范围试点，并预设随时终止条件。",
+      "replyTo": "bbb394b3-52ad-4e40-9594-dfa96652f59a",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "1dcfe6d4-4fee-49e5-a59a-7f4c39672f35",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 2,
+      "createdAt": "2026-11-18T12:12:53.839Z"
+    },
+    {
+      "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+      "text": "最关键的理由是免费本地访问构成信任底线：一旦同步收费，数据出境与加密责任边界随之改变，若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险。因此我审慎看待试点，赞成何佳的先验证信任再收费顺序。",
+      "replyTo": "bbb394b3-52ad-4e40-9594-dfa96652f59a",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 3,
+      "createdAt": "2026-11-18T12:13:05.208Z"
+    },
+    {
+      "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+      "text": "我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项；在此基础上我提议只邀少量老用户、价格低于常见同步订阅、取消即回退本地功能，观察实际付费与退订而非点击。但这仍是待批准的小范围方案，转化只能作为假设，不能宣称收益。",
+      "replyTo": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 4,
+      "createdAt": "2026-11-18T12:13:33.094Z"
+    },
+    {
+      "participantId": "c58d7900-5140-4f43-b0d0-9dbc92485088",
+      "text": "追问何佳：若把“不影响免费用户、可随时终止”作为绝对前提，你会在什么可观察信号出现时才不再反对邀请制试点？请给出一个信号方向，并说明它为何不等于以点击或注册冒充付费证据。",
+      "replyTo": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+      "addressedTo": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "ba016374-052f-4ebc-95f8-3cb45a0d51c7",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 5,
+      "createdAt": "2026-11-18T12:13:46.087Z"
+    },
+    {
+      "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "text": "同意把加密、最小化与可导出删除作为硬门槛，但还缺一条可验证承诺：取消或终止后关闭同步存储、云端不驻留副本，并公开说明保留期；否则社区仍会怀疑“取消即回退”只是界面回退。具体保留期属于待批准提议，我不把它当作已定门槛。",
+      "replyTo": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+      "addressedTo": null,
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "2e5398b9-436f-4489-a134-c3382f578142",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 6,
+      "createdAt": "2026-11-18T12:13:48.784Z"
+    },
+    {
+      "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+      "text": "何佳的保留期质疑有道理：我提议把“终止后关闭同步存储、云端不驻留副本”写进试点条件。但保留期具体天数须用户在获批时指定，且本地可导出删除不受影响，才可随时撤回。",
+      "replyTo": "2e5398b9-436f-4489-a134-c3382f578142",
+      "addressedTo": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "dba54429-eeec-4f39-a90f-7bb1f197c8df",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 7,
+      "createdAt": "2026-11-18T12:14:18.864Z"
+    },
+    {
+      "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+      "text": "何佳补的“终止后关闭同步存储、云端不驻留副本并公开保留期”我接受为试点并列成本项，与三项硬门槛一起写入待批准清单，而不是事后细则；保留期天数由用户获批时指定，在此之前不宣称转换或收益，方案只作为可撤回的待批准提议。",
+      "replyTo": "2e5398b9-436f-4489-a134-c3382f578142",
+      "addressedTo": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 8,
+      "createdAt": "2026-11-18T12:14:42.307Z"
+    },
+    {
+      "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "text": "回应林澈此前的追问：我接受把“终止后关闭同步存储、云端不驻留副本并公开保留期”写入待批准清单作为并列条件，但我松口的信号是可撤回的邀请制试点中，取消或终止的用户实际完成本地导出、云端副本按时清空且无投诉反复，而非点击或注册。这个信号验证的是信任可逆而非付费意愿，仍不构成收益证据。",
+      "replyTo": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+      "addressedTo": "c58d7900-5140-4f43-b0d0-9dbc92485088",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "f57f6ad4-7896-4d90-8ef2-d3cb170141e4",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 9,
+      "createdAt": "2026-11-18T12:15:11.156Z"
+    },
+    {
+      "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+      "text": "我补充一点：保留期未定前不应启动试点，应把“公开保留期并由用户在获批时指定天数”与三项硬门槛并列写入待批准清单。何佳提出的“取消后实际完成本地导出、云端按时清空且无投诉”是验证信任可逆的观察信号，我愿意据此不反对邀请制试点，但这不等于付费证据。",
+      "replyTo": "4781cb21-ff63-4227-bf09-eccbb7550e01",
+      "addressedTo": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "9052da22-1bda-4a38-8b62-1639e05cb6e6",
+      "discussionId": "ec13dcf6-e4e5-44b1-9dcd-9619be3ba324",
+      "seq": 10,
+      "createdAt": "2026-11-18T12:15:33.247Z"
+    }
+  ],
+  "insights": [
+    {
+      "id": "issue-76c39ee8b0f6d986",
+      "kind": "consensus",
+      "question": "多设备同步收费试点启动前，是否须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺？",
+      "text": "多设备同步收费试点启动前，须先明确端到端加密、数据最小化与退出后数据可导出删除的承诺，作为不可选的启动门槛。",
+      "messageIds": [
+        "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+        "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+        "2e5398b9-436f-4489-a134-c3382f578142"
+      ],
+      "positions": [
+        {
+          "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+          "view": "沈牧：三项承诺为试点前提"
+        },
+        {
+          "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+          "view": "周岚：三项承诺为不可选成本项"
+        },
+        {
+          "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+          "view": "何佳：明确同意为硬门槛"
+        }
+      ],
+      "evidence": [
+        {
+          "messageId": "8241f04a-fb15-4632-ba05-5fe9018b23f8",
+          "quote": "若没有端到端加密、数据最小化和退出后可导出删除的明确承诺，增量价值不足以覆盖迁移与合规风险",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "沈牧：三项承诺为试点前提",
+          "participantId": "93b686ff-eb0c-4aa5-8563-10e097dea6fb",
+          "seq": 3
+        },
+        {
+          "messageId": "f0c6b1fa-f191-4590-82a5-12ad57f61640",
+          "quote": "我赞成沈牧把端到端加密、数据最小化与退出后可导出删除作为试点硬门槛，这属于成本项而非可选项",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "周岚：三项承诺为不可选成本项",
+          "participantId": "cc723f50-8fdc-442f-8e9a-5df99e7b67e2",
+          "seq": 4
+        },
+        {
+          "messageId": "2e5398b9-436f-4489-a134-c3382f578142",
+          "quote": "同意把加密、最小化与可导出删除作为硬门槛",
+          "stance": "support",
+          "supportsClaim": true,
+          "view": "何佳：明确同意为硬门槛",
+          "participantId": "2098cff1-2d0f-4aaa-b20f-322af49a006c",
+          "seq": 6
+        }
+      ]
+    }
+  ]
+}

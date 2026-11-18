@@ -1,0 +1,1311 @@
+{
+  "discussion": {
+    "id": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+    "topic": "公开合成技术评审：6人团队维护一个 PostgreSQL 支撑的订单应用，3个月内交付，无专职运维，现有瓶颈尚未定位。只比较模块化单体和先拆异步报表服务，不讨论全量重写。给出当前选择、何种可观测证据会改变选择、如何验证回滚。数值只作待验证建议。",
+    "expertCount": 3,
+    "maxTurns": 8,
+    "turns": 8,
+    "status": "completed",
+    "phase": "closing",
+    "summary": "达到发言安全上限，尚不代表完全收敛。本轮8次专家发言，1项共同判断、0条未关闭分歧记录。\n\n共同判断（按明确支持者归因）：以同批订单快照逐单比对并实测报表延迟，作为比较两条路线的共同验收动作。（宋其澜、程可舟支持）\n\n实质分歧：暂无符合证据要求的记录。\n\n待外部确认4项，已关闭0项（依据见展开）。\n\n下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。",
+    "effectiveTopic": "公开合成技术评审：6人团队维护一个 PostgreSQL 支撑的订单应用，3个月内交付，无专职运维，现有瓶颈尚未定位。只比较模块化单体和先拆异步报表服务，不讨论全量重写。给出当前选择、何种可观测证据会改变选择、如何验证回滚。数值只作待验证建议。",
+    "focus": "",
+    "directionVersion": 0,
+    "handledDirectionVersion": 0,
+    "cycle": 1,
+    "cycleStartTurns": 0,
+    "cycleStartSeq": 0,
+    "endReason": "turn_limit",
+    "summaryDetails": "本场围绕“公开合成技术评审：6人团队维护一个 PostgreSQL 支撑的订单应用，3个月内交付，无专职运维，现有瓶颈尚未定位。只比较模块化单体和先拆异步报表服务，不讨论全量重写。给出当前选择、何种可观测证据会改变选择、如何验证回滚。数值只作待验证建议。”完成了8次专家发言。以下结论按本场证据列示，角色意见与阈值均未经外部事实核实。\n\n有证据的共同判断（不代表全员逐项确认）：\n1. 以同批订单快照逐单比对并实测报表延迟，作为比较两条路线的共同验收动作。\n明确支持记录：宋其澜、程可舟；依据#8、#10。\n宋其澜（#8）：我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟\n程可舟（#10）：两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮\n\n当前实质分歧：\n本场未记录有证据的未决分歧，不据此推定全员赞同。\n\n已关闭分歧及确认原文：\n暂无记录。\n\n待外部确认事项（不等于专家彼此反对）：\n拆分异步报表服务前，用哪些可观测指标与观察窗口做归因和触发门槛？：观察窗口尚未统一：程可舟提议连续观察两周、周恕言主张按当前监控周度观察，两者均为待验证建议，需在此门槛内定稿。\n程可舟（#7）：连续观察两周作为待验证窗口\n周恕言（#6）：按当前监控做周度观察即可上线\n报表延迟上限与结算对账一致性如何验收，业务验收工日如何同口径计成本？：程可舟提出报表 P95 延迟不超过 5 分钟，阈值仍需验证；两方案的业务验收工日应按同口径重估，具体窗口和负责人待批准。\n程可舟（#10）：同意把验收工日并入同一张成本表，但两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮、按人日单列，这样比较才不被重复计算。\n周恕言（#9）：业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。\n程可舟（#4）：报表延迟上限先按P95提议不超过5分钟作待验证值。\n选定方案后回滚路径如何预演与验收？：两套回滚动作分别适用于不同方案：拆分方案切回单体入口并核对账本和报表延迟；单体查询隔离可在影子比对阶段撤回隔离模块。验收窗口待批准。\n程可舟（#2）：回滚预演为切回单体入口、双写账本核对与报表延迟验证\n周恕言（#9）：影子比对阶段即可撤隔离模块、恢复原查询入口\n当前是直接选定模块化单体，还是直接选定先拆异步报表服务？：当前路线仍待瓶颈证据：周恕言先选单体；程可舟接受门槛不成立时采用单体隔离；宋其澜要求拆分时证明对账差异可归零并且可回滚。\n周恕言（#9）：据此我仍选模块化单体\n程可舟（#7）：否则按你的单体隔离方案走，我不坚持先拆\n宋其澜（#3）：但拆分方案必须证明对账差异可归零、且可回滚\n\n关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n林懿（#1）：开场先把边界锁死：只比较“模块化单体”和“先拆异步报表服务”两条路，不讨论全量重写，3个月交付、6人、无专职运维、瓶颈尚未定位是固定前提。\n程可舟（#2）：我倾向先拆异步报表服务，但设可观测门槛：若近两周报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和，就拆。\n程可舟（#2）：回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向。\n宋其澜（#3）：业务侧我先立两条验收门槛：报表延迟上限与结算口径一致性，都要在选定方案后用同一批对账数据实测验证。\n宋其澜（#3）：若程可舟所述“报表拖垮主链路”的可观测证据成立，我接受先拆异步报表，但拆分方案必须证明对账差异可归零、且可回滚；反之在单体内隔离报表查询即可。\n程可舟（#4）：回应宋其澜：对账一致性我建议用同一批订单快照在单体入口与报表服务各跑一遍、逐单比对，报表延迟上限先按P95提议不超过5分钟作待验证值。\n林懿（#5）：交叉讨论先请周恕言回答一个具体问题：在3个月、6人、无专职运维且瓶颈未定位的前提下，你主张的模块化单体内报表只读副本与查询隔离，需要多长时间、投入几人才能上线并证明订单主链路不受影响？\n林懿（#5）：这个成本估计若明显低于拆服务，是我据以倾向单体的关键证据。\n周恕言（#6）：回答林懿的成本问题并顺带给程可舟一个可执行的归因口径（数值为待验证提议）：只读副本加查询隔离模块，我估计2至3周、1至2名后端投入、按当前监控做周度观察即可上线；拆服务则要另建部署、报表DB与监控链路，成本明显更高，且报表若只占少数慢查询就白付。\n周恕言（#6）：主链路P95是以锁等待还是连接池饱和解释、报表语句占慢查询的占比各是多少，请按pg_stat_statements归因给出采集口径；若近两周报表确占锁等待主因，我接受先拆。\n程可舟（#7）：接受周恕言的采集口径，我补充可执行提案：用pg_stat_statements按查询指纹统计报表语句占慢查询与锁等待时长的比例，同时记录订单主链路P95和连接池活跃数，连续观察两周作为待验证窗口。\n程可舟（#7）：若报表语句确占锁等待主因且主链路P95恶化，才触发拆分；否则按你的单体隔离方案走，我不坚持先拆。\n宋其澜（#8）：周恕言的2至3周估计只算了只读副本与查询隔离的工程成本，没算业务侧验收：我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟，这两项验收若单独计工日，成本必须回到桌面上再比较。\n周恕言（#9）：接受宋其澜的修正：2至3周、1至2名后端只是只读副本与查询隔离模块的工程投入口径，业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。\n周恕言（#9）：据此我仍选模块化单体，并把回滚定为影子比对阶段即可撤隔离模块、恢复原查询入口，验收以对账差异归零与P95延迟实测为准，具体窗口待批准。\n程可舟（#10）：同意把验收工日并入同一张成本表，但两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮、按人日单列，这样比较才不被重复计算。\n程可舟（#10）：若两周观测显示报表语句不是锁等待主因，我仍按单体隔离推进，不坚持先拆。\n\n后续验证参考：\n先由相关方确认尚未解决的范围、阶段和验收条件，再决定是否推进。",
+    "createdAt": "2026-11-18T12:12:40.125Z",
+    "updatedAt": "2026-11-18T12:16:44.373Z",
+    "tokenUsage": {
+      "attempts": 76,
+      "inputReports": 76,
+      "outputReports": 76,
+      "cacheReports": 76,
+      "inputTokens": 517783,
+      "outputTokens": 32255,
+      "cacheHitTokens": 333056,
+      "cacheMissTokens": 184727
+    },
+    "contextSummary": "",
+    "error": null,
+    "resumeStatus": null,
+    "source": "real-example",
+    "insightLedger": {
+      "version": 1,
+      "records": [
+        {
+          "id": "issue-d17f744489b8e439",
+          "question": "拆分异步报表服务前，用哪些可观测指标与观察窗口做归因和触发门槛？",
+          "text": "观察窗口尚未统一：程可舟提议连续观察两周、周恕言主张按当前监控周度观察，两者均为待验证建议，需在此门槛内定稿。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [],
+          "evidence": [
+            {
+              "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+              "quote": "连续观察两周作为待验证窗口",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "程可舟提议两周观察窗口",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "seq": 7
+            },
+            {
+              "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+              "quote": "按当前监控做周度观察即可上线",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "周恕言主张周度观察，与两周口径不一",
+              "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+              "seq": 6
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "question",
+              "text": "拆分触发条件的具体阈值与采集方式未定：程可舟提出报表查询是否占库内慢查询或锁等待主因、订单主链路P95是否受影响、连接池是否接近饱和三项，均未给出阈值和采集口径。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出三项拆分触发指标，未定阈值与采集方式",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "拆分异步报表服务前需先定量并定义采集口径：报表查询是否占库内慢查询或锁等待主因、订单主链路P95是否受影响、连接池是否接近饱和；现有阈值与采集方式均待定。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出三类库内指标作为拆分触发条件，阈值与采集口径未定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "若程可舟所述“报表拖垮主链路”的可观测证据成立，我接受先拆异步报表",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "接受以可观测证据成立为拆分前提，具体口径待定",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "拆分异步报表服务的可观测触发门槛未定量：程可舟提议近两周报表查询占慢查询或锁等待主因、订单主链路P95受影响、连接池接近饱和，并建议用pg_stat_statements按查询指纹归因与连续观察待定窗口；阈值与窗口均为提议。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "若近两周报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和，就拆。",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "提出三条件触发门槛，均为待验证提议",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "采集侧用pg_stat_statements按查询指纹归因报表语句、记录锁等待时长与连接池活跃数，连续观察一段待定窗口后再决定是否拆，不做一次性抽样。",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "提出采集方式与观察窗口，未定量",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "触发拆分的定量门槛与采集窗口仍未定：报表语句占慢查询/锁等待的比例阈值、观察窗口长度、主链路P95影响幅度与连接池饱和度标准均仅为提议，采集方式倾向pg_stat_statements按查询指纹归因。",
+              "evidence": [
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "按pg_stat_statements归因给出采集口径",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言要求按查询指纹归因并给口径",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "连续观察一段待定窗口后再决定是否拆",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提出连续观察但窗口待定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "触发拆分的定量门槛与采集窗口仍未定：报表语句占慢查询/锁等待的比例阈值、观察窗口长度、主链路P95影响幅度与连接池饱和度标准均仅为提议，采集方式倾向pg_stat_statements按查询指纹归因。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "若近两周报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和，就拆",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提出定量门槛候选，比例与饱和度标准仍待定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "主链路P95是以锁等待还是连接池饱和解释、报表语句占慢查询的占比各是多少，请按pg_stat_statements归因给出采集口径",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言要求明确占比与归因口径，尚未定值",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "连续观察一段待定窗口后再决定是否拆，不做一次性抽样",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟指出观察窗口长度待定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "触发拆分的定量阈值仍为待验证提议：报表语句占慢查询与锁等待的比例、观察窗口长度、主链路P95与连接池阈值均未定值，仅倾向用pg_stat_statements按查询指纹归因。",
+              "evidence": [
+                {
+                  "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+                  "quote": "连续观察两周作为待验证窗口",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提议两周窗口并按查询指纹归因，数值待验证",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 7
+                },
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "报表语句占慢查询的占比各是多少",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求给出归因口径与占比，具体阈值未定",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "触发拆分的定量门槛与观察窗口仍为待验证提议：报表语句占慢查询与锁等待的比例、观察窗口长度、主链路P95与连接池阈值均未定值，暂以pg_stat_statements按查询指纹归因、连续观察两周为待验证值。",
+              "evidence": [
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "请按pg_stat_statements归因给出采集口径",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求按查询指纹归因再定拆分",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+                  "quote": "连续观察两周作为待验证窗口",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提议两周观察窗口为待验证值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 7
+                },
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "订单主链路P95受影响且连接池接近饱和",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "触发条件包含P95与连接池饱和，阈值未定值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "触发拆分的定量门槛尚未确定：程可舟提议用pg_stat_statements按查询指纹统计报表语句占慢查询与锁等待比例、同步记录主链路P95与连接池活跃数、连续观察两周，均为待验证值，周恕言仅要求给出采集口径、未就窗口表态。",
+              "evidence": [
+                {
+                  "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+                  "quote": "连续观察两周作为待验证窗口",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出两周窗口与采集口径为待验证值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 7
+                },
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "主链路P95是以锁等待还是连接池饱和解释、报表语句占慢查询的占比各是多少，请按pg_stat_statements归因给出采集口径",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求给出采集口径，尚未确认窗口与阈值",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "观察窗口尚未统一：程可舟提议连续观察两周、周恕言主张按当前监控周度观察，两者均为待验证建议，需在此门槛内定稿。",
+              "evidence": [
+                {
+                  "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+                  "quote": "连续观察两周作为待验证窗口",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提议两周观察窗口",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 7
+                },
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "按当前监控做周度观察即可上线",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言主张周度观察，与两周口径不一",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-d089a44539a18a2d",
+          "question": "报表延迟上限与结算对账一致性如何验收，业务验收工日如何同口径计成本？",
+          "text": "程可舟提出报表 P95 延迟不超过 5 分钟，阈值仍需验证；两方案的业务验收工日应按同口径重估，具体窗口和负责人待批准。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02"
+          ],
+          "evidence": [
+            {
+              "messageId": "95954bd9-b554-46a4-a842-542ee0f6d982",
+              "quote": "同意把验收工日并入同一张成本表，但两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮、按人日单列，这样比较才不被重复计算。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "程可舟同意同口径验收与成本表",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "seq": 10
+            },
+            {
+              "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+              "quote": "业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "周恕言接受重估并列为待定人项",
+              "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+              "seq": 9
+            },
+            {
+              "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+              "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值。",
+              "stance": "context",
+              "supportsClaim": true,
+              "view": "程可舟给出待验证延迟上限",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "seq": 4
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 10,
+          "history": [
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算口径一致性的具体标准未定；宋其澜要求选定方案后用同一批对账数据实测验证，且拆分方案须证明对账差异可归零。",
+              "evidence": [
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "报表延迟上限与结算口径一致性，都要在选定方案后用同一批对账数据实测验证。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "设立两条业务验收门槛，要求同批对账数据实测",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "拆分方案必须证明对账差异可归零、且可回滚",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "拆分须证明对账零差异并可回滚",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算口径一致性标准未定，需在选定方案后用同一批对账数据实测验证，并在拆分时证明对账差异可归零。",
+              "evidence": [
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "报表延迟上限与结算口径一致性，都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "设立业务验收两条门槛并要求同批对账数据实测",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "拆分方案必须证明对账差异可归零、且可回滚",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "拆分须证明对账零差异且可回滚",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算口径一致性标准未定：程可舟提议报表P95不超过5分钟、同批快照逐单比对且均为待验证值；宋其澜要求实测验证但未接受具体数值。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "提议P95为5分钟，待验证",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "要求实测验证，未接受具体数值",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算口径一致性标准未定：程可舟提议报表P95不超过5分钟、同批快照逐单比对且均为待验证值；宋其澜要求实测验证但未接受具体数值。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提议延迟值与逐单比对方法",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "宋其澜要求实测，未接受具体阈值",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算口径一致性验收标准未定：程可舟提议报表P95不超过5分钟、同批订单快照在单体入口与报表服务各跑一遍逐单比对，均为待验证值；宋其澜要求实测验证但未接受具体数值。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提出延迟与逐单比对方法，明确为待验证值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "宋其澜要求实测，未接受具体阈值",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算对账一致性验收值未定：程可舟提议报表P95不超过5分钟、同批快照逐单比对，均为待验证值；宋其澜要求实测验证但未接受具体数值。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出延迟与对账的待验证验收值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求实测验证但未接受具体数值",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算对账一致性验收值仍未定：程可舟提议报表P95不超过5分钟、同批订单快照逐单比对，均为待验证值；宋其澜要求实测验证并要求业务验收工时计入成本比较，尚未接受具体数值。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提议P95不超过5分钟，待验证",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "报表延迟上限与结算口径一致性，都要在选定方案后用同一批对账数据实测验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求实测验收延迟与口径一致性",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                },
+                {
+                  "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+                  "quote": "这两项验收若单独计工日，成本必须回到桌面上再比较",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求业务验收工时计入成本再比较",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 8
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "报表延迟上限与结算对账一致性验收值仍未定：程可舟提议报表P95不超过5分钟、同批订单快照逐单比对，均为待验证值；宋其澜要求单体与拆分方案都用同批快照逐单比对并实测延迟，且业务验收工日须与工程成本同口径重估，周恕言接受该成本口径并列为待人待验证项。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出延迟上限为待验证值",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+                  "quote": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟，这两项验收若单独计工日，成本必须回到桌面上再比较。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求业务验收计入成本比较",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 8
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "接受同口径重估并标为待定待验证项",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "业务验收口径未定：报表P95不超过5分钟与同批订单快照逐单比对均为待验证提议；宋其澜要求单体方案同样逐单比对并实测延迟，业务验收工日须与工程成本同口径重估，周恕言接受该成本口径、列为待人待验证项。",
+              "evidence": [
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出延迟上限与逐单比对，均待验证",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                },
+                {
+                  "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+                  "quote": "我要求在单体方案里同样做同批订单快照逐单比对",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "要求单体方案同标准验收并计入工日",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 8
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "接受成本同口径重估，列为待人待验证项",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "报表P95不超过5分钟与同批订单快照逐单比对仍为待验证提议；宋其澜要求单体方案同样做逐单比对与延迟实测、业务验收工日单列，周恕言接受同口径重估并列为待人待验证项。",
+              "evidence": [
+                {
+                  "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+                  "quote": "这两项验收若单独计工日，成本必须回到桌面上再比较",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "宋其澜要求业务验收工日单列并回到成本表比较",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 8
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项",
+                  "stance": "accept",
+                  "supportsClaim": true,
+                  "view": "周恕言接受同口径重估，列为待人待验证项",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "待定事项：报表延迟P95不超过5分钟与同批订单快照逐单比对仍为待验证提议；两条路需用同一套验收动作（报表P95延迟与逐单比对各一轮、按人日单列），业务验收工日纳入同一成本表，具体待定人批准。",
+              "evidence": [
+                {
+                  "messageId": "95954bd9-b554-46a4-a842-542ee0f6d982",
+                  "quote": "同意把验收工日并入同一张成本表，但两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮、按人日单列，这样比较才不被重复计算。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟同意同口径验收与成本表",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 10
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言接受重估并列为待定人项",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                },
+                {
+                  "messageId": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+                  "quote": "报表延迟上限先按P95提议不超过5分钟作待验证值。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟给出待验证延迟上限",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 4
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-aa1c5b585c707b38",
+          "question": "选定方案后回滚路径如何预演与验收？",
+          "text": "两套回滚动作分别适用于不同方案：拆分方案切回单体入口并核对账本和报表延迟；单体查询隔离可在影子比对阶段撤回隔离模块。验收窗口待批准。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "67037f37-641b-4a60-a57f-3f12bb6b049f",
+            "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02"
+          ],
+          "evidence": [
+            {
+              "seq": 2,
+              "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证",
+              "view": "回滚预演为切回单体入口、双写账本核对与报表延迟验证",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 9,
+              "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+              "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+              "quote": "影子比对阶段即可撤隔离模块、恢复原查询入口",
+              "view": "影子比对阶段即可撤隔离模块、恢复原查询入口",
+              "stance": "context",
+              "supportsClaim": false
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 9,
+          "history": [
+            {
+              "status": "question",
+              "text": "回滚验证方案尚未经其他专家确认、也无演练次数与验收标准；程可舟提出的初步预演步骤为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回拆分倾向。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向。",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出三步回滚预演及撤回条件，未经其他专家确认",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "回滚路径需预演并设定验收标准：初步步骤为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回拆分；演练次数与验收标准待定，尚未经其他专家确认。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出三步骤回滚预演与未达标撤回条件，验收标准待定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 3
+            },
+            {
+              "status": "question",
+              "text": "回滚路径需预演并设定验收标准：初步步骤为切回单体入口、双写账本核对与报表延迟验证；演练次数与验收标准待定，目前仅程可舟单方提出。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向。",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "单方提出回滚三步骤，演练次数与验收标准未定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "但拆分方案必须证明对账差异可归零、且可回滚",
+                  "stance": "context",
+                  "supportsClaim": false,
+                  "view": "要求可回滚，但未确认具体预演方式",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 4
+            },
+            {
+              "status": "question",
+              "text": "回滚路径需预演并设验收标准：初步步骤为切回单体入口、双写账本核对与报表延迟验证；演练次数与验收标准待定，目前仅程可舟单方提出。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟单方提出回滚步骤与撤回条件",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "回滚路径需预演并设验收标准：初步步骤为切回单体入口、双写账本核对与报表延迟验证；演练次数与验收标准待定，目前仅程可舟单方提出。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟单方提出回滚三步骤，演练次数与验收标准未定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "question",
+              "text": "回滚演练的步骤、次数与验收标准未定：目前仅有切回单体入口、双写账本核对与报表延迟验证的初步提议，尚未获其他专家确认。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "切回单体入口、双写账本核对与报表延迟验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "单方提出回滚预演初步步骤，验收标准未定",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 7
+            },
+            {
+              "status": "question",
+              "text": "回滚演练的步骤、次数与验收标准仍未定：目前只有程可舟提议切回单体入口、双写账本核对与报表延迟验证，未获其他专家确认。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出回滚预演初步步骤，尚未获他人确认",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "回滚预演步骤、次数与验收标准仍未定，仅程可舟提出切回单体入口、双写账本核对与报表延迟验证，其他专家未确认。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出回滚预演步骤，尚未获他人确认",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                }
+              ],
+              "seq": 8
+            },
+            {
+              "status": "question",
+              "text": "回滚演练方案仍未定：程可舟提出切回单体入口、双写账本核对与报表延迟验证作为预演步骤，周恕言提出影子比对阶段撤隔离模块、恢复原查询入口，验收以对账差异归零与P95实测为准，具体窗口待批准；双方步骤细节尚未合并确认。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出回滚预演步骤但未确认最终方案",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "据此我仍选模块化单体，并把回滚定为影子比对阶段即可撤隔离模块、恢复原查询入口，验收以对账差异归零与P95延迟实测为准，具体窗口待批准",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "提出回滚方式与验收，窗口待批准",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 9
+            },
+            {
+              "status": "question",
+              "text": "回滚步骤尚未合并确认：程可舟提出切回单体入口加双写账本核对与报表延迟验证，周恕言提出影子比对阶段撤隔离模块、恢复原查询入口，以对账差异归零与P95实测为准，具体窗口待批准。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提出回滚预演步骤",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "影子比对阶段即可撤隔离模块、恢复原查询入口",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言提出另一种回滚步骤，窗口待批准",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            },
+            {
+              "status": "question",
+              "text": "回滚预演有两条并存提议：程可舟的切回单体入口加快照账本核对，周恕言的影子比对阶段撤隔离模块、恢复原查询入口；合并后的步骤与时间窗口均待批准。",
+              "evidence": [
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "程可舟提出切回单体入口加账本核对的回滚预演",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+                  "quote": "把回滚定为影子比对阶段即可撤隔离模块、恢复原查询入口，验收以对账差异归零与P95延迟实测为准，具体窗口待批准",
+                  "stance": "context",
+                  "supportsClaim": true,
+                  "view": "周恕言提出影子比对阶段撤模块的回滚，窗口待批准",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 9
+                }
+              ],
+              "seq": 10
+            }
+          ]
+        },
+        {
+          "id": "issue-469532266c77f9bc",
+          "question": "当前是直接选定模块化单体，还是直接选定先拆异步报表服务？",
+          "text": "当前路线仍待瓶颈证据：周恕言先选单体；程可舟接受门槛不成立时采用单体隔离；宋其澜要求拆分时证明对账差异可归零并且可回滚。",
+          "status": "question",
+          "verified": true,
+          "requiredParticipantIds": [
+            "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+            "67037f37-641b-4a60-a57f-3f12bb6b049f",
+            "b3cf4896-cf3d-4c9f-8146-ef7072582a99"
+          ],
+          "evidence": [
+            {
+              "seq": 9,
+              "messageId": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+              "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+              "quote": "据此我仍选模块化单体",
+              "view": "据此我仍选模块化单体",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 7,
+              "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "quote": "否则按你的单体隔离方案走，我不坚持先拆",
+              "view": "否则按你的单体隔离方案走，我不坚持先拆",
+              "stance": "context",
+              "supportsClaim": false
+            },
+            {
+              "seq": 3,
+              "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+              "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+              "quote": "但拆分方案必须证明对账差异可归零、且可回滚",
+              "view": "但拆分方案必须证明对账差异可归零、且可回滚",
+              "stance": "context",
+              "supportsClaim": false
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 7,
+          "history": [
+            {
+              "status": "disagreement",
+              "text": "当前路线尚未收敛：周恕言主张先选模块化单体（单体内做报表只读副本与查询隔离，估计2至3周、1至2名后端投入）；程可舟有条件倾向先拆异步报表服务；宋其澜视可观测证据与对账一致性再定。",
+              "evidence": [
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "只读副本加查询隔离模块，我估计2至3周、1至2名后端投入",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周恕言主张当前先选模块化单体，成本低于拆服务",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "我倾向先拆异步报表服务，但设可观测门槛",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "程可舟有条件倾向先拆，门槛成立才拆",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "若程可舟所述“报表拖垮主链路”的可观测证据成立，我接受先拆异步报表",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "宋其澜有条件接受拆分，取决于证据与对账",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "disagreement",
+              "text": "当前路线尚未收敛：周恕言主张先选模块化单体并在单体内做报表只读副本与查询隔离（估计2至3周、1至2名后端投入）；程可舟有条件倾向先拆异步报表服务；宋其澜视可观测证据与对账一致性再定。",
+              "evidence": [
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "只读副本加查询隔离模块，我估计2至3周、1至2名后端投入",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "周恕言主张当前先选模块化单体，成本低于拆服务",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "45ad59be-c527-4cdc-8081-b8be1c543842",
+                  "quote": "我倾向先拆异步报表服务，但设可观测门槛",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "程可舟有条件倾向先拆，门槛成立才拆",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 2
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "若程可舟所述“报表拖垮主链路”的可观测证据成立，我接受先拆异步报表",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "宋其澜有条件接受拆分，取决于证据与对账",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 6
+            },
+            {
+              "status": "disagreement",
+              "text": "当前路线尚未收敛：周恕言主张先选模块化单体，程可舟以可观测门槛为条件、门槛不成立则不坚持先拆，宋其澜待证据与对账结果再定。",
+              "evidence": [
+                {
+                  "messageId": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+                  "quote": "只读副本加查询隔离模块，我估计2至3周、1至2名后端投入",
+                  "stance": "support",
+                  "supportsClaim": true,
+                  "view": "主张当前先选模块化单体，认为拆服务成本更高",
+                  "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+                  "seq": 6
+                },
+                {
+                  "messageId": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+                  "quote": "才触发拆分；否则按你的单体隔离方案走，我不坚持先拆",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "门槛不成立就不坚持先拆，暂不选先拆",
+                  "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+                  "seq": 7
+                },
+                {
+                  "messageId": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+                  "quote": "若程可舟所述“报表拖垮主链路”的可观测证据成立",
+                  "stance": "oppose",
+                  "supportsClaim": true,
+                  "view": "视证据与对账结果决定是否接受拆分",
+                  "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+                  "seq": 3
+                }
+              ],
+              "seq": 7
+            }
+          ]
+        },
+        {
+          "id": "issue-delivery-same-acceptance",
+          "question": "两条路线如何按同口径进行业务验收？",
+          "text": "以同批订单快照逐单比对并实测报表延迟，作为比较两条路线的共同验收动作。",
+          "status": "consensus",
+          "verified": true,
+          "requiredParticipantIds": [
+            "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+            "67037f37-641b-4a60-a57f-3f12bb6b049f"
+          ],
+          "evidence": [
+            {
+              "seq": 8,
+              "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+              "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+              "quote": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟",
+              "view": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟",
+              "stance": "support",
+              "supportsClaim": true
+            },
+            {
+              "seq": 10,
+              "messageId": "95954bd9-b554-46a4-a842-542ee0f6d982",
+              "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+              "quote": "两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮",
+              "view": "两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮",
+              "stance": "support",
+              "supportsClaim": true
+            }
+          ],
+          "aliases": [],
+          "lastSeq": 10,
+          "history": []
+        }
+      ],
+      "audit": []
+    }
+  },
+  "participants": [
+    {
+      "role": "moderator",
+      "name": "林懿",
+      "occupation": "技术评审主持人",
+      "title": "评审协调人",
+      "stance": "把讨论锁定在“模块化单体”与“先拆异步报表服务”二选一，要求所有结论附可观测证据与回滚触发条件；数值仅作待验证建议",
+      "focus": "议程边界、证据口径、回滚验证与决策出口",
+      "id": "e6b95157-2a1a-4922-99f9-29cfda6fda95",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "color": "#b78626"
+    },
+    {
+      "role": "expert",
+      "name": "周恕言",
+      "occupation": "PostgreSQL 应用架构师",
+      "title": "平台架构师",
+      "stance": "当前先选模块化单体，在单体内做报表只读副本与查询隔离模块；3个月内无专职运维，拆服务会新增部署、监控与数据一致性负担，瓶颈未定位时拆分是过早决策",
+      "focus": "库内模块边界、只读副本与连接隔离、迁移成本、瓶颈定位前的成本控制",
+      "id": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "color": "#227a64"
+    },
+    {
+      "role": "expert",
+      "name": "程可舟",
+      "occupation": "SRE/可观测性工程师",
+      "title": "可靠性工程师",
+      "stance": "倾向先拆异步报表服务，理由是报表负载与交易负载的资源竞争会拖垮订单主链路；但设定可观测门槛：若证据显示报表不是瓶颈来源，则撤回该倾向",
+      "focus": "慢查询与锁等待、连接池饱和度、P95/P99 分位、报表负载来源归因、告警与回滚演练",
+      "id": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "color": "#427abf"
+    },
+    {
+      "role": "expert",
+      "name": "宋其澜",
+      "occupation": "财务与运营负责人",
+      "title": "业务运营负责人",
+      "stance": "要求报表时效与订单结算口径不被技术取舍牺牲；如果拆服务导致报表延迟或口径分叉，宁可接受单体内隔离，但必须给出可验证的报表延迟上限与对账一致性证明",
+      "focus": "报表时效、结算口径一致性、对账差异、业务验收标准与回滚期间业务降级方案",
+      "id": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "color": "#8c58ac"
+    }
+  ],
+  "messages": [
+    {
+      "participantId": "e6b95157-2a1a-4922-99f9-29cfda6fda95",
+      "text": "开场先把边界锁死：只比较“模块化单体”和“先拆异步报表服务”两条路，不讨论全量重写，3个月交付、6人、无专职运维、瓶颈尚未定位是固定前提。评审标准三条：一是瓶颈证据是否足以支撑拆分，二是交付与运维成本是否可承担，三是回滚路径能否被实际验证；所有数值只作待验证建议。请三位先就“当前该选哪条路、需要什么可观测证据才反转、回滚怎么验证”各给一个有理由的主张。",
+      "replyTo": null,
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "9e737770-c17d-44d4-8f58-7c1156663e20",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 1,
+      "createdAt": "2026-11-18T12:12:46.509Z"
+    },
+    {
+      "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "text": "我倾向先拆异步报表服务，但设可观测门槛：若近两周报表查询占库内慢查询或锁等待主因、订单主链路P95受影响且连接池接近饱和，就拆。回滚预演为切回单体入口、双写账本核对与报表延迟验证，未达标即撤回该倾向。",
+      "replyTo": "9e737770-c17d-44d4-8f58-7c1156663e20",
+      "addressedTo": null,
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "45ad59be-c527-4cdc-8081-b8be1c543842",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 2,
+      "createdAt": "2026-11-18T12:12:54.395Z"
+    },
+    {
+      "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "text": "业务侧我先立两条验收门槛：报表延迟上限与结算口径一致性，都要在选定方案后用同一批对账数据实测验证。若程可舟所述“报表拖垮主链路”的可观测证据成立，我接受先拆异步报表，但拆分方案必须证明对账差异可归零、且可回滚；反之在单体内隔离报表查询即可。",
+      "replyTo": "45ad59be-c527-4cdc-8081-b8be1c543842",
+      "addressedTo": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 3,
+      "createdAt": "2026-11-18T12:13:05.242Z"
+    },
+    {
+      "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "text": "回应宋其澜：对账一致性我建议用同一批订单快照在单体入口与报表服务各跑一遍、逐单比对，报表延迟上限先按P95提议不超过5分钟作待验证值。采集侧用pg_stat_statements按查询指纹归因报表语句、记录锁等待时长与连接池活跃数，连续观察一段待定窗口后再决定是否拆，不做一次性抽样。",
+      "replyTo": "3c88253a-9359-42cc-8adb-c3abdb7f9487",
+      "addressedTo": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "phase": "exploration",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "89109bb2-cc71-4fe4-ad0b-45fb405fb0db",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 4,
+      "createdAt": "2026-11-18T12:13:32.651Z"
+    },
+    {
+      "participantId": "e6b95157-2a1a-4922-99f9-29cfda6fda95",
+      "text": "交叉讨论先请周恕言回答一个具体问题：在3个月、6人、无专职运维且瓶颈未定位的前提下，你主张的模块化单体内报表只读副本与查询隔离，需要多长时间、投入几人才能上线并证明订单主链路不受影响？这个成本估计若明显低于拆服务，是我据以倾向单体的关键证据。",
+      "replyTo": null,
+      "addressedTo": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "f021ec9a-8d42-4e0e-a83a-c687fd8a3875",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 5,
+      "createdAt": "2026-11-18T12:13:48.409Z"
+    },
+    {
+      "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "text": "回答林懿的成本问题并顺带给程可舟一个可执行的归因口径（数值为待验证提议）：只读副本加查询隔离模块，我估计2至3周、1至2名后端投入、按当前监控做周度观察即可上线；拆服务则要另建部署、报表DB与监控链路，成本明显更高，且报表若只占少数慢查询就白付。主链路P95是以锁等待还是连接池饱和解释、报表语句占慢查询的占比各是多少，请按pg_stat_statements归因给出采集口径；若近两周报表确占锁等待主因，我接受先拆。",
+      "replyTo": "45ad59be-c527-4cdc-8081-b8be1c543842",
+      "addressedTo": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 6,
+      "createdAt": "2026-11-18T12:13:51.449Z"
+    },
+    {
+      "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "text": "接受周恕言的采集口径，我补充可执行提案：用pg_stat_statements按查询指纹统计报表语句占慢查询与锁等待时长的比例，同时记录订单主链路P95和连接池活跃数，连续观察两周作为待验证窗口。若报表语句确占锁等待主因且主链路P95恶化，才触发拆分；否则按你的单体隔离方案走，我不坚持先拆。",
+      "replyTo": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+      "addressedTo": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "b13b1e0f-d955-4673-8f9e-5f2ed3c2e814",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 7,
+      "createdAt": "2026-11-18T12:14:21.938Z"
+    },
+    {
+      "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "text": "周恕言的2至3周估计只算了只读副本与查询隔离的工程成本，没算业务侧验收：我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟，这两项验收若单独计工日，成本必须回到桌面上再比较。",
+      "replyTo": "4cad9ed0-9eff-448f-88b2-243199e8dcc6",
+      "addressedTo": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 8,
+      "createdAt": "2026-11-18T12:14:50.081Z"
+    },
+    {
+      "participantId": "b767dcc3-53d1-43f8-bd93-bb3ac5e7bf02",
+      "text": "接受宋其澜的修正：2至3周、1至2名后端只是只读副本与查询隔离模块的工程投入口径，业务验收的逐单比对与报表延迟实测若单列工日，两边成本须用同一口径重估，我把它标为待用户定人的待验证项。据此我仍选模块化单体，并把回滚定为影子比对阶段即可撤隔离模块、恢复原查询入口，验收以对账差异归零与P95延迟实测为准，具体窗口待批准。",
+      "replyTo": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+      "addressedTo": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "faab65f8-6daf-42a0-917e-0c85a0fa9c6c",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 9,
+      "createdAt": "2026-11-18T12:15:26.571Z"
+    },
+    {
+      "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+      "text": "同意把验收工日并入同一张成本表，但两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮、按人日单列，这样比较才不被重复计算。若两周观测显示报表语句不是锁等待主因，我仍按单体隔离推进，不坚持先拆。",
+      "replyTo": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+      "addressedTo": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+      "phase": "exchange",
+      "kind": "speech",
+      "directionVersion": 0,
+      "id": "95954bd9-b554-46a4-a842-542ee0f6d982",
+      "discussionId": "d4f52008-d72e-48cd-a576-cf0db7ce5369",
+      "seq": 10,
+      "createdAt": "2026-11-18T12:15:58.837Z"
+    }
+  ],
+  "insights": [
+    {
+      "id": "issue-delivery-same-acceptance",
+      "kind": "consensus",
+      "question": "两条路线如何按同口径进行业务验收？",
+      "text": "以同批订单快照逐单比对并实测报表延迟，作为比较两条路线的共同验收动作。",
+      "messageIds": [
+        "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+        "95954bd9-b554-46a4-a842-542ee0f6d982"
+      ],
+      "positions": [
+        {
+          "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+          "view": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟"
+        },
+        {
+          "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+          "view": "两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮"
+        }
+      ],
+      "evidence": [
+        {
+          "seq": 8,
+          "messageId": "e2edab16-871d-4fa0-a56f-675550a2a4dd",
+          "participantId": "b3cf4896-cf3d-4c9f-8146-ef7072582a99",
+          "quote": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟",
+          "view": "我要求在单体方案里同样做同批订单快照逐单比对，并实测报表延迟",
+          "stance": "support",
+          "supportsClaim": true
+        },
+        {
+          "seq": 10,
+          "messageId": "95954bd9-b554-46a4-a842-542ee0f6d982",
+          "participantId": "67037f37-641b-4a60-a57f-3f12bb6b049f",
+          "quote": "两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮",
+          "view": "两条路要用同一套验收动作：报表P95延迟与同批订单快照逐单比对各做一轮",
+          "stance": "support",
+          "supportsClaim": true
+        }
+      ]
+    }
+  ]
+}
