@@ -2,8 +2,10 @@ import { Store } from './db.js';
 import { createApp } from './app.js';
 import { configuredModel, settings } from './config.js';
 import { seedCurated } from './seed.js';
+import { seedReviewedExamples } from './examples.js';
 const store = new Store(settings.database);
 seedCurated(store);
+seedReviewedExamples(store);
 const model = configuredModel();
 const { app, engine } = await createApp(store, model, {
   serveStatic: true,

@@ -2,6 +2,17 @@ import { useEffect, useState } from 'react';
 import { Layers2, Plus, MessageCircle, Search, CircleAlert } from 'lucide-react';
 import { api, type Health } from '../lib/api';
 import { statusLabels, type Discussion } from '../../shared/types';
+
+const updatedAtFormat = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hourCycle: 'h23',
+});
+
 export function ConversationSidebar({
   id,
   health,
@@ -106,19 +117,21 @@ export function ConversationSidebar({
               <strong title={d.effectiveTopic ?? d.topic}>{d.effectiveTopic ?? d.topic}</strong>
               <span>
                 <i className={`status-dot status-${d.status}`} />
-                {statusLabels[d.status]} · {d.turns - (d.cycleStartTurns ?? 0)}次发言
+                {statusLabels[d.status]} · {d.expertCount} 位专家 ·{' '}
+                {d.turns - (d.cycleStartTurns ?? 0)} 次发言
               </span>
               <small>
                 {d.source === 'curated'
                   ? '人工示例'
                   : d.source === 'test'
                     ? '确定性演示'
-                    : '真实模型'}{' '}
-                ·{' '}
-                {new Date(d.updatedAt).toLocaleDateString('zh-CN', {
-                  month: 'numeric',
-                  day: 'numeric',
-                })}
+                    : d.source === 'real-example'
+                      ? '真实模型示例'
+                      : '真实模型'}
+              </small>
+              <small>
+                更新于{' '}
+                <time dateTime={d.updatedAt}>{updatedAtFormat.format(new Date(d.updatedAt))}</time>
               </small>
             </div>
           </a>

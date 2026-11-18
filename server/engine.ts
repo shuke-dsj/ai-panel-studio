@@ -80,8 +80,8 @@ export class Engine {
     if (this.repairJobs.has(id))
       throw Object.assign(new Error('成果正在复核，请稍后调整方向。'), { statusCode: 409 });
     const before = this.store.get(id);
-    if (before.source === 'curated')
-      throw Object.assign(new Error('人工示例仅供浏览，请以此话题新建讨论组。'), {
+    if (before.source === 'curated' || before.source === 'real-example')
+      throw Object.assign(new Error('示例仅供浏览，请以此话题新建讨论组。'), {
         statusCode: 409,
       });
     this.ensureMode(before);
@@ -778,8 +778,8 @@ export class Engine {
       d = before.discussion;
     if (this.jobs.has(id) || !['completed', 'paused', 'error'].includes(d.status))
       throw Object.assign(new Error('请先暂停或结束讨论，再复核历史成果。'), { statusCode: 409 });
-    if (d.source === 'curated')
-      throw Object.assign(new Error('人工示例只供浏览。'), { statusCode: 409 });
+    if (d.source === 'curated' || d.source === 'real-example')
+      throw Object.assign(new Error('示例只供浏览。'), { statusCode: 409 });
     this.ensureMode(d);
     const reviewed = await this.reviewLedger(id);
     this.assertDirection(id, d.directionVersion ?? 0);

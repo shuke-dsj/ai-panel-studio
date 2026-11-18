@@ -73,6 +73,28 @@ export class Store {
       throw e;
     }
   }
+  seedArchive({
+    discussion,
+    participants,
+    messages,
+    insights,
+  }: Omit<Snapshot, 'activities' | 'cursor'>) {
+    this.transaction(() => {
+      const id = discussion.id;
+      if (this.db.prepare('SELECT 1 FROM discussions WHERE id=?').get(id)) return;
+      this.db
+        .prepare('INSERT INTO discussions(id,data,checkpoint) VALUES(?,?,?)')
+        .run(id, JSON.stringify(discussion), JSON.stringify(emptyCheckpoint()));
+      const insertParticipant = this.db.prepare('INSERT INTO participants VALUES(?,?,?)');
+      const insertMessage = this.db.prepare('INSERT INTO messages VALUES(?,?,?,?)');
+      const insertInsight = this.db.prepare('INSERT INTO insights VALUES(?,?,?)');
+      for (const person of participants)
+        insertParticipant.run(person.id, id, JSON.stringify(person));
+      for (const message of messages)
+        insertMessage.run(message.id, id, message.seq, JSON.stringify(message));
+      for (const insight of insights) insertInsight.run(insight.id, id, JSON.stringify(insight));
+    });
+  }
   create(
     topic: string,
     expertCount: number,
