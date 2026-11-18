@@ -235,7 +235,7 @@ export function applyLedger(
         )
         .map((e) => e.participantId),
     );
-    const closesOpen = related.some((r) => r.status === 'disagreement' || r.status === 'question');
+    const closesOpen = related.some((r) => r.status === 'disagreement');
     if (
       decision.status === 'disagreement' &&
       related.some((r) => r.status === 'consensus') &&
@@ -353,7 +353,7 @@ export function applyLedger(
     ]);
     current.evidence = evidence;
     current.lastSeq = Math.max(...evidence.map((e) => e.seq));
-    if (decision.status === 'resolved' || (decision.status === 'consensus' && wasOpen)) {
+    if (wasOpen && (decision.status === 'resolved' || decision.status === 'consensus')) {
       current.closedAtSeq = seq;
       audit.closed.push(current.id);
     }

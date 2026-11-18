@@ -97,6 +97,15 @@ export interface InsightLedger {
     rejected: { issueId: string | null; reason: string }[];
   }[];
 }
+export function isClosedDisagreement(record: IssueRecord): boolean {
+  return (
+    !record.mergedInto &&
+    record.verified &&
+    record.closedAtSeq !== undefined &&
+    (record.status === 'resolved' || record.status === 'consensus') &&
+    record.history.some((entry) => entry.status === 'disagreement')
+  );
+}
 export interface EvidenceAnchor {
   id: string;
   messageId: string;

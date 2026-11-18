@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { applyLedger, projectInsights } from '../server/insight-ledger.js';
+import { isClosedDisagreement } from '../shared/types.js';
 import type { InsightLedger, Message, Participant } from '../shared/types.js';
 import type { LedgerDecision } from '../server/schemas.js';
 const people = ['a', 'b', 'c', 'host'].map((id) => ({
@@ -67,6 +68,17 @@ const close = (id: string, patch: Partial<LedgerDecision> = {}) =>
     ...patch,
   });
 describe('canonical evidence ledger', () => {
+  it('records question to consensus without a dispute closure, including legacy display filtering', () => {
+    const pending = run(empty(), [
+      decision({ status: 'question', evidence: [e('a2', 'support')] }),
+    ]).ledger;
+    const result = run(pending, [close(pending.records[0].id)]);
+    const record = result.ledger.records[0];
+    expect(result.insights[0].kind).toBe('consensus');
+    expect(result.audit.closed).toEqual([]);
+    expect(record.closedAtSeq).toBeUndefined();
+    expect(isClosedDisagreement({ ...record, closedAtSeq: 6 })).toBe(false);
+  });
   it('migrates an unverified legacy pending item with two literal context witnesses without hiding a verified opposition', () => {
     const l = opened();
     l.records[0].verified = false;

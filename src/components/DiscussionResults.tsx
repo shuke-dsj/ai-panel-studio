@@ -1,5 +1,6 @@
 import { ChevronRight, CheckCircle2, Zap, FileText } from 'lucide-react';
 import type { Insight, Snapshot } from '../../shared/types';
+import { isClosedDisagreement } from '../../shared/types';
 export function DiscussionResults({
   snapshot,
   onReference,
@@ -92,9 +93,7 @@ export function DiscussionResults({
                     ? !r.verified && r.status === 'consensus'
                     : group === 'question'
                       ? r.status === 'question'
-                      : r.verified &&
-                        (r.status === 'resolved' ||
-                          (r.status === 'consensus' && r.closedAtSeq !== undefined))),
+                      : isClosedDisagreement(r)),
               ) ?? [];
             return records.length ? (
               <details className="result-section" key={group}>

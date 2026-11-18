@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { randomUUID } from 'node:crypto';
 import type { ZodType } from 'zod';
 import type { Task } from '../server/prompts.js';
-import type { Model } from '../server/model.js';
+import { ModelError, type Model } from '../server/model.js';
 import { DemoModel } from '../server/demo-model.js';
 import { Store } from '../server/db.js';
 import { Engine } from '../server/engine.js';
@@ -35,6 +35,59 @@ async function setup(maxTurns = 48) {
   return { store, model, engine, id: d.id };
 }
 describe('interactive concurrent workspace engine', () => {
+  it('keeps discussing after a broken assessment and asks the next actionable question', async () => {
+    const { store, model, engine, id } = await setup(24);
+    try {
+      const run = model.run.bind(model);
+      const assessments: number[] = [];
+      const question = '如果无服务端幂等键，怎样核对未知发送结果？';
+      model.run = async (task, input, schema, options) => {
+        if (task !== 'convergence') return run(task, input, schema, options);
+        assessments.push(store.get(id).turns);
+        if (assessments.length === 1) throw new ModelError('JSON_PARSE', '模拟无效 JSON');
+        if (assessments.length === 2)
+          return schema.parse({
+            ready: true,
+            reason: 'covered',
+            missingPerspectives: [],
+            followUp: { question, expertId: 'stale-id' },
+          });
+        return schema.parse({ ready: true, reason: 'covered', missingPerspectives: [] });
+      };
+      engine.start(id);
+      await engine.wait(id);
+      expect(assessments).toHaveLength(4);
+      expect(assessments[1]).toBeGreaterThan(assessments[0]);
+      expect(store.get(id).status).toBe('completed');
+      expect(store.events(id, 0).some((e) => e.type === 'error')).toBe(false);
+      expect(store.messages(id).some((m) => m.phase === 'convergence')).toBe(false);
+      const followUp = model.inputs.find(
+        (i) => i.task === 'speech' && i.data.directive?.includes(question),
+      );
+      expect(followUp?.data.directive).not.toContain('stale-id');
+      expect(followUp?.data.phase).toBe('交叉讨论');
+    } finally {
+      store.close();
+    }
+  });
+  it('completes with recorded expert sources when suggested summary IDs are unusable', async () => {
+    const { store, model, engine, id } = await setup(6);
+    try {
+      const run = model.run.bind(model);
+      model.run = async (task, input, schema, options) =>
+        task === 'summary'
+          ? schema.parse({ highlightMessageIds: ['unknown-message'] })
+          : run(task, input, schema, options);
+      engine.start(id);
+      await engine.wait(id);
+      const s = store.snapshot(id);
+      expect(s.discussion.status).toBe('completed');
+      expect(s.discussion.summaryDetails).toContain(s.messages.at(-1)!.text);
+      expect(s.discussion.summaryDetails).not.toContain('unknown-message');
+    } finally {
+      store.close();
+    }
+  });
   it('excludes revoked closure candidates when locally refreshing an archive without consuming model budget', async () => {
     const { store, engine, id } = await setup(6);
     try {

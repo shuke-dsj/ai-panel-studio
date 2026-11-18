@@ -19,8 +19,9 @@ export const directionSchema = z
 export const convergenceSchema = z.object({
   ready: z.boolean(),
   reason: z.enum(['covered', 'stable_disagreement', 'needs_more']),
-  unresolvedIds: z.array(text(100)).max(50),
-  missingPerspectives: z.array(text(100)).max(6),
+  missingPerspectives: z.array(text(200)).max(6),
+  followUp: z.object({ question: text(500), expertId: text(100).nullable() }).nullish(),
+  rationale: text(600).optional(),
 });
 export const personSchema = z.object({
   role: z.enum(['moderator', 'expert']),

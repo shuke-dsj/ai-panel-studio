@@ -7,6 +7,17 @@ const response = (content: string) =>
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
 describe('real model contract', () => {
+  it('accepts a fenced JSON response and still validates the decoded result', async () => {
+    const fetcher = vi.fn(async () => response('```json\n{"text":"已核验。"}\n```'));
+    const model = new RealModel({
+      key: 'fixture',
+      baseUrl: 'https://model.test',
+      model: 'fixture',
+      fetcher,
+    });
+    await expect(model.run('summary', {}, summarySchema)).resolves.toEqual({ text: '已核验。' });
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
   it('logs actual provider cache tokens on both failed and successful attempts while preserving retry prefix', async () => {
     const logger = vi.fn();
     let call = 0;
@@ -51,7 +62,7 @@ describe('real model contract', () => {
     expect(logger.mock.calls[0][0]).toMatchObject({
       discussionId: 'safe-id',
       requestLayout: 'prefix',
-      error: 'INVALID_OUTPUT',
+      error: 'JSON_PARSE',
       cache: { status: 'reported', hitTokens: 256, missTokens: 744 },
     });
     expect(logger.mock.calls[1][0]).toMatchObject({

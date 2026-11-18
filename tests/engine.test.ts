@@ -202,7 +202,7 @@ describe('durable discussion engine', () => {
     const intents = model.inputs.filter((c) => c.task === 'intent').slice(0, 4);
     expect(new Set(intents.map((c) => JSON.stringify(c.input.messages))).size).toBe(1);
     expect(s.messages.some((m) => m.phase === 'exchange')).toBe(true);
-    expect(s.messages.some((m) => m.phase === 'convergence')).toBe(true);
+    expect(s.messages.some((m) => m.phase === 'convergence')).toBe(false);
     expect(store.events(id, 0).filter((e) => e.type === 'completed')).toHaveLength(1);
     store.close();
   });

@@ -20,6 +20,31 @@ export class ModelError extends Error {
     this.name = 'ModelError';
   }
 }
+export function isRecoverableOutput(error: unknown): error is ModelError {
+  return (
+    error instanceof ModelError &&
+    [
+      'JSON_PARSE',
+      'INVALID_OUTPUT',
+      'CONVERGENCE_PROTOCOL',
+      'REFERENCE',
+      'SENTENCE_LIMIT',
+      'OUTPUT_LIMIT',
+      'EMPTY',
+      'CONSISTENCY',
+    ].includes(error.code)
+  );
+}
+
+function parseModelJson(content: string): unknown {
+  const trimmed = content.trim();
+  const fenced = /^```(?:json)?\s*([\s\S]*?)\s*```$/i.exec(trimmed);
+  try {
+    return JSON.parse(fenced?.[1] ?? trimmed);
+  } catch {
+    throw new ModelError('JSON_PARSE', '模型回复无法解析为 JSON。已尝试重新生成。');
+  }
+}
 export class RealModel implements Model {
   mode = 'real' as const;
   configured: boolean;
@@ -118,7 +143,7 @@ export class RealModel implements Model {
             );
           if (typeof content !== 'string' || !content.trim())
             throw new ModelError('EMPTY', '模型没有返回有效正文。');
-          const output = schema.parse(JSON.parse(content));
+          const output = schema.parse(parseModelJson(content));
           this.config.logger?.({
             task,
             attempt,

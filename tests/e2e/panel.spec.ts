@@ -96,7 +96,7 @@ test('closed issues and pending questions stay separate and show exact supportin
         aliases: [],
         lastSeq: 2,
         closedAtSeq: 2,
-        history: [],
+        history: [{ status: 'disagreement', text: '指定时点尚有争议', evidence: [], seq: 1 }],
       },
       {
         id: 'fixture-question',

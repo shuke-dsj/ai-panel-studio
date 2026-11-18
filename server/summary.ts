@@ -1,5 +1,5 @@
 import type { Snapshot, EndReason } from '../shared/types.js';
-import { endReasonLabels } from '../shared/types.js';
+import { endReasonLabels, isClosedDisagreement } from '../shared/types.js';
 import { extractEvidenceMemory } from './memory.js';
 export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]): string {
   snapshot = {
@@ -37,11 +37,7 @@ export function renderGroundedSummary(snapshot: Snapshot, highlights: string[]):
       snapshot.discussion.insightLedger?.records.filter(
         (r) =>
           !r.mergedInto &&
-          (status === 'question'
-            ? r.status === 'question'
-            : r.verified &&
-              (r.status === 'resolved' ||
-                (r.status === 'consensus' && r.closedAtSeq !== undefined))),
+          (status === 'question' ? r.status === 'question' : isClosedDisagreement(r)),
       ) ?? [];
     sections.push(
       `${status === 'question' ? '待外部确认事项（不等于专家彼此反对）' : '已关闭分歧及确认原文'}：\n` +
@@ -109,7 +105,7 @@ export function renderConciseSummary(
     );
   }
   lines.push(
-    `待外部确认${d.insightLedger?.records.filter((r) => r.status === 'question').length ?? 0}项，已关闭${d.insightLedger?.records.filter((r) => !r.mergedInto && r.verified && r.closedAtSeq !== undefined).length ?? 0}项（依据见展开）。`,
+    `待外部确认${d.insightLedger?.records.filter((r) => r.status === 'question').length ?? 0}项，已关闭${d.insightLedger?.records.filter(isClosedDisagreement).length ?? 0}项（依据见展开）。`,
     '下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。',
   );
   return lines.join('\n\n');

@@ -13,7 +13,7 @@ import {
 import { phaseLabels } from '../shared/types.js';
 import { Store } from './db.js';
 import type { Model } from './model.js';
-import { ModelError } from './model.js';
+import { isRecoverableOutput, ModelError } from './model.js';
 import {
   insightSchema,
   intentSchema,
@@ -24,7 +24,7 @@ import {
   convergenceSchema,
   ledgerSchema,
 } from './schemas.js';
-import { phaseFor, selectSpeakers } from './scheduler.js';
+import { selectSpeakers } from './scheduler.js';
 import { expertSpeechSchema } from './utterance.js';
 import { buildContext, contextInput, type DiscussionContext } from './context.js';
 import { directConsistencyIssues, type ConsistencyIssue } from './consistency.js';
@@ -410,14 +410,7 @@ export class Engine {
           this.store.update(id, { handledDirectionVersion: version, phase: 'exchange' });
           continue;
         }
-        const phase =
-          d.maxTurns <= 6
-            ? phaseFor(turns, d.maxTurns)
-            : turns < d.expertCount
-              ? 'exploration'
-              : turns < limits.minTurns
-                ? 'exchange'
-                : 'convergence';
+        const phase = turns < d.expertCount ? 'exploration' : 'exchange';
         if (d.phase !== phase) this.store.update(id, { phase });
         const hostAlreadySpoke = this.store
           .messages(id)
@@ -444,11 +437,12 @@ export class Engine {
           await this.speak(id, person, '回应最新上下文，贡献一个有实质进展的观点。', next);
           continue;
         }
-        const end = await this.assessConvergence(id);
+        const end = await this.assessConvergence(id, moderator);
         if (end) {
           await this.finish(id, moderator, end);
           return;
         }
+        if (this.store.get(id).status !== 'running') continue;
         const experts = this.store.participants(id).filter((p) => p.role === 'expert');
         const context = this.context(id);
         const outcomes = await Promise.allSettled(
@@ -536,7 +530,7 @@ export class Engine {
       }
     }
   }
-  private async assessConvergence(id: string): Promise<EndReason | null> {
+  private async assessConvergence(id: string, moderator: Participant): Promise<EndReason | null> {
     const d = this.store.get(id);
     const cp = this.store.checkpoint(id);
     const turns = cycleTurns(d);
@@ -555,29 +549,60 @@ export class Engine {
         .map((m) => m.participantId),
     );
     if (experts.some((p) => !spoken.has(p.id))) return null;
-    // Reconcile stale labels before requiring the convergence verdict to carry
-    // every still-open ID; otherwise a resolved issue can prevent closing.
-    await this.closeConfirmedDisputes(id);
-    this.assertDirection(id, d.directionVersion ?? 0);
-    const context = this.context(id);
-    const disputes = context.insights.filter((i) => i.kind === 'disagreement').map((i) => i.id);
-    const result = await this.call(
-      'convergence',
-      context,
-      convergenceSchema.refine(
-        (v) => v.unresolvedIds.every((ref) => disputes.includes(ref)),
-        '收束必须引用已有分歧ID',
-      ),
-    );
-    this.assertDirection(id, context.directionVersion);
+    const version = d.directionVersion ?? 0;
+    let result: import('zod').infer<typeof convergenceSchema>;
+    try {
+      result = await this.call('convergence', this.context(id), convergenceSchema);
+      this.assertDirection(id, version);
+    } catch (error) {
+      this.assertDirection(id, version);
+      if (!isRecoverableOutput(error)) throw error;
+      this.store.setCheckpoint(id, {
+        ...this.store.checkpoint(id),
+        lastConvergenceTurns: turns,
+        convergenceVotes: 0,
+      });
+      this.log({ discussionId: id, convergenceAssessment: { turns, failed: error.code } });
+      return null;
+    }
     const current = this.store.checkpoint(id);
     current.lastConvergenceTurns = turns;
     const ready =
-      result.ready && result.reason !== 'needs_more' && !result.missingPerspectives.length;
+      result.ready &&
+      result.reason !== 'needs_more' &&
+      !result.missingPerspectives.length &&
+      !result.followUp;
     current.convergenceVotes = ready ? (current.convergenceVotes ?? 0) + 1 : 0;
     this.store.setCheckpoint(id, current);
-    if (current.convergenceVotes >= 2 && this.store.get(id).status === 'running')
-      return disputes.length ? 'stable_disagreement' : 'converged';
+    this.log({
+      discussionId: id,
+      convergenceAssessment: {
+        turns,
+        ...result,
+        countedReady: ready,
+        votes: current.convergenceVotes,
+      },
+    });
+    if (this.store.get(id).status !== 'running') return null;
+    if (current.convergenceVotes >= 2)
+      return this.store.insights(id).some((i) => i.kind === 'disagreement') ||
+        result.reason === 'stable_disagreement'
+        ? 'stable_disagreement'
+        : 'converged';
+    if (!ready && (result.followUp || result.missingPerspectives.length)) {
+      const target = experts.find((p) => p.id === result.followUp?.expertId);
+      const question = result.followUp?.question ?? result.missingPerspectives[0];
+      try {
+        await this.speak(
+          id,
+          moderator,
+          `继续交叉讨论。评估发现仍可通过讨论推进的问题：${question}。请把它转成一条具体追问${target ? `，优先请${target.name}回答` : ''}，使用 addressedTo 指定专家。保留现有争议，不宣布收束。`,
+        );
+      } catch (error) {
+        if (!isRecoverableOutput(error)) throw error;
+        this.log({ discussionId: id, convergenceFollowUpFailed: error.code, turns });
+      }
+    }
     return null;
   }
   private async reviewLedger(
@@ -826,21 +851,19 @@ export class Engine {
         const result = await this.call(
           'summary',
           this.input(context, { purpose: 'grounded-summary' }),
-          closingSchema
-            .transform((value) => ({
-              highlightMessageIds: [
-                ...new Set(value.highlightMessageIds.map((id) => aliases.get(id) ?? id)),
-              ],
-            }))
-            .refine(
-              (v) => v.highlightMessageIds.every((id) => messageIds.has(id)),
-              '只能选择本场实际专家发言',
-            ),
+          closingSchema,
         );
         this.assertDirection(id, version);
-        highlights = result.highlightMessageIds;
+        const selected = [
+          ...new Set(result.highlightMessageIds.map((id) => aliases.get(id) ?? id)),
+        ].filter((id) => messageIds.has(id));
+        // Suggested highlights are optional. Keep actual expert sources when
+        // the model proposes IDs outside the current discussion boundary.
+        if (selected.length || !result.highlightMessageIds.length) highlights = selected;
       } catch (error) {
-        if (!(error instanceof BoundaryStop)) throw error;
+        if (!(error instanceof BoundaryStop) && !isRecoverableOutput(error)) throw error;
+        if (isRecoverableOutput(error))
+          this.log({ discussionId: id, closingOptionalAnalysisFailed: error.code });
       }
     }
     this.assertDirection(id, version);
