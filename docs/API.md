@@ -46,7 +46,7 @@ topic去除首尾空白后1–2000字符；expertCount整数2–6，默认4。ma
 
 Snapshot 包含 `discussion`、`participants`、`messages`、`insights`、`activities` 与 `cursor`。Message 的 `replyTo` 指向本场真实消息，`addressedTo` 指向本场角色。`turns`仅统计专家正式发言。消息可附kind、directionVersion；用户调整消息为kind=direction，内部调度意向仍不进入Transcript。
 
-来源标记：live 真实运行；curated 人工编写示例；real-example 真实模型生成、仍待人工审阅的示例；test 显式演示模型。来源从创建时确定，不因重启而改变。
+来源标记：live 真实运行；curated 人工编写示例；real-example 真实模型示例。随源码分发的归档已逐场审阅，主动生成的候选需再核对。test 为显式演示模型。来源从创建或归档导入时确定，不因重启而改变。
 
 ## SSE
 
@@ -56,7 +56,7 @@ event: update
 data: {"discussionId":"...","seq":42,"type":"message","data":{...},"createdAt":"..."}
 ```
 
-事件类型：status、activity、message、insights、completed、error、roster。data 分别为 Discussion、公开活动状态、Message、当前完整 Insight 列表、Discussion、Discussion、Participant 列表。活动仅含待机/准备/发言中与可公开关注点，不含原始参与意向或评分。
+事件类型：status、activity、message、insights、completed、error、roster、usage。data 分别为 Discussion、公开活动状态、Message、当前完整 Insight 列表、Discussion、Discussion、Participant 列表和累计用量。活动仅含待机/准备/发言中与可公开关注点。
 
 每场 seq 从 1 单调增长。首次加载先读取 Snapshot，然后订阅 after=cursor；服务重放后续事件。重连时 Last-Event-ID 优先于 query。客户端按 seq 去重，过期 HTTP 快照不得覆盖更新的 SSE 状态。发言与 checkpoint 在同一事务写入，事件提交后才广播。
 
@@ -78,4 +78,4 @@ SQLite schema version 1 在 Store 初始化时创建。discussions 保存领域�
 
 `Snapshot.discussion.tokenUsage` 保存同一讨论自启用用量统计以来的累计输入、输出、命中、未命中 Token，以及请求尝试数和各指标覆盖的请求数。模型请求结束时在同一 SQLite 事务写入累计量和 `usage` 事件。该 SSE 事件携带累计值，断线重放时按现有事件序号去重。由服务返回用量的失败尝试同样计入，未返回的指标保留为空。命中率按完整缓存数据的累计命中数除以累计命中与未命中之和。历史记录没有追补，演示不生成用量。
 
-默认prefix布局只调整真实模型请求组织，不改公共HTTP路由或数据库实体。共享快照材料在任务system前，当前角色/阶段/候选/审核参数在后。日志保留API实际prompt_cache_hit_tokens/miss_tokens及兼容cached_tokens，并标记缺失或不一致，不将输出答案做本地长期缓存。配置回退、真实用量对照与质量范围见CACHE-OPTIMIZATION.md。
+默认 `compact` 布局将共享快照分成固定头、逐条追加发言及动态账本，当前任务参数置后。可通过 `MODEL_REQUEST_LAYOUT` 回退至 `prefix` 或 `legacy`。日志保留供应商实际缓存用量并标记缺失或不一致。见[上下文设计](CONTEXT-DESIGN.md)。

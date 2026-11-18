@@ -24,7 +24,7 @@ npm run dev
 
 打开 <http://127.0.0.1:5173>。前端 5173，后端 3001，均只监听本机。
 
-首次启动自动初始化数据库。全新数据库会加入 5 场人工示例和 1 场经过逐条审阅的真实模型归档。`npm run db:init` 也可离线恢复这些示例，无需配置 API Key，不会新开讨论。重复初始化不会覆盖同 ID 的已有记录。数据库保存在 `data/panel.sqlite`，不会提交到 Git。示例范围和原文审阅见[九场存档审阅](docs/EXAMPLE-AUDIT.md)。
+首次启动自动初始化数据库。全新数据库会加入 5 场人工示例和 5 场经过逐条审阅的真实模型归档。`npm run db:init` 可离线恢复这些示例，无需配置 API Key，不会启动模型。重复初始化不会覆盖同 ID 的已有记录。数据库默认保存在 `data/panel.sqlite`，不会提交到 Git。示例范围和原文审阅见[样例验收](docs/SAMPLE-ACCEPTANCE.md)。
 
 ### 真实模型配置
 
@@ -51,6 +51,14 @@ npm run dev
 默认4专家至少讨论10次，所有专家已有观点后，主持人需连续两次判定充分覆盖或保留稳定分歧才自然收束；判定至少相隔2次新发言。否则由发言数、25分钟活动时间、360次调用中最早达到的安全边界结束，明确说明未必完全收敛。96次档位为45分钟/720次调用。重试计入调用数，暂停和服务离线时间不继续累计。停滞也会明确结束，不能自动无限循环。
 
 其他配置见`.env.example`：请求超时默认60秒、全局模型并发默认3、输出上限默认8000 Token、上下文预算默认56000字符（非Token预算）。15次真实发言曾因28000字符保护材料超预算而暂停，故提高默认值；12,000/28,000的小预算仍用于压力测试。关键材料本身超限仍明确暂停，不自动丢弃。单次调用失败自动重试一次；长度截断会明确报错，不保存不完整结果。
+
+| 配置 | 默认与用途 |
+| --- | --- |
+| `DATABASE_PATH` | `./data/panel.sqlite`。用独立路径做空库导入验收。 |
+| `PORT` / `WEB_PORT` | 后端 3001，开发前端 5173。自定义开发端口时在启动进程环境中设置。 |
+| `MODEL_TIMEOUT_MS` / `MODEL_MAX_OUTPUT_TOKENS` / `MODEL_CONCURRENCY` | 60000 / 8000 / 3，分别限制单次请求、生成和并发。 |
+| `MODEL_CONTEXT_CHARS` / `MODEL_REQUEST_LAYOUT` | 56000 / `compact`，控制应用上下文预算与请求布局。 |
+| `MODEL_THINKING` / `DEMO_DELAY_MS` | 前者默认不显式发送，后者默认 350 毫秒，仅影响演示。 |
 
 DeepSeek当前模型默认开启高推理；本地回归出现成果分析反复输出截断后，增加可选`MODEL_THINKING=disabled`显式采用非思考模式，保持8,000输出上限和模型ID。兼容服务不支持此参数时留空，适配器不发送该字段。依据[DeepSeek官方思考模式文档](https://api-docs.deepseek.com/guides/thinking_mode/)，不是假定所有兼容API都支持。隐藏推理始终不读取、记录或渲染。
 
@@ -119,13 +127,25 @@ npm run seed:real
 | `scripts`                     | 数据初始化、真实模型探测与真实示例生成       |
 | `docs`                        | 产品规格、架构/API、Prompt、工作流与验证报告 |
 
-主要 API：`GET/POST /api/discussions`、`GET /api/discussions/:id`、`POST /api/discussions/:id/{roster,confirm,start,pause,resume,end}`、`GET /api/discussions/:id/events`。详细状态与响应见 [API 文档](docs/API.md)。
+主要 API：`GET /api/health`、`GET/POST /api/discussions`、`GET /api/discussions/:id`、`POST /api/discussions/:id/{roster,confirm,start,pause,resume,end,directions,reconcile}` 和 `GET /api/discussions/:id/events`。详细状态与响应见 [API 文档](docs/API.md)。
 
 ## 已完成与限制
 
 已实现：完整产品路径、真实兼容模型适配、显式测试模型、SQLite 状态与事件、动态发言调度、带证据的成果更新、恢复机制、三栏独立滚动、手机页签和自动化测试。
 
-本机真实模型已配置，完成初次真实验收及后续修复回归。最新结果见[紧凑上下文回归报告](docs/COMPACT-CONTEXT-REGRESSION.md)，历史证据保留于[初次真实报告](docs/REAL-SMOKE-REVIEW.md)。凭据仅保存在被忽略的本机 `.env`。实际开发工具为 Codex，尚缺 Claude Code + DeepSeek V4 Pro 的实际工作流证据。真实示例已交付 1/5，其他四个题目均有人工演示。当前仅本地交付。详见[交付清单](docs/DELIVERY.md)。
+真实模型已完成初次验收和后续回归，见[紧凑上下文回归报告](docs/COMPACT-CONTEXT-REGRESSION.md)。交付包包含 5/5 主题的已审阅真实归档。实际开发工具为 Codex，题面另列的 Claude Code + DeepSeek V4 Pro 流程没有实际执行记录。当前仅本地交付，详见[交付清单](docs/DELIVERY.md)。
+
+## 开发文档
+
+| 文档 | 内容 |
+| --- | --- |
+| [产品规格 PRD](docs/SPEC.md) | 场景、范围、状态机与验收门槛 |
+| [前后端架构与 Git 演进](docs/ARCHITECTURE.md) | 组件、服务、调度和实际阶段提交 |
+| [SQLite 数据设计与 ER](docs/DATA-DESIGN.md) | 物理表、账本、会话保存与恢复 |
+| [上下文与压缩](docs/CONTEXT-DESIGN.md) | 多专家材料、证据保护和缓存前缀 |
+| [核心 Prompt](docs/CORE-PROMPTS.md) | SDD、DDD、TDD、E2E 的历史原文节选 |
+| [开发工作流](docs/WORKFLOW-SUBMISSION.md) | Codex 实际过程、三个问题及修复路径 |
+| [测试与样例验证](docs/TESTING.md) | 命令、真实回归与离线复现 |
 
 语义共识识别与发言一致性审查仍依赖模型判断，可能漏判或误报；后端验证引用、逐字证据和支持者，未决分歧不会因省略而关闭。总结按支持者、未决项及原句装配，避免自由撰写扩大一致性。无联网检索，观点未经外部核验。压缩保护原题、条件证据、当前成果及未决分歧，保护材料本身超预算则暂停；句式提取仍可能遗漏隐含条件，不能宣称任意长文无损。SQLite schema v1 仅作初始建库，evidenceMemory为兼容的可选JSON字段。
 
