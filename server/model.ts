@@ -1,5 +1,7 @@
 import { ZodError, type ZodType } from 'zod';
-import { prompts, type Task } from './prompts.js';
+import type { Task } from './prompts.js';
+import { buildModelMessages, type RequestLayout } from './request-layout.js';
+import { usageMetadata } from './usage.js';
 export interface Model {
   run<T>(
     task: Task,
@@ -33,6 +35,7 @@ export class RealModel implements Model {
       maxTokens?: number;
       concurrency?: number;
       thinking?: 'enabled' | 'disabled';
+      requestLayout?: RequestLayout;
       fetcher?: typeof fetch;
       logger?: (entry: unknown) => void;
     },
@@ -66,7 +69,13 @@ export class RealModel implements Model {
       for (let attempt = 0; attempt < 2; attempt++) {
         options?.onAttempt?.(attempt);
         const started = Date.now();
-        let metadata: Record<string, unknown> = {};
+        const data = input as { discussionId?: unknown } | null;
+        let metadata: Record<string, unknown> = {
+          requestLayout: this.config.requestLayout ?? 'prefix',
+          ...(data && typeof data.discussionId === 'string'
+            ? { discussionId: data.discussionId }
+            : {}),
+        };
         try {
           const response = await (this.config.fetcher ?? fetch)(
             `${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`,
@@ -80,10 +89,7 @@ export class RealModel implements Model {
               body: JSON.stringify({
                 model: this.config.model,
                 ...(this.config.thinking ? { thinking: { type: this.config.thinking } } : {}),
-                messages: [
-                  { role: 'system', content: prompts[task] + retryHint },
-                  { role: 'user', content: JSON.stringify(input) },
-                ],
+                messages: buildModelMessages(task, input, retryHint, this.config.requestLayout),
                 response_format: { type: 'json_object' },
                 max_tokens: this.config.maxTokens ?? 8000,
                 stream: false,
@@ -101,22 +107,12 @@ export class RealModel implements Model {
           };
           const reason = body.choices?.[0]?.finish_reason;
           metadata = {
+            ...metadata,
             finishReason:
               reason && ['stop', 'length', 'tool_calls', 'content_filter'].includes(reason)
                 ? reason
                 : 'unknown',
-            usage: Object.fromEntries(
-              Object.entries(
-                (body.usage && typeof body.usage === 'object' ? body.usage : {}) as Record<
-                  string,
-                  unknown
-                >,
-              ).filter(
-                ([key, value]) =>
-                  ['prompt_tokens', 'completion_tokens', 'total_tokens'].includes(key) &&
-                  typeof value === 'number',
-              ),
-            ),
+            ...usageMetadata(body.usage),
           };
           const content = body.choices?.[0]?.message?.content;
           if (reason === 'length')

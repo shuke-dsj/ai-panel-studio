@@ -7,6 +7,77 @@ const response = (content: string) =>
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
 describe('real model contract', () => {
+  it('logs actual provider cache tokens on both failed and successful attempts while preserving retry prefix', async () => {
+    const logger = vi.fn();
+    let call = 0;
+    const fetcher = vi.fn().mockImplementation(async () => {
+      call++;
+      return new Response(
+        JSON.stringify({
+          choices: [
+            {
+              message: {
+                content: call === 1 ? '{broken' : '{"text":"已核验。"}',
+                reasoning_content: 'private reasoning',
+              },
+            },
+          ],
+          usage: {
+            prompt_tokens: 1000,
+            completion_tokens: 10,
+            total_tokens: 1010,
+            prompt_cache_hit_tokens: call === 1 ? 256 : 900,
+            prompt_cache_miss_tokens: call === 1 ? 744 : 100,
+            untrusted: 'private usage',
+          },
+        }),
+      );
+    });
+    const model = new RealModel({
+      key: 'private-key',
+      baseUrl: 'https://model.test',
+      model: 'test',
+      fetcher,
+      logger,
+    });
+    await model.run(
+      'summary',
+      { discussionId: 'safe-id', topic: '测试', messages: [{ text: 'private transcript' }] },
+      summarySchema,
+    );
+    const requests = fetcher.mock.calls.map((c) => JSON.parse(c[1].body));
+    expect(requests[0].messages.slice(0, 2)).toEqual(requests[1].messages.slice(0, 2));
+    expect(requests[1].messages[2].content).toContain('上次响应未通过');
+    expect(logger.mock.calls[0][0]).toMatchObject({
+      discussionId: 'safe-id',
+      requestLayout: 'prefix',
+      error: 'INVALID_OUTPUT',
+      cache: { status: 'reported', hitTokens: 256, missTokens: 744 },
+    });
+    expect(logger.mock.calls[1][0]).toMatchObject({
+      usage: { prompt_cache_hit_tokens: 900, prompt_cache_miss_tokens: 100 },
+      cache: { hitRate: 0.9 },
+    });
+    for (const value of ['private-key', 'private transcript', 'private reasoning', 'private usage'])
+      expect(JSON.stringify(logger.mock.calls)).not.toContain(value);
+  });
+  it('retains a legacy transport switch without adding unsupported API cache parameters', async () => {
+    const fetcher = vi.fn().mockImplementation(async () => response('{"text":"测试。"}'));
+    const model = new RealModel({
+      key: 'key',
+      baseUrl: 'https://model.test',
+      model: 'test',
+      requestLayout: 'legacy',
+      fetcher,
+    });
+    const input = { topic: '测试', messages: [], current: { id: 'b' } };
+    await model.run('summary', input, summarySchema);
+    const body = JSON.parse(fetcher.mock.calls[0][1].body);
+    expect(body.messages).toHaveLength(2);
+    expect(JSON.parse(body.messages[1].content)).toEqual(input);
+    expect(body).not.toHaveProperty('cache_control');
+    expect(body).not.toHaveProperty('prompt_cache_key');
+  });
   it('only forwards the provider thinking toggle when explicitly configured', async () => {
     for (const thinking of [undefined, 'disabled'] as const) {
       const fetcher = vi.fn().mockImplementation(async () => response('{"text":"不虚构结论。"}'));

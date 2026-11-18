@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { RealModel } from './model.js';
 import { DemoModel } from './demo-model.js';
+import type { RequestLayout } from './request-layout.js';
 const number = (key: string, value: number, min: number, max: number) => {
   const raw = Number(process.env[key] ?? value);
   if (!Number.isFinite(raw) || raw < min || raw > max)
@@ -24,10 +25,16 @@ export const settings = {
   demoDelay: number('DEMO_DELAY_MS', 350, 0, 5000),
   thinking: thinkingMode(),
 };
-export function configuredModel(forceReal = false) {
+export function configuredModel(
+  forceReal = false,
+  overrides: { requestLayout?: RequestLayout; logger?: (entry: unknown) => void } = {},
+) {
   if (!forceReal && process.env.MODEL_MODE === 'demo') return new DemoModel(settings.demoDelay);
   if (process.env.MODEL_MODE && !['real', 'demo'].includes(process.env.MODEL_MODE))
     throw new Error('MODEL_MODE 只能为 real 或 demo');
+  const requestLayout = overrides.requestLayout ?? process.env.MODEL_REQUEST_LAYOUT ?? 'prefix';
+  if (!['prefix', 'legacy'].includes(requestLayout))
+    throw new Error('MODEL_REQUEST_LAYOUT只能为prefix或legacy');
   return new RealModel({
     key: process.env.MODEL_API_KEY ?? process.env.DEEPSEEK_API_KEY ?? '',
     baseUrl: process.env.MODEL_BASE_URL ?? 'https://api.deepseek.com',
@@ -36,6 +43,7 @@ export function configuredModel(forceReal = false) {
     maxTokens: settings.maxTokens,
     concurrency: settings.concurrency,
     thinking: settings.thinking,
-    logger: (entry) => console.info(JSON.stringify({ modelCall: entry })),
+    requestLayout: requestLayout as RequestLayout,
+    logger: overrides.logger ?? ((entry) => console.info(JSON.stringify({ modelCall: entry }))),
   });
 }

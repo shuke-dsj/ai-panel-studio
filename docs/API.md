@@ -73,3 +73,7 @@ SQLite schema version 1 在 Store 初始化时创建。discussions 保存领域�
 ## 模型接口参考
 
 实现依据官方 [DeepSeek Chat Completions](https://api-docs.deepseek.com/api/create-chat-completion/) 与 [JSON Output](https://api-docs.deepseek.com/guides/json_mode/) 文档；Fastify SSE 使用 [Reply.hijack](https://fastify.dev/docs/latest/Reference/Reply/)；SQLite 使用 [Node 24 DatabaseSync](https://nodejs.org/download/release/latest-v24.x/docs/api/sqlite.html)。具体模型 ID 与账户权限须通过真实探测确认。
+
+## API缓存实现补充（2026-11-18）
+
+默认prefix布局只调整真实模型请求组织，不改公共HTTP路由或数据库实体。共享快照材料在任务system前，当前角色/阶段/候选/审核参数在后。日志保留API实际prompt_cache_hit_tokens/miss_tokens及兼容cached_tokens，并标记缺失或不一致，不将输出答案做本地长期缓存。配置回退、真实用量对照与质量范围见CACHE-OPTIMIZATION.md。

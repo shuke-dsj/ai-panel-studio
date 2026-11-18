@@ -1,0 +1,2715 @@
+{
+  "testedAt": "2026-11-18T06:10:28.251Z",
+  "id": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+  "database": "data/cache-quality.sqlite",
+  "checks": {
+    "real": true,
+    "prefixTransport": true,
+    "completed": true,
+    "bounded": true,
+    "completeShortDiscussion": true,
+    "bothExpertsParticipated": true,
+    "shortSpeeches": true,
+    "validReplyIds": true,
+    "consensusWitnesses": true,
+    "literalOutcomeSources": true,
+    "honestSummary": true,
+    "originalPrefixPreserved": true,
+    "exactlyOneCompletion": true,
+    "usageReported": true,
+    "sqliteSnapshotMatches": true
+  },
+  "passed": true,
+  "usage": {
+    "attempts": 52,
+    "measuredAttempts": 52,
+    "hitTokens": 228864,
+    "missTokens": 154543,
+    "hitRate": 0.5969218089393256
+  },
+  "attempts": [
+    {
+      "task": "roster",
+      "attempt": 0,
+      "durationMs": 3771,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 629,
+        "completion_tokens": 234,
+        "total_tokens": 863,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 629,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 0,
+        "missTokens": 629,
+        "hitRate": 0
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1345,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 1875,
+        "completion_tokens": 106,
+        "total_tokens": 1981,
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1747,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 128,
+        "missTokens": 1747,
+        "hitRate": 0.06826666666666667
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 796,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2337,
+        "completion_tokens": 5,
+        "total_tokens": 2342,
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 1569,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 768,
+        "missTokens": 1569,
+        "hitRate": 0.3286264441591784
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 992,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2200,
+        "completion_tokens": 64,
+        "total_tokens": 2264,
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 1560,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 640,
+        "missTokens": 1560,
+        "hitRate": 0.2909090909090909
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 1059,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2196,
+        "completion_tokens": 69,
+        "total_tokens": 2265,
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 1556,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 640,
+        "missTokens": 1556,
+        "hitRate": 0.29143897996357016
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1765,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2479,
+        "completion_tokens": 109,
+        "total_tokens": 2588,
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 1199,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1280,
+        "missTokens": 1199,
+        "hitRate": 0.5163372327551432
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 673,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2818,
+        "completion_tokens": 5,
+        "total_tokens": 2823,
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 1538,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1280,
+        "missTokens": 1538,
+        "hitRate": 0.45422285308729593
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 4068,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 2773,
+        "completion_tokens": 572,
+        "total_tokens": 3345,
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 1877,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 896,
+        "missTokens": 1877,
+        "hitRate": 0.32311575910566176
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 3604,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 3655,
+        "completion_tokens": 438,
+        "total_tokens": 4093,
+        "prompt_cache_hit_tokens": 1664,
+        "prompt_cache_miss_tokens": 1991,
+        "prompt_tokens_details": {
+          "cached_tokens": 1664
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1664,
+        "missTokens": 1991,
+        "hitRate": 0.45526675786593707
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 703,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 3681,
+        "completion_tokens": 5,
+        "total_tokens": 3686,
+        "prompt_cache_hit_tokens": 1664,
+        "prompt_cache_miss_tokens": 2017,
+        "prompt_tokens_details": {
+          "cached_tokens": 1664
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1664,
+        "missTokens": 2017,
+        "hitRate": 0.45205107307796794
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 2188,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 3683,
+        "completion_tokens": 343,
+        "total_tokens": 4026,
+        "prompt_cache_hit_tokens": 3456,
+        "prompt_cache_miss_tokens": 227,
+        "prompt_tokens_details": {
+          "cached_tokens": 3456
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 3456,
+        "missTokens": 227,
+        "hitRate": 0.9383654629378224
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 620,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 3586,
+        "completion_tokens": 5,
+        "total_tokens": 3591,
+        "prompt_cache_hit_tokens": 2944,
+        "prompt_cache_miss_tokens": 642,
+        "prompt_tokens_details": {
+          "cached_tokens": 2944
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2944,
+        "missTokens": 642,
+        "hitRate": 0.8209704406023425
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 2037,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 3893,
+        "completion_tokens": 124,
+        "total_tokens": 4017,
+        "prompt_cache_hit_tokens": 1664,
+        "prompt_cache_miss_tokens": 2229,
+        "prompt_tokens_details": {
+          "cached_tokens": 1664
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1664,
+        "missTokens": 2229,
+        "hitRate": 0.4274338556383252
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 867,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 4220,
+        "completion_tokens": 5,
+        "total_tokens": 4225,
+        "prompt_cache_hit_tokens": 2688,
+        "prompt_cache_miss_tokens": 1532,
+        "prompt_tokens_details": {
+          "cached_tokens": 2688
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2688,
+        "missTokens": 1532,
+        "hitRate": 0.6369668246445498
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 5152,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 4056,
+        "completion_tokens": 571,
+        "total_tokens": 4627,
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 3032,
+        "prompt_tokens_details": {
+          "cached_tokens": 1024
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1024,
+        "missTokens": 3032,
+        "hitRate": 0.252465483234714
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 3191,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 4961,
+        "completion_tokens": 613,
+        "total_tokens": 5574,
+        "prompt_cache_hit_tokens": 2944,
+        "prompt_cache_miss_tokens": 2017,
+        "prompt_tokens_details": {
+          "cached_tokens": 2944
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2944,
+        "missTokens": 2017,
+        "hitRate": 0.5934287442047974
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 447,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 5131,
+        "completion_tokens": 5,
+        "total_tokens": 5136,
+        "prompt_cache_hit_tokens": 3072,
+        "prompt_cache_miss_tokens": 2059,
+        "prompt_tokens_details": {
+          "cached_tokens": 3072
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 3072,
+        "missTokens": 2059,
+        "hitRate": 0.5987137010329371
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1142,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 6292,
+        "completion_tokens": 125,
+        "total_tokens": 6417,
+        "prompt_cache_hit_tokens": 2048,
+        "prompt_cache_miss_tokens": 4244,
+        "prompt_tokens_details": {
+          "cached_tokens": 2048
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2048,
+        "missTokens": 4244,
+        "hitRate": 0.32549268912905277
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 1655,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 6747,
+        "completion_tokens": 5,
+        "total_tokens": 6752,
+        "prompt_cache_hit_tokens": 5120,
+        "prompt_cache_miss_tokens": 1627,
+        "prompt_tokens_details": {
+          "cached_tokens": 5120
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 5120,
+        "missTokens": 1627,
+        "hitRate": 0.7588557877575218
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 1286,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 6733,
+        "completion_tokens": 61,
+        "total_tokens": 6794,
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 5453,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1280,
+        "missTokens": 5453,
+        "hitRate": 0.19010842120897073
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 1396,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 6737,
+        "completion_tokens": 59,
+        "total_tokens": 6796,
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 5457,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1280,
+        "missTokens": 5457,
+        "hitRate": 0.18999554697936766
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1866,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 7011,
+        "completion_tokens": 121,
+        "total_tokens": 7132,
+        "prompt_cache_hit_tokens": 5760,
+        "prompt_cache_miss_tokens": 1251,
+        "prompt_tokens_details": {
+          "cached_tokens": 5760
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 5760,
+        "missTokens": 1251,
+        "hitRate": 0.8215661103979461
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 455,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 7349,
+        "completion_tokens": 5,
+        "total_tokens": 7354,
+        "prompt_cache_hit_tokens": 5760,
+        "prompt_cache_miss_tokens": 1589,
+        "prompt_tokens_details": {
+          "cached_tokens": 5760
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 5760,
+        "missTokens": 1589,
+        "hitRate": 0.7837801061368894
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 3771,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 7181,
+        "completion_tokens": 790,
+        "total_tokens": 7971,
+        "prompt_cache_hit_tokens": 1536,
+        "prompt_cache_miss_tokens": 5645,
+        "prompt_tokens_details": {
+          "cached_tokens": 1536
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1536,
+        "missTokens": 5645,
+        "hitRate": 0.21389778582370145
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 2798,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8276,
+        "completion_tokens": 687,
+        "total_tokens": 8963,
+        "prompt_cache_hit_tokens": 6016,
+        "prompt_cache_miss_tokens": 2260,
+        "prompt_tokens_details": {
+          "cached_tokens": 6016
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 6016,
+        "missTokens": 2260,
+        "hitRate": 0.7269212179797003
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 2218,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9068,
+        "completion_tokens": 163,
+        "total_tokens": 9231,
+        "prompt_cache_hit_tokens": 6144,
+        "prompt_cache_miss_tokens": 2924,
+        "prompt_tokens_details": {
+          "cached_tokens": 6144
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 6144,
+        "missTokens": 2924,
+        "hitRate": 0.6775474194971328
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 1547,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8335,
+        "completion_tokens": 190,
+        "total_tokens": 8525,
+        "prompt_cache_hit_tokens": 4992,
+        "prompt_cache_miss_tokens": 3343,
+        "prompt_tokens_details": {
+          "cached_tokens": 4992
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 4992,
+        "missTokens": 3343,
+        "hitRate": 0.5989202159568087
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 655,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8526,
+        "completion_tokens": 5,
+        "total_tokens": 8531,
+        "prompt_cache_hit_tokens": 6016,
+        "prompt_cache_miss_tokens": 2510,
+        "prompt_tokens_details": {
+          "cached_tokens": 6016
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 6016,
+        "missTokens": 2510,
+        "hitRate": 0.7056063804832278
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1279,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8184,
+        "completion_tokens": 114,
+        "total_tokens": 8298,
+        "prompt_cache_hit_tokens": 3584,
+        "prompt_cache_miss_tokens": 4600,
+        "prompt_tokens_details": {
+          "cached_tokens": 3584
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 3584,
+        "missTokens": 4600,
+        "hitRate": 0.43792766373411535
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 918,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8511,
+        "completion_tokens": 5,
+        "total_tokens": 8516,
+        "prompt_cache_hit_tokens": 6912,
+        "prompt_cache_miss_tokens": 1599,
+        "prompt_tokens_details": {
+          "cached_tokens": 6912
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 6912,
+        "missTokens": 1599,
+        "hitRate": 0.8121254846669017
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 4178,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 8353,
+        "completion_tokens": 847,
+        "total_tokens": 9200,
+        "prompt_cache_hit_tokens": 1792,
+        "prompt_cache_miss_tokens": 6561,
+        "prompt_tokens_details": {
+          "cached_tokens": 1792
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 1792,
+        "missTokens": 6561,
+        "hitRate": 0.21453370046689813
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 3678,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9492,
+        "completion_tokens": 856,
+        "total_tokens": 10348,
+        "prompt_cache_hit_tokens": 7296,
+        "prompt_cache_miss_tokens": 2196,
+        "prompt_tokens_details": {
+          "cached_tokens": 7296
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 7296,
+        "missTokens": 2196,
+        "hitRate": 0.7686472819216182
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 811,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10617,
+        "completion_tokens": 5,
+        "total_tokens": 10622,
+        "prompt_cache_hit_tokens": 7296,
+        "prompt_cache_miss_tokens": 3321,
+        "prompt_tokens_details": {
+          "cached_tokens": 7296
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 7296,
+        "missTokens": 3321,
+        "hitRate": 0.6871997739474428
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1167,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9166,
+        "completion_tokens": 101,
+        "total_tokens": 9267,
+        "prompt_cache_hit_tokens": 3456,
+        "prompt_cache_miss_tokens": 5710,
+        "prompt_tokens_details": {
+          "cached_tokens": 3456
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 3456,
+        "missTokens": 5710,
+        "hitRate": 0.37704560331660486
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 1091,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9598,
+        "completion_tokens": 89,
+        "total_tokens": 9687,
+        "prompt_cache_hit_tokens": 8064,
+        "prompt_cache_miss_tokens": 1534,
+        "prompt_tokens_details": {
+          "cached_tokens": 8064
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 8064,
+        "missTokens": 1534,
+        "hitRate": 0.8401750364659304
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1478,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9250,
+        "completion_tokens": 139,
+        "total_tokens": 9389,
+        "prompt_cache_hit_tokens": 8704,
+        "prompt_cache_miss_tokens": 546,
+        "prompt_tokens_details": {
+          "cached_tokens": 8704
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 8704,
+        "missTokens": 546,
+        "hitRate": 0.940972972972973
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 525,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9636,
+        "completion_tokens": 5,
+        "total_tokens": 9641,
+        "prompt_cache_hit_tokens": 9216,
+        "prompt_cache_miss_tokens": 420,
+        "prompt_tokens_details": {
+          "cached_tokens": 9216
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9216,
+        "missTokens": 420,
+        "hitRate": 0.9564134495641345
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 1137,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9551,
+        "completion_tokens": 71,
+        "total_tokens": 9622,
+        "prompt_cache_hit_tokens": 2048,
+        "prompt_cache_miss_tokens": 7503,
+        "prompt_tokens_details": {
+          "cached_tokens": 2048
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2048,
+        "missTokens": 7503,
+        "hitRate": 0.21442780860642865
+      }
+    },
+    {
+      "task": "intent",
+      "attempt": 0,
+      "durationMs": 1663,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9547,
+        "completion_tokens": 69,
+        "total_tokens": 9616,
+        "prompt_cache_hit_tokens": 2048,
+        "prompt_cache_miss_tokens": 7499,
+        "prompt_tokens_details": {
+          "cached_tokens": 2048
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2048,
+        "missTokens": 7499,
+        "hitRate": 0.2145176495234105
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1278,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 9837,
+        "completion_tokens": 117,
+        "total_tokens": 9954,
+        "prompt_cache_hit_tokens": 8576,
+        "prompt_cache_miss_tokens": 1261,
+        "prompt_tokens_details": {
+          "cached_tokens": 8576
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 8576,
+        "missTokens": 1261,
+        "hitRate": 0.8718105113347565
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 1147,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10177,
+        "completion_tokens": 5,
+        "total_tokens": 10182,
+        "prompt_cache_hit_tokens": 8576,
+        "prompt_cache_miss_tokens": 1601,
+        "prompt_tokens_details": {
+          "cached_tokens": 8576
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 8576,
+        "missTokens": 1601,
+        "hitRate": 0.8426844846221873
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 4528,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10131,
+        "completion_tokens": 1000,
+        "total_tokens": 11131,
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 7827,
+        "prompt_tokens_details": {
+          "cached_tokens": 2304
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2304,
+        "missTokens": 7827,
+        "hitRate": 0.227420787681374
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 4085,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 11417,
+        "completion_tokens": 923,
+        "total_tokens": 12340,
+        "prompt_cache_hit_tokens": 8960,
+        "prompt_cache_miss_tokens": 2457,
+        "prompt_tokens_details": {
+          "cached_tokens": 8960
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 8960,
+        "missTokens": 2457,
+        "hitRate": 0.7847946045370938
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 2439,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 12509,
+        "completion_tokens": 181,
+        "total_tokens": 12690,
+        "prompt_cache_hit_tokens": 9088,
+        "prompt_cache_miss_tokens": 3421,
+        "prompt_tokens_details": {
+          "cached_tokens": 9088
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9088,
+        "missTokens": 3421,
+        "hitRate": 0.726516907826365
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 2907,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 11536,
+        "completion_tokens": 500,
+        "total_tokens": 12036,
+        "prompt_cache_hit_tokens": 7296,
+        "prompt_cache_miss_tokens": 4240,
+        "prompt_tokens_details": {
+          "cached_tokens": 7296
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 7296,
+        "missTokens": 4240,
+        "hitRate": 0.6324549237170597
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 768,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 12160,
+        "completion_tokens": 5,
+        "total_tokens": 12165,
+        "prompt_cache_hit_tokens": 9088,
+        "prompt_cache_miss_tokens": 3072,
+        "prompt_tokens_details": {
+          "cached_tokens": 9088
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9088,
+        "missTokens": 3072,
+        "hitRate": 0.7473684210526316
+      }
+    },
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1562,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10363,
+        "completion_tokens": 135,
+        "total_tokens": 10498,
+        "prompt_cache_hit_tokens": 5120,
+        "prompt_cache_miss_tokens": 5243,
+        "prompt_tokens_details": {
+          "cached_tokens": 5120
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 5120,
+        "missTokens": 5243,
+        "hitRate": 0.49406542506996043
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 644,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10705,
+        "completion_tokens": 5,
+        "total_tokens": 10710,
+        "prompt_cache_hit_tokens": 9088,
+        "prompt_cache_miss_tokens": 1617,
+        "prompt_tokens_details": {
+          "cached_tokens": 9088
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9088,
+        "missTokens": 1617,
+        "hitRate": 0.8489490892106493
+      }
+    },
+    {
+      "task": "insights",
+      "attempt": 0,
+      "durationMs": 4862,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10682,
+        "completion_tokens": 1022,
+        "total_tokens": 11704,
+        "prompt_cache_hit_tokens": 2560,
+        "prompt_cache_miss_tokens": 8122,
+        "prompt_tokens_details": {
+          "cached_tokens": 2560
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 2560,
+        "missTokens": 8122,
+        "hitRate": 0.2396554952256132
+      }
+    },
+    {
+      "task": "ledger",
+      "attempt": 0,
+      "durationMs": 3456,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 11983,
+        "completion_tokens": 739,
+        "total_tokens": 12722,
+        "prompt_cache_hit_tokens": 9600,
+        "prompt_cache_miss_tokens": 2383,
+        "prompt_tokens_details": {
+          "cached_tokens": 9600
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9600,
+        "missTokens": 2383,
+        "hitRate": 0.8011349411666527
+      }
+    },
+    {
+      "task": "review",
+      "attempt": 0,
+      "durationMs": 928,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 12758,
+        "completion_tokens": 5,
+        "total_tokens": 12763,
+        "prompt_cache_hit_tokens": 9600,
+        "prompt_cache_miss_tokens": 3158,
+        "prompt_tokens_details": {
+          "cached_tokens": 9600
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 9600,
+        "missTokens": 3158,
+        "hitRate": 0.7524690390343314
+      }
+    },
+    {
+      "task": "summary",
+      "attempt": 0,
+      "durationMs": 905,
+      "requestLayout": "prefix",
+      "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 10816,
+        "completion_tokens": 108,
+        "total_tokens": 10924,
+        "prompt_cache_hit_tokens": 5888,
+        "prompt_cache_miss_tokens": 4928,
+        "prompt_tokens_details": {
+          "cached_tokens": 5888
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 5888,
+        "missTokens": 4928,
+        "hitRate": 0.5443786982248521
+      }
+    }
+  ],
+  "snapshot": {
+    "discussion": {
+      "id": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+      "topic": "公开合成短讨论：6位工程师、无专职运维的小团队，计划做仅非敏感示例文档的只读知识库2周试点，后续4周收益评估需另行批准。只评审运行联系人与退出负责人的指定时点，区分联系名单、能力验收、启动和退出阶段；真实人选由用户指定，不代替用户批准。",
+      "expertCount": 2,
+      "maxTurns": 6,
+      "turns": 6,
+      "status": "completed",
+      "phase": "closing",
+      "summary": "达到发言安全上限，尚不代表完全收敛。本轮6次专家发言，4项共同判断、0条未关闭分歧记录。\n\n共同判断（按明确支持者归因）：退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。（周敏、陈立支持）；联系名单锁定与退出负责人点名两个时点不合并，分别处理。（周敏、陈立支持） 另有2项见展开依据。\n\n实质分歧：暂无符合证据要求的记录。\n\n待外部确认0项，已关闭2项（依据见展开）。\n\n下一步：先确认未决条件、验证口径与负责人，再据实际证据决定是否推进。全部原话、条件和历史修正保存在展开依据中；以上不是外部核实结果。",
+      "contextSummary": "事实前提：6位工程师、无专职运维；只读知识库试点仅含非敏感示例文档，周期2周；后续4周收益评估需另行批准，两窗口不合并、非同一截止日。本场只评审“运行联系人”与“退出负责人”的指定时点及联系名单、能力验收、启动、退出四阶段划分；真实人选与批准权归用户，讨论不构成任命或预算批准。\n意见与共识：周敏(seq2)初提验收后锁名单、启动前指定退出负责人并配可勾选清单、两事不合并；seq5修正门槛为“值班负担与上报链路缺口已列出”即算验收结论形成，无需另出审批件。陈立(seq3)撤回此前“准备阶段一次确认”，同意验收后锁名单，坚持退出负责人启动前点名并带清单、不增流程；seq6同意该门槛。seq8周敏列退出清单四项自核对内容，并提若误接入敏感库须跳过例行勾选、直接隔离上报、交用户决定；seq9陈立同意四项并补充“误接入敏感库”不作为例行勾选项的适用边界。\n未决：四项退出清单的具体取舍与异常情形边界尚无第三方独立复核，属意见非核实数据；4周收益评估属另需批准的后续阶段，不与2周试点合并，二者关系仍为未决条件。以上为意见记录，非核实数据。",
+      "evidenceMemory": {
+        "version": 1,
+        "anchors": [
+          {
+            "id": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc:1",
+            "messageId": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 1,
+            "quote": "本场只评审两件事的指定时点与阶段：运行联系人在能力验收前还是后锁定、退出负责人在何时点名，以及联系名单、能力验收、启动、退出四个阶段各该完成什么。",
+            "kinds": [
+              "timeline",
+              "condition"
+            ]
+          },
+          {
+            "id": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc:2",
+            "messageId": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 1,
+            "quote": "真实人选和批准权都留给用户，讨论本身不构成任命或预算批准；两个时间窗口也不合并。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8:0",
+            "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 2,
+            "quote": "我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8:1",
+            "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 2,
+            "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单；这两件事不合并，但都要在启动前有明确答复。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "c0daa477-dd23-480a-b240-d9f04c17243a:0",
+            "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 3,
+            "quote": "我修正之前“一次确认”的说法：联系名单可以在能力验收后锁定，但退出负责人必须在启动前点名并带可勾选的退出清单，因为小团队缺专职运维，退出环节无人兜底风险更高。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "cf10a6e2-9147-4520-82de-39b5a841a6fe:0",
+            "messageId": "cf10a6e2-9147-4520-82de-39b5a841a6fe",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 4,
+            "quote": "两位在“退出负责人启动前点名并配清单”上已经一致，我先收下。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "cf10a6e2-9147-4520-82de-39b5a841a6fe:1",
+            "messageId": "cf10a6e2-9147-4520-82de-39b5a841a6fe",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 4,
+            "quote": "仍待澄清的是联系名单锁定的门槛：周敏说等能力验收结论形成，但结论以什么形式算形成？",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "cf10a6e2-9147-4520-82de-39b5a841a6fe:2",
+            "messageId": "cf10a6e2-9147-4520-82de-39b5a841a6fe",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 4,
+            "quote": "陈立，你认为这个门槛该由验收方给结论，还是按“值班负担与上报链路缺口已列明”即视为通过，避免把清单变成新审批？",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6:0",
+            "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 5,
+            "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "9d3355c6-2f50-441e-b473-a828120809f9:0",
+            "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 6,
+            "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件；这样联系名单在启动前可锁定，且不退回到准备阶段一次确认。",
+            "kinds": [
+              "timeline",
+              "condition"
+            ]
+          },
+          {
+            "id": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8:0",
+            "messageId": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 7,
+            "quote": "候选发言中出现的“退款负责人”属于误写，本场对象始终是“退出负责人”，不引申到其他角色。",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8:1",
+            "messageId": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8",
+            "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+            "seq": 7,
+            "quote": "两人已就联系名单在启动前能力验收后锁定、以缺口清单列明为门槛，以及退出负责人启动前指定并配可勾选清单达成一致；下一个具体问题问周敏：退出清单至少要列出哪几项检查，才能让没有专职运维的小团队在退出时自行核对，而不必临场补定？",
+            "kinds": [
+              "condition"
+            ]
+          },
+          {
+            "id": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586:0",
+            "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 8,
+            "quote": "退出清单至少要能自行核对四项：只读访问与写入权限已收回、示例文档范围核对且无敏感内容、值班与上报链路已停用并通知相关人、试运行问题清单与残余缺口已记录并由用户指定的退出负责人勾选确认。",
+            "kinds": [
+              "scope",
+              "condition"
+            ]
+          },
+          {
+            "id": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586:1",
+            "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 8,
+            "quote": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+            "kinds": [
+              "scope",
+              "condition"
+            ]
+          },
+          {
+            "id": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c:0",
+            "messageId": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 9,
+            "quote": "周敏那四项自核对我都同意，作为发起人只补一条适用边界：四项清单按常规退出勾选即可，但“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。",
+            "kinds": [
+              "scope",
+              "condition"
+            ]
+          },
+          {
+            "id": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c:1",
+            "messageId": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 9,
+            "quote": "这样清单不膨胀，退出负责人也不需要在试点中途临时补定职责。",
+            "kinds": [
+              "condition"
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "resumeStatus": null,
+      "createdAt": "2026-11-18T06:08:51.787Z",
+      "updatedAt": "2026-11-18T06:10:28.189Z",
+      "source": "live",
+      "effectiveTopic": "公开合成短讨论：6位工程师、无专职运维的小团队，计划做仅非敏感示例文档的只读知识库2周试点，后续4周收益评估需另行批准。只评审运行联系人与退出负责人的指定时点，区分联系名单、能力验收、启动和退出阶段；真实人选由用户指定，不代替用户批准。",
+      "focus": "",
+      "directionVersion": 0,
+      "boundaryStartSeq": 0,
+      "handledDirectionVersion": 0,
+      "rosterStale": false,
+      "cycle": 1,
+      "cycleStartTurns": 0,
+      "cycleStartSeq": 0,
+      "directionStartTurns": 0,
+      "modelCalls": 52,
+      "activeMs": 92621,
+      "runStartedAt": null,
+      "limits": {
+        "minTurns": 6,
+        "maxModelCalls": 90,
+        "maxActiveMs": 480000
+      },
+      "endReason": "turn_limit",
+      "summaryDetails": "本场围绕“公开合成短讨论：6位工程师、无专职运维的小团队，计划做仅非敏感示例文档的只读知识库2周试点，后续4周收益评估需另行批准。只评审运行联系人与退出负责人的指定时点，区分联系名单、能力验收、启动和退出阶段；真实人选由用户指定，不代替用户批准。”完成了6次专家发言。以下结论按本场证据列示，角色意见与阈值均未经外部事实核实。\n\n有证据的共同判断（不代表全员逐项确认）：\n1. 退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。\n明确支持记录：周敏、陈立；依据#2、#3。\n周敏（#2）：退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单\n陈立（#3）：退出负责人必须在启动前点名并带可勾选的退出清单\n2. 联系名单锁定与退出负责人点名两个时点不合并，分别处理。\n明确支持记录：周敏、陈立；依据#2、#3。\n周敏（#2）：这两件事不合并\n陈立（#3）：两个时点不合并，也不额外增加流程环节\n3. 运行联系人名单应在试点启动前的能力验收完成之后锁定；能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选由用户指定。\n明确支持记录：周敏、陈立；依据#5、#6。\n周敏（#5）：我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。\n陈立（#6）：我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件\n4. 退出时若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定，不作为例行勾选项；周敏提出、陈立明确同意该边界。\n明确支持记录：周敏、陈立；依据#8、#9。\n周敏（#8）：若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。\n陈立（#9）：“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。\n\n当前实质分歧：\n本场未记录有证据的未决分歧，不据此推定全员赞同。\n\n已关闭分歧及确认原文：\n退出负责人应在哪个阶段指定，是否需要配套退出清单？：退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。\n周敏（#2）：退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单\n陈立（#3）：退出负责人必须在启动前点名并带可勾选的退出清单\n退出时若发现误接入敏感库，应如何处理？：退出时若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定，不作为例行勾选项；周敏提出、陈立明确同意该边界。\n周敏（#8）：若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。\n陈立（#9）：“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。\n\n待外部确认事项（不等于专家彼此反对）：\n暂无记录。\n\n关键条件与阶段安排（保留原话，可能是提议、否决或后续修正，不自动视为共识）：\n林远（#1）：本场只评审两件事的指定时点与阶段：运行联系人在能力验收前还是后锁定、退出负责人在何时点名，以及联系名单、能力验收、启动、退出四个阶段各该完成什么。\n林远（#1）：真实人选和批准权都留给用户，讨论本身不构成任命或预算批准；两个时间窗口也不合并。\n周敏（#2）：我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。\n周敏（#2）：退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单；这两件事不合并，但都要在启动前有明确答复。\n陈立（#3）：我修正之前“一次确认”的说法：联系名单可以在能力验收后锁定，但退出负责人必须在启动前点名并带可勾选的退出清单，因为小团队缺专职运维，退出环节无人兜底风险更高。\n林远（#4）：两位在“退出负责人启动前点名并配清单”上已经一致，我先收下。\n林远（#4）：仍待澄清的是联系名单锁定的门槛：周敏说等能力验收结论形成，但结论以什么形式算形成？\n林远（#4）：陈立，你认为这个门槛该由验收方给结论，还是按“值班负担与上报链路缺口已列明”即视为通过，避免把清单变成新审批？\n周敏（#5）：我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。\n陈立（#6）：我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件；这样联系名单在启动前可锁定，且不退回到准备阶段一次确认。\n林远（#7）：候选发言中出现的“退款负责人”属于误写，本场对象始终是“退出负责人”，不引申到其他角色。\n林远（#7）：两人已就联系名单在启动前能力验收后锁定、以缺口清单列明为门槛，以及退出负责人启动前指定并配可勾选清单达成一致；下一个具体问题问周敏：退出清单至少要列出哪几项检查，才能让没有专职运维的小团队在退出时自行核对，而不必临场补定？\n周敏（#8）：退出清单至少要能自行核对四项：只读访问与写入权限已收回、示例文档范围核对且无敏感内容、值班与上报链路已停用并通知相关人、试运行问题清单与残余缺口已记录并由用户指定的退出负责人勾选确认。\n周敏（#8）：若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。\n陈立（#9）：周敏那四项自核对我都同意，作为发起人只补一条适用边界：四项清单按常规退出勾选即可，但“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。\n陈立（#9）：这样清单不膨胀，退出负责人也不需要在试点中途临时补定职责。\n\n后续验证参考：\n周敏提出（#2，待验证）：我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单；这两件事不合并，但都要在启动前有明确答复。\n周敏提出（#5，待验证）：我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。缺口清单里明确缺口与临时看护方式后，由用户指定联系人，避免清单变成新审批。\n周敏提出（#8，待验证）：退出清单至少要能自行核对四项：只读访问与写入权限已收回、示例文档范围核对且无敏感内容、值班与上报链路已停用并通知相关人、试运行问题清单与残余缺口已记录并由用户指定的退出负责人勾选确认。若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。\n陈立提出（#9，待验证）：周敏那四项自核对我都同意，作为发起人只补一条适用边界：四项清单按常规退出勾选即可，但“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。这样清单不膨胀，退出负责人也不需要在试点中途临时补定职责。",
+      "summaryHistory": [],
+      "previousContexts": [],
+      "lastMeterAt": "2026-11-18T06:10:27.280Z",
+      "insightLedger": {
+        "version": 1,
+        "audit": [
+          {
+            "seq": 2,
+            "accepted": [],
+            "closed": [],
+            "reopened": [],
+            "merged": [],
+            "rejected": [
+              {
+                "issueId": null,
+                "reason": "invalid_literal_evidence"
+              },
+              {
+                "issueId": null,
+                "reason": "invalid_literal_evidence"
+              }
+            ]
+          },
+          {
+            "seq": 2,
+            "accepted": [
+              "issue-cf25dfb0e7115c6b",
+              "issue-266a2dba76c42dd3"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [],
+            "rejected": []
+          },
+          {
+            "seq": 3,
+            "accepted": [
+              "issue-cf25dfb0e7115c6b",
+              "issue-266a2dba76c42dd3",
+              "issue-6c86f0e7a71c900c"
+            ],
+            "closed": [
+              "issue-cf25dfb0e7115c6b",
+              "issue-266a2dba76c42dd3"
+            ],
+            "reopened": [],
+            "merged": [],
+            "rejected": []
+          },
+          {
+            "seq": 5,
+            "accepted": [
+              "issue-266a2dba76c42dd3",
+              "issue-6c86f0e7a71c900c"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [],
+            "rejected": [
+              {
+                "issueId": "issue-cf25dfb0e7115c6b",
+                "reason": "semantic_grounding: “验收结论以缺口列出即视为形成、验收方无需另出审批件”只有周敏seq5单方提出，陈立seq3仅说“联系名单可以在能力验收后锁定”，并未接受这一门槛定义，属尚未获得第二方支持的附加条件。"
+              }
+            ]
+          },
+          {
+            "seq": 5,
+            "accepted": [
+              "issue-b7db9ef9441e1a5f"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [],
+            "rejected": []
+          },
+          {
+            "seq": 6,
+            "accepted": [
+              "issue-b7db9ef9441e1a5f",
+              "issue-53e93a7d3124c4c8",
+              "issue-266a2dba76c42dd3",
+              "issue-6c86f0e7a71c900c"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [
+              "issue-cf25dfb0e7115c6b"
+            ],
+            "rejected": []
+          },
+          {
+            "seq": 8,
+            "accepted": [
+              "issue-b7db9ef9441e1a5f",
+              "issue-266a2dba76c42dd3",
+              "issue-6c86f0e7a71c900c"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [],
+            "rejected": [
+              {
+                "issueId": null,
+                "reason": "semantic_grounding: 该条为周敏(seq8)单方提出的清单建议，仅有一条来源且其stance标为context、supportsClaim为false；陈立尚未对此四项或误接入处置表态，缺少第二位专家的原话支持，不应以consensus口径列出，应保留为待确认的question。"
+              }
+            ]
+          },
+          {
+            "seq": 8,
+            "accepted": [
+              "issue-b7db9ef9441e1a5f",
+              "issue-7cf94665db7eaf5c"
+            ],
+            "closed": [],
+            "reopened": [],
+            "merged": [
+              "issue-53e93a7d3124c4c8"
+            ],
+            "rejected": []
+          },
+          {
+            "seq": 9,
+            "accepted": [
+              "issue-7cf94665db7eaf5c",
+              "issue-266a2dba76c42dd3",
+              "issue-b7db9ef9441e1a5f"
+            ],
+            "closed": [
+              "issue-7cf94665db7eaf5c"
+            ],
+            "reopened": [],
+            "merged": [],
+            "rejected": []
+          }
+        ],
+        "records": [
+          {
+            "id": "issue-cf25dfb0e7115c6b",
+            "question": "运行联系人名单应在能力验收之前还是之后锁定？",
+            "text": "运行联系人名单可在能力验收结论形成之后再锁定；陈立已修正此前“准备阶段一次确认”的主张，双方在“验收后锁名单”上一致。",
+            "status": "merged",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                "quote": "在能力验收结论形成之后再锁定运行联系人名单",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "主张验收结论形成后再锁联系名单",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 2
+              },
+              {
+                "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                "quote": "联系名单可以在能力验收后锁定",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "修正为认可验收后锁联系名单",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 3
+              }
+            ],
+            "aliases": [],
+            "lastSeq": 3,
+            "history": [
+              {
+                "status": "question",
+                "text": "仅周敏发言，主张运行联系人名单应在能力验收结论形成之后再锁定，理由是验收会暴露值班负担与上报链路缺口；陈立尚未就此时点表态，反对或支持均未确立。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  }
+                ],
+                "seq": 2
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单可在能力验收结论形成之后再锁定；陈立已修正此前“准备阶段一次确认”的主张，双方在“验收后锁名单”上一致。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "在能力验收结论形成之后再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "联系名单可以在能力验收后锁定",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "修正为认可验收后锁联系名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 3
+              }
+            ],
+            "closedAtSeq": 3,
+            "mergedInto": "issue-53e93a7d3124c4c8"
+          },
+          {
+            "id": "issue-266a2dba76c42dd3",
+            "question": "退出负责人应在哪个阶段指定，是否需要配套退出清单？",
+            "text": "退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。",
+            "status": "consensus",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "启动前指定并配退出清单",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 2
+              },
+              {
+                "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                "quote": "退出负责人必须在启动前点名并带可勾选的退出清单",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "同意启动前点名并附清单",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 3
+              }
+            ],
+            "aliases": [],
+            "lastSeq": 3,
+            "history": [
+              {
+                "status": "question",
+                "text": "仅周敏发言，主张退出负责人的指定应在启动前完成并配一份可勾选的退出清单；无其他专家表态，也未形成共同结论。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单；这两件事不合并，但都要在启动前有明确答复。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张启动前指定退出负责人并配套退出清单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  }
+                ],
+                "seq": 2
+              },
+              {
+                "status": "consensus",
+                "text": "退出负责人应在试点启动前点名，并配套可勾选的退出清单；该时点与联系名单锁定不合并。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张启动前指定并配退出清单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "退出负责人必须在启动前点名并带可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意启动前点名并附清单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 3
+              },
+              {
+                "status": "consensus",
+                "text": "退出负责人在试点启动前点名，并配套可勾选的退出清单。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "启动前指定并配退出清单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "退出负责人必须在启动前点名并带可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意启动前点名并附清单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 5
+              },
+              {
+                "status": "consensus",
+                "text": "退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "启动前指定并配退出清单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "退出负责人必须在启动前点名并带可勾选的退出清单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意启动前点名并附清单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 6
+              }
+            ],
+            "closedAtSeq": 3
+          },
+          {
+            "id": "issue-6c86f0e7a71c900c",
+            "question": "联系名单锁定与退出负责人点名两个时点是否合并处理？",
+            "text": "联系名单锁定与退出负责人点名两个时点不合并，分别处理。",
+            "status": "consensus",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                "quote": "这两件事不合并",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "主张两时点分开",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 2
+              },
+              {
+                "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                "quote": "两个时点不合并，也不额外增加流程环节",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "确认不合并",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 3
+              }
+            ],
+            "aliases": [],
+            "lastSeq": 3,
+            "history": [
+              {
+                "status": "consensus",
+                "text": "两个时点不合并：联系名单在能力验收后锁定，退出负责人在启动前点名；两者分别处理。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "这两件事不合并",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张两时点不合并",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "两个时点不合并，也不额外增加流程环节",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "确认两时点不合并且不增流程",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 3
+              },
+              {
+                "status": "consensus",
+                "text": "联系名单锁定与退出负责人点名两个时点不合并，分别处理。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "这两件事不合并",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张两时点分开",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "两个时点不合并，也不额外增加流程环节",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "确认不合并且不增流程",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 5
+              },
+              {
+                "status": "consensus",
+                "text": "联系名单锁定与退出负责人点名两个时点不合并，分别处理。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "这两件事不合并",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张两时点分开",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "两个时点不合并，也不额外增加流程环节",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "确认不合并",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 8
+              }
+            ]
+          },
+          {
+            "id": "issue-b7db9ef9441e1a5f",
+            "question": "运行联系人名单应在何时锁定，能力验收结论形成的门槛是什么？",
+            "text": "运行联系人名单应在试点启动前的能力验收完成之后锁定；能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选由用户指定。",
+            "status": "consensus",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "验收后锁名单、缺口列明即门槛",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 5
+              },
+              {
+                "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                "stance": "accept",
+                "supportsClaim": true,
+                "view": "接受该门槛与验收后锁名单",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 6
+              }
+            ],
+            "aliases": [
+              "issue-53e93a7d3124c4c8",
+              "issue-cf25dfb0e7115c6b"
+            ],
+            "lastSeq": 6,
+            "history": [
+              {
+                "status": "consensus",
+                "text": "运行联系人名单应在试点启动前的能力验收完成之后再锁定。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张先通过启动前能力验收，再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "联系名单可以在能力验收后锁定",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "接受联系名单在能力验收后锁定",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 5
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单应在试点启动前的能力验收完成之后再锁定。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收后再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "这样联系名单在启动前可锁定，且不退回到准备阶段一次确认",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意验收后锁定联系名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 6
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单应在试点启动前的能力验收完成之后再锁定。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收后再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件；这样联系名单在启动前可锁定，且不退回到准备阶段一次确认。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意验收后锁定联系名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 8
+              },
+              {
+                "status": "question",
+                "text": "仅周敏发言，主张运行联系人名单应在能力验收结论形成之后再锁定，理由是验收会暴露值班负担与上报链路缺口；陈立尚未就此时点表态，反对或支持均未确立。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  }
+                ],
+                "seq": 2
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单可在能力验收结论形成之后再锁定；陈立已修正此前“准备阶段一次确认”的主张，双方在“验收后锁名单”上一致。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "在能力验收结论形成之后再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "联系名单可以在能力验收后锁定",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "修正为认可验收后锁联系名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 3
+              },
+              {
+                "status": "consensus",
+                "text": "能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选与批准权仍归用户。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "缺口列明即算结论形成，不另出审批件",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意该门槛且不另出审批件",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 6
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单应在试点启动前的能力验收完成之后锁定；能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选由用户指定。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "验收后锁名单，门槛为缺口列明",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "缺口列明即算结论形成，不另出审批件",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                    "stance": "accept",
+                    "supportsClaim": true,
+                    "view": "接受该门槛与验收后锁名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 8
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单应在试点启动前的能力验收完成之后锁定；能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选由用户指定。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "验收后锁名单、缺口列明即门槛",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                    "stance": "accept",
+                    "supportsClaim": true,
+                    "view": "接受该门槛与验收后锁名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 9
+              }
+            ]
+          },
+          {
+            "id": "issue-53e93a7d3124c4c8",
+            "question": "能力验收结论的形成门槛是否为“值班负担与上报链路缺口已列出”、不需另出审批件？",
+            "text": "能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选与批准权仍归用户。",
+            "status": "merged",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                "quote": "门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "缺口列明即算结论形成，不另出审批件",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 5
+              },
+              {
+                "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                "quote": "门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "同意该门槛且不另出审批件",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 6
+              }
+            ],
+            "aliases": [
+              "issue-cf25dfb0e7115c6b"
+            ],
+            "lastSeq": 6,
+            "history": [
+              {
+                "status": "question",
+                "text": "仅周敏发言，主张运行联系人名单应在能力验收结论形成之后再锁定，理由是验收会暴露值班负担与上报链路缺口；陈立尚未就此时点表态，反对或支持均未确立。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁定联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  }
+                ],
+                "seq": 2
+              },
+              {
+                "status": "consensus",
+                "text": "运行联系人名单可在能力验收结论形成之后再锁定；陈立已修正此前“准备阶段一次确认”的主张，双方在“验收后锁名单”上一致。",
+                "evidence": [
+                  {
+                    "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+                    "quote": "在能力验收结论形成之后再锁定运行联系人名单",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "主张验收结论形成后再锁联系名单",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 2
+                  },
+                  {
+                    "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+                    "quote": "联系名单可以在能力验收后锁定",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "修正为认可验收后锁联系名单",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 3
+                  }
+                ],
+                "seq": 3
+              },
+              {
+                "status": "consensus",
+                "text": "能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选与批准权仍归用户。",
+                "evidence": [
+                  {
+                    "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+                    "quote": "门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "缺口列明即算结论形成，不另出审批件",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 5
+                  },
+                  {
+                    "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+                    "quote": "门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意该门槛且不另出审批件",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 6
+                  }
+                ],
+                "seq": 6
+              }
+            ],
+            "mergedInto": "issue-b7db9ef9441e1a5f"
+          },
+          {
+            "id": "issue-7cf94665db7eaf5c",
+            "question": "退出时若发现误接入敏感库，应如何处理？",
+            "text": "退出时若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定，不作为例行勾选项；周敏提出、陈立明确同意该边界。",
+            "status": "consensus",
+            "verified": true,
+            "requiredParticipantIds": [
+              "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+              "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81"
+            ],
+            "evidence": [
+              {
+                "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+                "quote": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "提出误接入敏感库的例外处置",
+                "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                "seq": 8
+              },
+              {
+                "messageId": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+                "quote": "“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。",
+                "stance": "support",
+                "supportsClaim": true,
+                "view": "同意并确认误接入为非常规例外",
+                "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                "seq": 9
+              }
+            ],
+            "aliases": [],
+            "lastSeq": 9,
+            "history": [
+              {
+                "status": "question",
+                "text": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定；该处置方式尚待另一位专家确认。",
+                "evidence": [
+                  {
+                    "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+                    "quote": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+                    "stance": "context",
+                    "supportsClaim": false,
+                    "view": "提出误接入敏感库时的隔离上报处置",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 8
+                  }
+                ],
+                "seq": 8
+              },
+              {
+                "status": "consensus",
+                "text": "退出时若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定，不作为例行勾选项；周敏提出、陈立明确同意该边界。",
+                "evidence": [
+                  {
+                    "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+                    "quote": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "提出误接入敏感库的例外处置",
+                    "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+                    "seq": 8
+                  },
+                  {
+                    "messageId": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+                    "quote": "“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。",
+                    "stance": "support",
+                    "supportsClaim": true,
+                    "view": "同意并确认误接入为非常规例外",
+                    "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+                    "seq": 9
+                  }
+                ],
+                "seq": 9
+              }
+            ],
+            "closedAtSeq": 9
+          }
+        ]
+      }
+    },
+    "participants": [
+      {
+        "role": "moderator",
+        "name": "林远",
+        "occupation": "工程效能顾问",
+        "title": "圆桌主持人",
+        "stance": "把讨论严格限定在只读试点中“运行联系人”和“退出负责人”的指定时点与阶段划分，不替用户指定人选或批准预算",
+        "focus": "议程控制、阶段边界、把真实人选与批准权留给用户",
+        "id": "abf91a68-258c-4931-bb11-46904c818410",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "color": "#b78626"
+      },
+      {
+        "role": "expert",
+        "name": "周敏",
+        "occupation": "SRE工程师",
+        "title": "运行保障负责人（虚构）",
+        "stance": "主张在启动前完成能力验收并锁定运行联系人名单，退出时点用清单式检查兑现，不能在试点中途临时约定",
+        "focus": "无专职运维下的值班负担、故障上报链路、退出负责人的可执行性",
+        "id": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "color": "#227a64"
+      },
+      {
+        "role": "expert",
+        "name": "陈立",
+        "occupation": "研发团队技术负责人",
+        "title": "试点发起人（虚构）",
+        "stance": "主张联系人与退出负责人的指定应尽量提前到准备阶段一次确认，避免过度流程化拖慢两周试点",
+        "focus": "小团队协作成本、阶段可操作性、职责与批准权限分离",
+        "id": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "color": "#427abf"
+      }
+    ],
+    "messages": [
+      {
+        "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+        "text": "各位好。本场只评审两件事的指定时点与阶段：运行联系人在能力验收前还是后锁定、退出负责人在何时点名，以及联系名单、能力验收、启动、退出四个阶段各该完成什么。真实人选和批准权都留给用户，讨论本身不构成任命或预算批准；两个时间窗口也不合并。请两位分别说说：指定时点上你们会不会出现分歧，分歧卡在哪一步。",
+        "replyTo": null,
+        "addressedTo": null,
+        "phase": "exploration",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 1,
+        "createdAt": "2026-11-18T06:08:57.721Z"
+      },
+      {
+        "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "text": "我倾向在能力验收结论形成之后再锁定运行联系人名单，因为验收会暴露值班负担和上报链路的缺口，提前点人容易点错或名不副实。退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单；这两件事不合并，但都要在启动前有明确答复。",
+        "replyTo": "c1881af4-569c-4af6-8b5c-73ef2ab9eecc",
+        "addressedTo": null,
+        "phase": "exploration",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 2,
+        "createdAt": "2026-11-18T06:09:01.243Z"
+      },
+      {
+        "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+        "text": "我修正之前“一次确认”的说法：联系名单可以在能力验收后锁定，但退出负责人必须在启动前点名并带可勾选的退出清单，因为小团队缺专职运维，退出环节无人兜底风险更高。两个时点不合并，也不额外增加流程环节。",
+        "replyTo": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+        "addressedTo": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "phase": "exploration",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "c0daa477-dd23-480a-b240-d9f04c17243a",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 3,
+        "createdAt": "2026-11-18T06:09:15.363Z"
+      },
+      {
+        "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+        "text": "两位在“退出负责人启动前点名并配清单”上已经一致，我先收下。仍待澄清的是联系名单锁定的门槛：周敏说等能力验收结论形成，但结论以什么形式算形成？陈立，你认为这个门槛该由验收方给结论，还是按“值班负担与上报链路缺口已列明”即视为通过，避免把清单变成新审批？",
+        "replyTo": null,
+        "addressedTo": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+        "phase": "exchange",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "cf10a6e2-9147-4520-82de-39b5a841a6fe",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 4,
+        "createdAt": "2026-11-18T06:09:26.978Z"
+      },
+      {
+        "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "text": "我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。缺口清单里明确缺口与临时看护方式后，由用户指定联系人，避免清单变成新审批。",
+        "replyTo": "cf10a6e2-9147-4520-82de-39b5a841a6fe",
+        "addressedTo": "abf91a68-258c-4931-bb11-46904c818410",
+        "phase": "exchange",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 5,
+        "createdAt": "2026-11-18T06:09:30.723Z"
+      },
+      {
+        "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+        "text": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件；这样联系名单在启动前可锁定，且不退回到准备阶段一次确认。",
+        "replyTo": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+        "addressedTo": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "phase": "exchange",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "9d3355c6-2f50-441e-b473-a828120809f9",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 6,
+        "createdAt": "2026-11-18T06:09:43.944Z"
+      },
+      {
+        "participantId": "abf91a68-258c-4931-bb11-46904c818410",
+        "text": "候选发言中出现的“退款负责人”属于误写，本场对象始终是“退出负责人”，不引申到其他角色。两人已就联系名单在启动前能力验收后锁定、以缺口清单列明为门槛，以及退出负责人启动前指定并配可勾选清单达成一致；下一个具体问题问周敏：退出清单至少要列出哪几项检查，才能让没有专职运维的小团队在退出时自行核对，而不必临场补定？",
+        "replyTo": null,
+        "addressedTo": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "phase": "convergence",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 7,
+        "createdAt": "2026-11-18T06:09:56.909Z"
+      },
+      {
+        "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "text": "退出清单至少要能自行核对四项：只读访问与写入权限已收回、示例文档范围核对且无敏感内容、值班与上报链路已停用并通知相关人、试运行问题清单与残余缺口已记录并由用户指定的退出负责人勾选确认。若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+        "replyTo": "48fb5cf7-08a2-40e9-b73a-f2475a1f38a8",
+        "addressedTo": null,
+        "phase": "convergence",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 8,
+        "createdAt": "2026-11-18T06:10:01.024Z"
+      },
+      {
+        "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+        "text": "周敏那四项自核对我都同意，作为发起人只补一条适用边界：四项清单按常规退出勾选即可，但“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。这样清单不膨胀，退出负责人也不需要在试点中途临时补定职责。",
+        "replyTo": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+        "addressedTo": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+        "phase": "convergence",
+        "kind": "speech",
+        "directionVersion": 0,
+        "id": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+        "discussionId": "c1c9eb46-9aeb-4f82-af6e-f95e3da4df63",
+        "seq": 9,
+        "createdAt": "2026-11-18T06:10:17.997Z"
+      }
+    ],
+    "insights": [
+      {
+        "id": "issue-266a2dba76c42dd3",
+        "kind": "consensus",
+        "question": "退出负责人应在哪个阶段指定，是否需要配套退出清单？",
+        "text": "退出负责人在试点启动前点名，并配套可勾选的退出清单；真实人选由用户指定。",
+        "messageIds": [
+          "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+          "c0daa477-dd23-480a-b240-d9f04c17243a"
+        ],
+        "positions": [
+          {
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "view": "启动前指定并配退出清单"
+          },
+          {
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "view": "同意启动前点名并附清单"
+          }
+        ],
+        "evidence": [
+          {
+            "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+            "quote": "退出负责人的指定则应在启动前完成，并配一份可勾选的退出清单",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "启动前指定并配退出清单",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 2
+          },
+          {
+            "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+            "quote": "退出负责人必须在启动前点名并带可勾选的退出清单",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "同意启动前点名并附清单",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 3
+          }
+        ]
+      },
+      {
+        "id": "issue-6c86f0e7a71c900c",
+        "kind": "consensus",
+        "question": "联系名单锁定与退出负责人点名两个时点是否合并处理？",
+        "text": "联系名单锁定与退出负责人点名两个时点不合并，分别处理。",
+        "messageIds": [
+          "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+          "c0daa477-dd23-480a-b240-d9f04c17243a"
+        ],
+        "positions": [
+          {
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "view": "主张两时点分开"
+          },
+          {
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "view": "确认不合并"
+          }
+        ],
+        "evidence": [
+          {
+            "messageId": "456be9f4-1f01-4a2d-aeb5-41966c2d8ab8",
+            "quote": "这两件事不合并",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "主张两时点分开",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 2
+          },
+          {
+            "messageId": "c0daa477-dd23-480a-b240-d9f04c17243a",
+            "quote": "两个时点不合并，也不额外增加流程环节",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "确认不合并",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 3
+          }
+        ]
+      },
+      {
+        "id": "issue-b7db9ef9441e1a5f",
+        "kind": "consensus",
+        "question": "运行联系人名单应在何时锁定，能力验收结论形成的门槛是什么？",
+        "text": "运行联系人名单应在试点启动前的能力验收完成之后锁定；能力验收以“值班负担与上报链路缺口已列出”为结论形成门槛，不另出审批件；真实人选由用户指定。",
+        "messageIds": [
+          "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+          "9d3355c6-2f50-441e-b473-a828120809f9"
+        ],
+        "positions": [
+          {
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "view": "验收后锁名单、缺口列明即门槛"
+          },
+          {
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "view": "接受该门槛与验收后锁名单"
+          }
+        ],
+        "evidence": [
+          {
+            "messageId": "3f4ff6ad-8941-4d5e-a500-9ca37df352a6",
+            "quote": "我修正为先通过启动前的能力验收，再锁定运行联系人名单；门槛按“值班负担与上报链路缺口已列出”即算验收结论形成，验收方不必另出审批件。",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "验收后锁名单、缺口列明即门槛",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 5
+          },
+          {
+            "messageId": "9d3355c6-2f50-441e-b473-a828120809f9",
+            "quote": "我同意周敏的修正：门槛按“值班负担与上报链路缺口已列出”即算能力验收结论形成，验收方不必另出审批件",
+            "stance": "accept",
+            "supportsClaim": true,
+            "view": "接受该门槛与验收后锁名单",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 6
+          }
+        ]
+      },
+      {
+        "id": "issue-7cf94665db7eaf5c",
+        "kind": "consensus",
+        "question": "退出时若发现误接入敏感库，应如何处理？",
+        "text": "退出时若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定，不作为例行勾选项；周敏提出、陈立明确同意该边界。",
+        "messageIds": [
+          "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+          "c3418714-f3f0-426a-9c68-3aa6ad1eee0c"
+        ],
+        "positions": [
+          {
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "view": "提出误接入敏感库的例外处置"
+          },
+          {
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "view": "同意并确认误接入为非常规例外"
+          }
+        ],
+        "evidence": [
+          {
+            "messageId": "2ddc5126-bc3c-423a-90f0-c5bf11dfa586",
+            "quote": "若发现误接入敏感库，应跳过例行勾选、直接隔离并上报，交由用户决定。",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "提出误接入敏感库的例外处置",
+            "participantId": "9385b6a1-9a0b-4cef-9145-91f1013751f8",
+            "seq": 8
+          },
+          {
+            "messageId": "c3418714-f3f0-426a-9c68-3aa6ad1eee0c",
+            "quote": "“误接入敏感库”不得当作例行勾选项，遇此情形应跳过勾选、直接隔离并上报，交由用户决定。",
+            "stance": "support",
+            "supportsClaim": true,
+            "view": "同意并确认误接入为非常规例外",
+            "participantId": "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81",
+            "seq": 9
+          }
+        ]
+      }
+    ],
+    "activities": {
+      "abf91a68-258c-4931-bb11-46904c818410": {
+        "state": "idle",
+        "focus": "议程控制、阶段边界、把真实人选与批准权留给用户"
+      },
+      "9385b6a1-9a0b-4cef-9145-91f1013751f8": {
+        "state": "idle",
+        "focus": "无专职运维下的值班负担、故障上报链路、退出负责人的可执行性"
+      },
+      "9f1f1981-0a7c-4b78-a9b7-6ab18a681c81": {
+        "state": "idle",
+        "focus": "小团队协作成本、阶段可操作性、职责与批准权限分离"
+      }
+    },
+    "cursor": 64
+  },
+  "semanticReview": {
+    "reviewedAt": "2026-11-18T06:20:36.992Z",
+    "publishedOutcomesPassed": true,
+    "supportedSourceSeqs": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "note": "四条已发布共同判断均有两位专家对应原话，真实人选与后续阶段批准保留待办；例外处置不等于扩大敏感范围。",
+    "observedQualityIssue": "主持人seq7曾提及未公开错稿，原记录保留；后续添加内部反馈不公开约束，并在cache-feedback-quality.json强制反馈真实探针中通过。"
+  }
+}

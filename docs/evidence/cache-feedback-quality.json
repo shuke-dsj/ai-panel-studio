@@ -1,0 +1,42 @@
+{
+  "testedAt": "2026-11-18T06:15:35.298Z",
+  "fixture": "公开合成材料与强制内部错稿反馈，未使用用户历史讨论",
+  "checks": {
+    "nonEmpty": true,
+    "noUnpublishedDraftLeak": true,
+    "validReference": true,
+    "prefixTransport": true
+  },
+  "passed": true,
+  "result": {
+    "text": "请先对齐范围：2周试点只限非敏感文档、禁止接入敏感库；若误接入，必须按权限失败暂停处理。d 已指出不能把否决条件写成全体赞同，现在请 b 明确：审计通过这一点，是试点启动的前置条件，还是试点期间继续验证的条件？",
+    "replyTo": "m8",
+    "addressedTo": "b"
+  },
+  "attempts": [
+    {
+      "task": "speech",
+      "attempt": 0,
+      "durationMs": 1873,
+      "requestLayout": "prefix",
+      "discussionId": "stress-isolated",
+      "finishReason": "stop",
+      "usage": {
+        "prompt_tokens": 4333,
+        "completion_tokens": 82,
+        "total_tokens": 4415,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 4333,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "cache": {
+        "status": "reported",
+        "hitTokens": 0,
+        "missTokens": 4333,
+        "hitRate": 0
+      }
+    }
+  ]
+}

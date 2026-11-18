@@ -12,6 +12,8 @@ React + TypeScript / Fastify / Node 内置 SQLite / SSE。支持多场讨论隔�
 
 ## 快速开始
 
+API缓存优化默认启用：共享资料、历史与当前证据在任务指令之前，动态角色和状态在后，输入逐值保留。真实A/B未命中Token减少67.53%；工作负载、完整短讨论、日志和限制见[CACHE-OPTIMIZATION.md](docs/CACHE-OPTIMIZATION.md)。兼容回退可设`MODEL_REQUEST_LAYOUT=legacy`，无需新增API Key。
+
 需要 **Node.js 24+**、npm。无需单独安装 SQLite 或 Python。
 
 ```powershell

@@ -1,5 +1,7 @@
 # 验证报告
 
+2026-11-18缓存专项：101项核心测试通过；真实API长材料A/B未命中Token减少67.53%，质量探针通过。另完成2专家6次发言的真实闭环（52调用，输入命中59.69%）、SQLite重读和内部纠错不外露的真实定向验证。详见[CACHE-OPTIMIZATION.md](CACHE-OPTIMIZATION.md)，不将合成命中率当每场承诺。
+
 2026-11-18账本专项验收另见[INSIGHT-LEDGER-REGRESSION.md](INSIGHT-LEDGER-REGRESSION.md)：当前89项核心测试，新增关闭凭证/未验证候选UI反例，长历史原文保护与真实模型保真探测。下文11月17日测试数字和旧质量限制保留为历史，按新报告判断当前结果。
 
 验证日期：2026-11-17。环境：Windows、Node.js v24.15.0、npm 11.12.1、本机 Microsoft Edge。所有结果来自本轮实际执行；真实模型验证单独列示。

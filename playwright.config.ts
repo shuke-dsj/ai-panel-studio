@@ -17,7 +17,8 @@ export default defineConfig({
   },
   webServer: {
     command: 'npm run dev',
-    url: `http://127.0.0.1:${webPort}`,
+    // Vite can be ready while the API is still booting. Wait through its proxy.
+    url: `http://127.0.0.1:${webPort}/api/health`,
     reuseExistingServer: false,
     timeout: 60000,
     env: {

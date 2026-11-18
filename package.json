@@ -18,6 +18,8 @@
     "test:real": "tsx scripts/real-smoke.ts",
     "test:context": "tsx scripts/context-stress.ts",
     "test:context:real": "tsx scripts/context-stress.ts --real",
+    "test:cache:real": "tsx scripts/cache-benchmark.ts",
+    "test:cache:discussion": "tsx scripts/cache-discussion.ts",
     "test:workspace:real": "tsx scripts/workspace-real.ts",
     "qa:workspace": "tsx scripts/workspace-qa.ts",
     "package:source": "tsx scripts/package.ts",

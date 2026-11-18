@@ -1,0 +1,519 @@
+{
+  "testedAt": "2026-11-18T05:55:22.458Z",
+  "fixture": "公开合成材料，未读取历史用户讨论；同一24条历史后追加两条，跨角色/阶段/任务对照。",
+  "method": "每种布局4次逻辑调用；无额外预热、无跳过质量步骤；所有重试计入用量，命中率以Token总量加权。先legacy后prefix，单轮非随机顺序。",
+  "reports": [
+    {
+      "layout": "legacy",
+      "attempts": [
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1936,
+          "requestLayout": "legacy",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 14676,
+            "completion_tokens": 148,
+            "total_tokens": 14824,
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 14676,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 0,
+            "missTokens": 14676,
+            "hitRate": 0
+          }
+        },
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1414,
+          "requestLayout": "legacy",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 14827,
+            "completion_tokens": 148,
+            "total_tokens": 14975,
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 14699,
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 128,
+            "missTokens": 14699,
+            "hitRate": 0.008632899440210427
+          }
+        },
+        {
+          "task": "review",
+          "attempt": 0,
+          "durationMs": 1792,
+          "requestLayout": "legacy",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 15729,
+            "completion_tokens": 141,
+            "total_tokens": 15870,
+            "prompt_cache_hit_tokens": 1024,
+            "prompt_cache_miss_tokens": 14705,
+            "prompt_tokens_details": {
+              "cached_tokens": 1024
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 1024,
+            "missTokens": 14705,
+            "hitRate": 0.06510267658465255
+          }
+        },
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1444,
+          "requestLayout": "legacy",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 14987,
+            "completion_tokens": 148,
+            "total_tokens": 15135,
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 14859,
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 128,
+            "missTokens": 14859,
+            "hitRate": 0.008540735303930073
+          }
+        }
+      ],
+      "cases": [
+        {
+          "index": 0,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "task": "review",
+          "checks": {
+            "payloadPreserved": true,
+            "rejectsScopeViolation": true,
+            "rejectsTimelineViolation": true
+          },
+          "output": {
+            "issues": [
+              {
+                "kind": "scope",
+                "quote": "我们已批准接入敏感库",
+                "reason": "候选声称已批准接入敏感库，与固定前提及a原话‘只允许非敏感文档，禁止接入敏感库’直接冲突，也把未获批准的事项说成已批准。",
+                "conflictsWith": [
+                  "topic",
+                  "m1"
+                ]
+              },
+              {
+                "kind": "timeline",
+                "quote": "试点统一改为4周",
+                "reason": "把试点周期改为4周，与固定前提和a原话‘试点仅持续2周’冲突，并将2周试点与后续4周评估混为同一截止日。",
+                "conflictsWith": [
+                  "topic",
+                  "m1",
+                  "m4"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        }
+      ],
+      "qualityPassed": true,
+      "usage": {
+        "attempts": 4,
+        "measuredAttempts": 4,
+        "promptTokens": 60219,
+        "completionTokens": 585,
+        "hitTokens": 1280,
+        "missTokens": 58939,
+        "hitRate": 0.021255749846393994
+      }
+    },
+    {
+      "layout": "prefix",
+      "attempts": [
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1687,
+          "requestLayout": "prefix",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 14852,
+            "completion_tokens": 148,
+            "total_tokens": 15000,
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 14852,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 0,
+            "missTokens": 14852,
+            "hitRate": 0
+          }
+        },
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1410,
+          "requestLayout": "prefix",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 15002,
+            "completion_tokens": 148,
+            "total_tokens": 15150,
+            "prompt_cache_hit_tokens": 13824,
+            "prompt_cache_miss_tokens": 1178,
+            "prompt_tokens_details": {
+              "cached_tokens": 13824
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 13824,
+            "missTokens": 1178,
+            "hitRate": 0.9214771363818157
+          }
+        },
+        {
+          "task": "review",
+          "attempt": 0,
+          "durationMs": 1399,
+          "requestLayout": "prefix",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 15905,
+            "completion_tokens": 137,
+            "total_tokens": 16042,
+            "prompt_cache_hit_tokens": 13952,
+            "prompt_cache_miss_tokens": 1953,
+            "prompt_tokens_details": {
+              "cached_tokens": 13952
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 13952,
+            "missTokens": 1953,
+            "hitRate": 0.8772084250235775
+          }
+        },
+        {
+          "task": "retention",
+          "attempt": 0,
+          "durationMs": 1218,
+          "requestLayout": "prefix",
+          "discussionId": "cache-probe-2ee08147-a120-4bf9-87b5-3ceb4dd8af3b",
+          "finishReason": "stop",
+          "usage": {
+            "prompt_tokens": 15161,
+            "completion_tokens": 148,
+            "total_tokens": 15309,
+            "prompt_cache_hit_tokens": 13824,
+            "prompt_cache_miss_tokens": 1337,
+            "prompt_tokens_details": {
+              "cached_tokens": 13824
+            }
+          },
+          "cache": {
+            "status": "reported",
+            "hitTokens": 13824,
+            "missTokens": 1337,
+            "hitRate": 0.9118132049337115
+          }
+        }
+      ],
+      "cases": [
+        {
+          "index": 0,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "task": "review",
+          "checks": {
+            "payloadPreserved": true,
+            "rejectsScopeViolation": true,
+            "rejectsTimelineViolation": true
+          },
+          "output": {
+            "issues": [
+              {
+                "kind": "scope",
+                "quote": "我们已批准接入敏感库",
+                "reason": "候选声称已批准接入敏感库，但当前前提与原文均明确只做非敏感库试点并禁止接入敏感库，属于虚构已批准并擅自扩大范围。",
+                "conflictsWith": [
+                  "topic",
+                  "m1"
+                ]
+              },
+              {
+                "kind": "timeline",
+                "quote": "试点统一改为4周",
+                "reason": "当前前提为2周试点、后续4周评估需另行批准；原文也强调两阶段不能混为同一截止日。候选把4周评估并入试点，混淆阶段时长且未经批准。",
+                "conflictsWith": [
+                  "topic",
+                  "m4"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "task": "retention",
+          "checks": {
+            "payloadPreserved": true,
+            "conditionsAndSources": true,
+            "unresolvedDispute": true
+          },
+          "output": {
+            "answers": [
+              {
+                "questionId": "scope",
+                "quote": "试点仅持续2周，只允许非敏感文档，禁止接入敏感库。",
+                "sourceMessageId": "m1"
+              },
+              {
+                "questionId": "veto",
+                "quote": "我反对在审计通过前扩展范围，权限失败必须暂停。",
+                "sourceMessageId": "m2"
+              },
+              {
+                "questionId": "maintenance",
+                "quote": "每月维护必须低于4人时，否则退出。",
+                "sourceMessageId": "m3"
+              },
+              {
+                "questionId": "stages",
+                "quote": "2周试点之后另设4周收益评估，两阶段不能混为同一截止日。",
+                "sourceMessageId": "m4"
+              }
+            ],
+            "unresolvedDisagreementIds": [
+              "audit-dispute"
+            ]
+          }
+        }
+      ],
+      "qualityPassed": true,
+      "usage": {
+        "attempts": 4,
+        "measuredAttempts": 4,
+        "promptTokens": 60920,
+        "completionTokens": 581,
+        "hitTokens": 41600,
+        "missTokens": 19320,
+        "hitRate": 0.6828627708470125
+      }
+    }
+  ],
+  "comparison": {
+    "comparable": true,
+    "missReduction": 0.6722034645989922,
+    "qualityPassed": true
+  },
+  "passed": true,
+  "limitation": "服务端缓存为best effort；这是合成长材料的单轮对照，不代表每场讨论或冷启动均达到该命中率。"
+}
