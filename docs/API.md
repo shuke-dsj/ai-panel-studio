@@ -78,4 +78,4 @@ SQLite schema version 1 在 Store 初始化时创建。discussions 保存领域�
 
 `Snapshot.discussion.tokenUsage` 保存同一讨论自启用用量统计以来的累计输入、输出、命中、未命中 Token，以及请求尝试数和各指标覆盖的请求数。模型请求结束时在同一 SQLite 事务写入累计量和 `usage` 事件。该 SSE 事件携带累计值，断线重放时按现有事件序号去重。由服务返回用量的失败尝试同样计入，未返回的指标保留为空。命中率按完整缓存数据的累计命中数除以累计命中与未命中之和。历史记录没有追补，演示不生成用量。
 
-默认 `compact` 布局将共享快照分成固定头、逐条追加发言及动态账本，当前任务参数置后。可通过 `MODEL_REQUEST_LAYOUT` 回退至 `prefix` 或 `legacy`。日志保留供应商实际缓存用量并标记缺失或不一致。见[上下文设计](CONTEXT-DESIGN.md)。
+默认 `compact` 布局将共享快照分成固定头、逐条追加发言及动态账本，当前任务参数置后。可通过 `MODEL_REQUEST_LAYOUT` 回退至 `prefix` 或 `legacy`。日志保留供应商实际缓存用量并标记缺失或不一致。见[上下文设计](专家上下文、证据压缩与请求缓存设计.md)。

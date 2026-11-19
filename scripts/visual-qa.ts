@@ -1,7 +1,7 @@
 import { chromium } from '@playwright/test';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 const base = process.env.QA_URL ?? 'http://127.0.0.1:3001';
-const reference = readFileSync('docs/design/studio-concept.png');
+const reference = readFileSync('docs/design/原始草图.png');
 const width = reference.readUInt32BE(16),
   height = reference.readUInt32BE(20);
 mkdirSync('docs/evidence', { recursive: true });

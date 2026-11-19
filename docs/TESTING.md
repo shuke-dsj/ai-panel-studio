@@ -6,8 +6,8 @@
 | 单元、契约与恢复 | `npm test`，调度、证据归因、请求布局、多场隔离、SQLite 恢复、SSE 和生命周期。                                                                         |
 | 浏览器链路       | `npm run test:e2e`，独立数据库及确定性演示模式，含桌面、窄屏、暂停、重连和 Token 更新。                                                               |
 | 压缩压力         | `npm run test:context`，纯代码验证，覆盖不同预算与历史长度。                                                                                          |
-| 真实模型         | `npm run test:real` 或 `npm run test:workspace:real`，独立于自动化测试，使用真实接口并产生费用。历史证据见[真实回归](COMPACT-CONTEXT-REGRESSION.md)。 |
-| 离线示例         | 全新数据库 `npm run db:init`，检查数量、来源、原文引用及重复初始化。逐场审阅见 [EXAMPLE-AUDIT.md](EXAMPLE-AUDIT.md)。                                 |
+| 真实模型         | `npm run test:real` 或 `npm run test:workspace:real`，独立于自动化测试，使用真实接口并产生费用。历史证据见[真实回归](紧凑上下文与最新立场设计.md)。 |
+| 离线示例         | 全新数据库 `npm run db:init`，检查数量、来源、原文引用及重复初始化。逐场审阅见 [示例讨论存档审阅.md](示例讨论存档审阅.md)。                                 |
 
 测试源码位于 `tests/`。Playwright 默认使用本机 Edge，CI 使用 Chromium。详见 [README](../README.md) 与 [历史验证](VALIDATION.md)。
 

@@ -20,7 +20,7 @@
 | `npm run db:init`     | 通过         | 初始 schema 与 5 场人工编写示例，重复初始化不重复插入                                                       |
 | `npm run model:probe` | 真实调用通过 | 已配置后验证真实模型连通性及JSON结构，没有回退替身                                                          |
 
-单元与契约测试总数45，分布于8个测试文件；E2E使用独立数据库及显式演示模型。另有初次真实验收和修复后的真实回归，不能把结构检查替代语义审阅。最新功能对照见FUNCTIONAL-AUDIT.md，最新修复与压力证据见CONTEXT-REGRESSION.md，初次风险保留于REAL-SMOKE-REVIEW.md。早期无配置探测失败属于历史，后续真实探测已通过。
+单元与契约测试总数45，分布于8个测试文件；E2E使用独立数据库及显式演示模型。另有初次真实验收和修复后的真实回归，不能把结构检查替代语义审阅。最新功能对照见FUNCTIONAL-AUDIT.md，最新修复与压力证据见内容回归测试.md，初次风险保留于REAL-SMOKE-REVIEW.md。早期无配置探测失败属于历史，后续真实探测已通过。
 
 ## 可视化与交互复核
 
@@ -45,7 +45,7 @@
 
 ## 证据文件
 
-- `design/studio-concept.png`：内置 ImageGen 生成的参考图；原始简报见 `design/IMAGEGEN_PROMPT.md`。
+- `design/原始草图.png`：内置 ImageGen 生成的参考图；原始简报见 `design/IMAGEGEN_PROMPT.md`。
 - `evidence/home-desktop.png`：首页列表。
 - `evidence/studio-desktop.png`：人工示例的桌面演播厅。
 - `evidence/studio-mobile.png`、`insights-mobile.png`：手机现场与成果。
