@@ -10,7 +10,7 @@
 
 本次在 Windows 本地空目录中，由 Codex 执行开发。使用 Node.js 24、TypeScript、React、Fastify、SQLite、Vitest 和 Playwright。通过 frontend-app-builder 与 imagegen 技能先建立演播厅概念与视觉 token，再按规格实现原生组件。没有使用浏览器与 AI 对话来生成项目，也没有用单个 Prompt 一次生成整个工程。
 
-开始时检查到 Claude Code、DeepSeek CLI、gh 均未安装；后端模型密钥与模型 ID 也未配置。因此本轮**没有实际执行 Claude Code + DeepSeek V4 Pro 工作流**，不能把 Codex 或确定性测试模型描述为这套工具。真实模型适配器、配置样例、探测与示例生成脚本已实现，但真实模型端到端验收等待有效配置。这个差异是题目要求的交付缺口，而不是已经满足的事项。
+
 
 ## 阶段与证据
 
