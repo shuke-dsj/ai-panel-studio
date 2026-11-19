@@ -133,17 +133,17 @@ npm run seed:real
 
 已实现：完整产品路径、真实兼容模型适配、显式测试模型、SQLite 状态与事件、动态发言调度、带证据的成果更新、恢复机制、三栏独立滚动、手机页签和自动化测试。
 
-项目使用 Codex 开发，使用 DeepSeek 作为真实讨论的模型服务。真实模型已经完成初次验收和后续回归，交付包包含 5 个主题的已审阅真实归档。详见[紧凑上下文回归报告](docs/COMPACT-CONTEXT-REGRESSION.md)和[交付清单](docs/DELIVERY.md)。
+项目使用 Codex 开发，使用 DeepSeek 作为真实讨论的模型服务。真实模型已经完成初次验收和后续回归，交付包包含 5 个主题的已审阅真实归档。详见[紧凑上下文回归报告](docs/内容回归测试.md)和[交付清单](docs/DELIVERY.md)。
 
 ## 开发文档
 
 | 文档 | 内容 |
 | --- | --- |
-| [产品规格 PRD](docs/SPEC.md) | 场景、范围、状态机与验收门槛 |
-| [前后端架构与 Git 演进](docs/ARCHITECTURE.md) | 组件、服务、调度和实际阶段提交 |
-| [SQLite 数据设计与 ER](docs/DATA-DESIGN.md) | 物理表、账本、会话保存与恢复 |
-| [上下文与压缩](docs/CONTEXT-DESIGN.md) | 多专家材料、证据保护和缓存前缀 |
-| [核心 Prompt](docs/CORE-PROMPTS.md) | SDD、DDD、TDD、E2E 的历史原文节选 |
+| [产品规格 PRD](docs/AI Panel Studio · 产品与工程规格.md) | 场景、范围、状态机与验收门槛 |
+| [前后端架构与 Git 演进](docs/前后端架构与开发.md) | 组件、服务、调度和实际阶段提交 |
+| [SQLite 数据设计与 ER](docs/数据模型设计.md) | 物理表、账本、会话保存与恢复 |
+| [上下文与压缩](docs/专家上下文、证据压缩与请求缓存设计.md) | 多专家材料、证据保护和缓存前缀 |
+| [核心 Prompt](docs/PROMPTS.md) | SDD、DDD、TDD、E2E 的历史原文节选 |
 | [开发工作流](docs/WORKFLOW-SUBMISSION.md) | Codex 实际过程、三个问题及修复路径 |
 | [测试与样例验证](docs/TESTING.md) | 命令、真实回归与离线复现 |
 
